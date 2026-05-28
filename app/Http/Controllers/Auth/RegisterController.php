@@ -46,9 +46,11 @@ class RegisterController extends Controller
     /**
      * Show the application registration form.
      */
-    public function showRegistrationForm(): View
+    public function showRegistrationForm(?string $accountType = null): View
     {
         Hook::doAction(AuthActionHook::BEFORE_REGISTER_FORM_RENDER);
+
+        $accountType = $this->normalizeAccountType($accountType);
 
         $pageTitle = Hook::applyFilters(
             AuthFilterHook::REGISTER_PAGE_TITLE,
@@ -70,7 +72,8 @@ class RegisterController extends Controller
         return view($viewName, compact(
             'pageTitle',
             'pageDescription',
-            'showLoginLink'
+            'showLoginLink',
+            'accountType'
         ));
     }
 
@@ -96,6 +99,7 @@ class RegisterController extends Controller
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'account_type' => ['nullable', 'in:buyer,seller,broker'],
         ]);
 
         $messages = Hook::applyFilters(AuthFilterHook::REGISTER_VALIDATION_MESSAGES, []);
@@ -126,7 +130,7 @@ class RegisterController extends Controller
         // Assign default role (Subscriber by default for public registration)
         $defaultRole = Hook::applyFilters(
             AuthFilterHook::REGISTER_DEFAULT_ROLE,
-            config('settings.auth_default_user_role', 'Subscriber')
+            $this->roleForAccountType($data['account_type'] ?? null)
         );
 
         if ($defaultRole && $user) {
@@ -252,5 +256,20 @@ class RegisterController extends Controller
         }
 
         return $username;
+    }
+
+    protected function normalizeAccountType(?string $accountType): ?string
+    {
+        return in_array($accountType, ['buyer', 'seller', 'broker'], true) ? $accountType : null;
+    }
+
+    protected function roleForAccountType(?string $accountType): string
+    {
+        return match ($this->normalizeAccountType($accountType)) {
+            'buyer' => 'Buyer',
+            'seller' => 'Seller',
+            'broker' => 'Broker',
+            default => config('settings.auth_default_user_role', 'Subscriber'),
+        };
     }
 }

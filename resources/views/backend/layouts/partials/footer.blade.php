@@ -22,10 +22,10 @@
             <div class="flex items-center gap-2">
                 <span class="hidden sm:inline">{{ __('Made with') }}</span>
                 <iconify-icon icon="lucide:heart" class="text-red-500 text-sm"></iconify-icon>
-                <a href="https://laradashboard.com" target="_blank" class="font-medium text-primary-600 dark:text-primary-400 hover:underline">
+                <a href="#" target="_blank" class="font-medium text-primary-600 dark:text-primary-400 hover:underline">
                     Admin Dashboardd
                 </a>
-                <a href="https://github.com/laradashboard/laradashboard" target="_blank" title="GitHub" class="hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+                <a href="https://github.com/AdminDashboard/AdminDashboard" target="_blank" title="GitHub" class="hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
                     <iconify-icon icon="mdi:github" class="text-base"></iconify-icon>
                 </a>
             </div>

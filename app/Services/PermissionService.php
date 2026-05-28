@@ -136,6 +136,35 @@ class PermissionService
                     'email_template.delete',
                 ],
             ],
+            [
+                'group_name' => 'business',
+                'permissions' => [
+                    'business.create',
+                    'business.view',
+                    'business.edit',
+                    'business.delete',
+                    'business.manage',
+                ],
+            ],
+            [
+                'group_name' => 'business_inquiry',
+                'permissions' => [
+                    'business_inquiry.create',
+                    'business_inquiry.view',
+                    'business_inquiry.edit',
+                    'business_inquiry.reply',
+                    'business_inquiry.assign_broker',
+                ],
+            ],
+            [
+                'group_name' => 'newsletter',
+                'permissions' => [
+                    'newsletter.create',
+                    'newsletter.view',
+                    'newsletter.edit',
+                    'newsletter.delete',
+                ],
+            ],
         ];
 
         // Allow modules to add custom permission groups

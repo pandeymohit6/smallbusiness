@@ -17,7 +17,7 @@
             licenseStatus: null,
             moduleSlug: '{{ $moduleSlug }}',
             moduleName: '{{ $moduleName }}',
-            marketplaceUrl: '{{ config('laradashboard.marketplace.url', 'https://laradashboard.com') }}',
+            marketplaceUrl: '{{ config('AdminDashboard.marketplace.url', '#') }}',
 
             clearMessages() {
                 this.errorMessage = null;
@@ -312,8 +312,8 @@
 
                         <p class="text-xs text-gray-500 dark:text-gray-400">
                             {{ __('You can find your license key in your purchase confirmation email or in your account dashboard at') }}
-                            <a href="{{ config('laradashboard.marketplace.url', 'https://laradashboard.com') }}" target="_blank" class="text-primary hover:underline">
-                                {{ parse_url(config('laradashboard.marketplace.url', 'https://laradashboard.com'), PHP_URL_HOST) }}
+                            <a href="{{ config('AdminDashboard.marketplace.url', '#') }}" target="_blank" class="text-primary hover:underline">
+                                {{ parse_url(config('AdminDashboard.marketplace.url', '#'), PHP_URL_HOST) }}
                             </a>
                         </p>
 

@@ -1,10 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\ActionLogController;
-use App\Http\Controllers\Api\AiContentController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\LocalLicenseController;
-use App\Http\Controllers\Api\ModuleController;
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\RoleController;
@@ -98,18 +96,7 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::get('action-logs', [ActionLogController::class, 'index'])->name('api.action-logs.index');
     Route::get('action-logs/{id}', [ActionLogController::class, 'show'])->name('api.action-logs.show');
 
-    // AI Content Generation.
-    Route::prefix('ai')->group(function () {
-        Route::get('providers', [AiContentController::class, 'getProviders'])->name('api.ai.providers');
-        Route::post('generate-content', [AiContentController::class, 'generateContent'])->name('api.ai.generate-content');
-    });
-
-    // Module management.
-    Route::get('modules', [ModuleController::class, 'index'])->name('api.modules.index');
-    Route::get('modules/{name}', [ModuleController::class, 'show'])->name('api.modules.show');
-    Route::patch('modules/{name}/toggle-status', [ModuleController::class, 'toggleStatus'])->name('api.modules.toggle-status');
-    Route::delete('modules/{name}', [ModuleController::class, 'destroy'])->name('api.modules.destroy');
-
+   
     // Email templates.
     Route::apiResource('email-templates', EmailTemplateController::class);
     Route::get('email-templates/by-type/{type}', [EmailTemplateController::class, 'getByType'])->name('api.email-templates.by-type');
@@ -137,12 +124,5 @@ Route::middleware(['auth', 'web'])->prefix('admin')->name('admin.api.')->group(f
         Route::post('/store', [LocalLicenseController::class, 'store'])->name('store');
         Route::post('/remove', [LocalLicenseController::class, 'destroy'])->name('remove');
         Route::get('/show', [LocalLicenseController::class, 'show'])->name('show');
-    });
-
-    // Builder API routes.
-    Route::prefix('builder')->name('builder.')->group(function () {
-        Route::post('/markdown/fetch', [MarkdownController::class, 'fetch'])->name('markdown.fetch');
-        Route::post('/markdown/convert', [MarkdownController::class, 'convert'])->name('markdown.convert');
-        Route::post('/markdown/convert-url', [MarkdownController::class, 'convertUrl'])->name('markdown.convert-url');
     });
 });

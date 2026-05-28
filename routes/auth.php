@@ -35,6 +35,9 @@ Route::group(['middleware' => 'guest'], function () {
     // Registration Routes - Controlled by auth_enable_public_registration setting
     Route::middleware(['public.auth:register'])->group(function () {
         Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+        Route::get('register/{accountType}', [RegisterController::class, 'showRegistrationForm'])
+            ->whereIn('accountType', ['buyer', 'seller', 'broker'])
+            ->name('register.role');
         Route::post('register', [RegisterController::class, 'register'])
             ->middleware(['recaptcha:registration', 'throttle:20,1']);
     });

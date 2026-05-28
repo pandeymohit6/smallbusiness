@@ -2,7 +2,7 @@
 
 namespace App\Concerns;
 
-use App\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 trait HasMedia
 {

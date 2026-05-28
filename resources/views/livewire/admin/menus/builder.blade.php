@@ -150,7 +150,7 @@
     </x-card>
 
     @assets
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+    <script src="{{ asset('js/sortable.min.js') }}"></script>
     <style>
         .sortable-ghost { opacity: 0.4; }
         .sortable-chosen { box-shadow: 0 0 0 2px var(--color-primary, #3b82f6); border-radius: 0.5rem; }

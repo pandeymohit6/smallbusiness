@@ -245,6 +245,48 @@ class RolesService
 
         $roles['subscriber'] = $this->createRole('Subscriber', $subscriberPermissions);
 
+        $buyerPermissions = [
+            'dashboard.view',
+            'profile.view',
+            'profile.edit',
+            'profile.update',
+            'business.view',
+            'business_inquiry.create',
+            'business_inquiry.view',
+        ];
+
+        $roles['buyer'] = $this->createRole('Buyer', $buyerPermissions);
+
+        $sellerPermissions = [
+            'dashboard.view',
+            'profile.view',
+            'profile.edit',
+            'profile.update',
+            'business.create',
+            'business.view',
+            'business.edit',
+            'business.delete',
+            'business_inquiry.view',
+            'business_inquiry.edit',
+            'business_inquiry.reply',
+        ];
+
+        $roles['seller'] = $this->createRole('Seller', $sellerPermissions);
+
+        $brokerPermissions = [
+            'dashboard.view',
+            'profile.view',
+            'profile.edit',
+            'profile.update',
+            'business.view',
+            'business_inquiry.view',
+            'business_inquiry.edit',
+            'business_inquiry.reply',
+            'business_inquiry.assign_broker',
+        ];
+
+        $roles['broker'] = $this->createRole('Broker', $brokerPermissions);
+
         $contactPermissions = [
             'dashboard.view',
             'profile.view',
@@ -265,7 +307,7 @@ class RolesService
         $roleName = strtolower($roleName);
 
         switch ($roleName) {
-            case 'Superadmin':
+            case 'superadmin':
                 // All permissions.
                 $allPermissionNames = [];
                 foreach ($this->permissionService->getAllPermissions() as $group) {
@@ -276,7 +318,7 @@ class RolesService
 
                 return $allPermissionNames;
 
-            case 'Admin':
+            case 'admin':
                 // All except some critical permissions.
                 $adminExcludedPermissions = [
                     'user.delete',
@@ -290,7 +332,7 @@ class RolesService
 
                 return array_diff($allPermissionNames, $adminExcludedPermissions);
 
-            case 'Editor':
+            case 'editor':
                 return [
                     'dashboard.view',
                     'blog.create',
@@ -308,8 +350,47 @@ class RolesService
                     'term.create',
                 ];
 
-            case 'Subscriber':
-            case 'Contact':
+            case 'buyer':
+                return [
+                    'dashboard.view',
+                    'profile.view',
+                    'profile.edit',
+                    'profile.update',
+                    'business.view',
+                    'business_inquiry.create',
+                    'business_inquiry.view',
+                ];
+
+            case 'seller':
+                return [
+                    'dashboard.view',
+                    'profile.view',
+                    'profile.edit',
+                    'profile.update',
+                    'business.create',
+                    'business.view',
+                    'business.edit',
+                    'business.delete',
+                    'business_inquiry.view',
+                    'business_inquiry.edit',
+                    'business_inquiry.reply',
+                ];
+
+            case 'broker':
+                return [
+                    'dashboard.view',
+                    'profile.view',
+                    'profile.edit',
+                    'profile.update',
+                    'business.view',
+                    'business_inquiry.view',
+                    'business_inquiry.edit',
+                    'business_inquiry.reply',
+                    'business_inquiry.assign_broker',
+                ];
+
+            case 'subscriber':
+            case 'contact':
                 return [
                     'dashboard.view',
                     'profile.view',

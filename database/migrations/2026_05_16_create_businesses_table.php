@@ -10,6 +10,10 @@ return new class extends Migration
 {
     public function up(): void
     {
+        if (Schema::hasTable('businesses')) {
+            return;
+        }
+
         Schema::create('businesses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
@@ -44,6 +48,8 @@ return new class extends Migration
 
     public function down(): void
     {
+        Schema::dropIfExists('business_inquiries');
+        Schema::dropIfExists('business_galleries');
         Schema::dropIfExists('businesses');
     }
 };

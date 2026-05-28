@@ -25,19 +25,18 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            'first_name' => fake()->firstName(),
-            'last_name' => fake()->lastName(),
-            'email' => fake()->unique()->safeEmail(),
-            'username' => fake()->unique()->userName() . '_' . uniqid(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
-
-            // Create at and update_at would be random time between 1 year ago and now
-            'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
-            'updated_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
-        ];
+        // return [
+        //     'first_name' => fake()->firstName(),
+        //     'last_name' => fake()->lastName(),
+        //     'email' => fake()->unique()->safeEmail(),
+        //     'username' => fake()->unique()->userName() . '_' . uniqid(),
+        //     'email_verified_at' => now(),
+        //     'password' => static::$password ??= Hash::make('password'),
+        //     'remember_token' => Str::random(10),
+        //     // Create at and update_at would be random time between 1 year ago and now
+        //     'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
+        //     'updated_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
+        // ];
     }
 
     /**

@@ -77,7 +77,7 @@
                     {{ __('Dashboard') }}
                     <iconify-icon icon="lucide:layout-dashboard" class="inline-block ml-1" />
                 </a>
-                <a href="https://laradashboard.com/docs" target="_blank" class="flex justify-center gap-1 items-center px-3 py-2 rounded text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                <a href="#/docs" target="_blank" class="flex justify-center gap-1 items-center px-3 py-2 rounded text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition">
                     {{ __('Docs') }}
                     <iconify-icon icon="lucide:external-link" class="inline-block ml-1" />
                 </a>

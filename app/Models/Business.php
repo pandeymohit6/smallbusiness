@@ -61,13 +61,27 @@ class Business extends Model implements SpatieHasMedia
     {
         static::creating(function (Business $business) {
             if (empty($business->slug)) {
-                $business->slug = Str::slug($business->title);
+                $business->slug = static::uniqueSlug($business->title);
             }
 
             if (empty($business->user_id) && Auth::check()) {
                 $business->user_id = Auth::id();
             }
         });
+    }
+
+    protected static function uniqueSlug(string $title): string
+    {
+        $baseSlug = Str::slug($title);
+        $slug = $baseSlug;
+        $counter = 1;
+
+        while (static::where('slug', $slug)->exists()) {
+            $slug = "{$baseSlug}-{$counter}";
+            $counter++;
+        }
+
+        return $slug;
     }
 
     /**

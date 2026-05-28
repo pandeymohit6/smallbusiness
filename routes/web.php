@@ -3,9 +3,6 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Backend\ActionLogController;
-use App\Http\Controllers\Backend\AiCommandController;
-use App\Http\Controllers\Backend\AiContentController;
-use App\Http\Controllers\Backend\CoreUpgradeController;
 use App\Http\Controllers\Backend\Auth\ScreenshotGeneratorLoginController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\DuplicateEmailTemplateController;
@@ -18,6 +15,7 @@ use App\Http\Controllers\Backend\LocaleController;
 use App\Http\Controllers\Backend\MediaController;
 use App\Http\Controllers\Backend\ModuleController;
 use App\Http\Controllers\Backend\NotificationController;
+use App\Http\Controllers\Backend\NewsletterController;
 use App\Http\Controllers\Backend\SendTestEmailController;
 use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Backend\PostController;
@@ -83,15 +81,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
         Route::get('/theme/{tab?}', [ThemeController::class, 'index'])->name('theme.index');
         Route::post('/theme', [ThemeController::class, 'store'])->name('theme.store');
         Route::post('/theme/activate', [ThemeController::class, 'activate'])->name('theme.activate');
-
-        // Module Routes.
-        Route::prefix('modules')->name('modules.')->group(function () {
-            Route::get('/', [ModuleController::class, 'index'])->name('index');
-            Route::get('/{module}', [ModuleController::class, 'show'])->name('show');
-            Route::post('/{module}/toggle-status', [ModuleController::class, 'toggleStatus'])->name('toggle-status');
-            Route::post('/{module}/run-migrations', [ModuleController::class, 'runMigrations'])->name('run-migrations');
-            Route::delete('/{module}', [ModuleController::class, 'destroy'])->name('delete');
-        });
     });
 
 
@@ -195,6 +184,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
         Route::get('users/{id}/login-as', [UserLoginAsController::class, 'loginAs'])->name('users.login-as');
     });
 
+    Route::middleware('can:newsletter.view')->prefix('newsletter')->name('newsletter.')->group(function () {
+        Route::get('/', [NewsletterController::class, 'index'])->name('index');
+        Route::post('/', [NewsletterController::class, 'store'])->name('store');
+        Route::put('/{subscription}', [NewsletterController::class, 'update'])->name('update');
+        Route::delete('/{subscription}', [NewsletterController::class, 'destroy'])->name('destroy');
+    });
+
     // Action Log Routes — gated by `settings.view` (platform audit trail).
     Route::middleware('can:settings.view')->group(function () {
         Route::get('/action-log', [ActionLogController::class, 'index'])->name('actionlog.index');
@@ -237,29 +233,18 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
     Route::post('/editor/upload', [EditorController::class, 'upload'])->name('editor.upload');
 
     // Business Routes for Sale.
-    Route::prefix('business')->name('business.')->group(function () {
+    Route::prefix('business')->name('business.')->middleware('can:business.view')->group(function () {
         Route::get('/', [BusinessController::class, 'index'])->name('index');
         Route::get('/create', [BusinessController::class, 'create'])->name('create');
         Route::post('/', [BusinessController::class, 'store'])->name('store');
+        Route::get('/inquiries', [BusinessController::class, 'allInquiries'])->name('all-inquiries')->middleware('can:business_inquiry.view');
         Route::get('/{business}', [BusinessController::class, 'show'])->name('show')->where('business', '[0-9]+');
         Route::get('/{business}/edit', [BusinessController::class, 'edit'])->name('edit')->where('business', '[0-9]+');
         Route::put('/{business}', [BusinessController::class, 'update'])->name('update')->where('business', '[0-9]+');
         Route::delete('/{business}', [BusinessController::class, 'destroy'])->name('destroy')->where('business', '[0-9]+');
         Route::get('/{business}/inquiries', [BusinessController::class, 'inquiries'])->name('inquiries')->where('business', '[0-9]+');
         Route::post('/{inquiry}/reply', [BusinessController::class, 'replyInquiry'])->name('reply-inquiry')->where('inquiry', '[0-9]+');
-    });
-
-    // AI Content Generation Routes.
-    Route::prefix('ai')->name('ai.')->group(function () {
-        Route::get('/providers', [AiContentController::class, 'getProviders'])->name('providers');
-        Route::post('/generate-content', [AiContentController::class, 'generateContent'])->name('generate-content');
-        Route::post('/modify-text', [AiContentController::class, 'modifyText'])->name('modify-text');
-
-        // AI Command System (Agentic CMS).
-        Route::get('/command/status', [AiCommandController::class, 'status'])->name('command.status');
-        Route::get('/command/examples', [AiCommandController::class, 'examples'])->name('command.examples');
-        Route::post('/command/process', [AiCommandController::class, 'process'])->name('command.process');
-        Route::post('/command/process-stream', [AiCommandController::class, 'processStream'])->name('command.process-stream');
+        Route::put('/inquiries/{inquiry}', [BusinessController::class, 'updateInquiry'])->name('inquiries.update')->where('inquiry', '[0-9]+');
     });
 });
 

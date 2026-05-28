@@ -8,7 +8,6 @@ use App\Enums\Hooks\AuthActionHook;
 use App\Enums\Hooks\AuthFilterHook;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-use App\Services\DemoAppService;
 use App\Support\Facades\Hook;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -33,7 +32,7 @@ class LoginController extends Controller
     /**
      * Create a new controller instance.
      */
-    public function __construct(private readonly DemoAppService $demoAppService)
+    public function __construct()
     {
         $this->middleware('guest')->except('logout');
     }
@@ -49,7 +48,7 @@ class LoginController extends Controller
 
         Hook::doAction(AuthActionHook::BEFORE_LOGIN_FORM_RENDER);
 
-        $this->demoAppService->maybeSetDemoLocaleToEnByDefault();
+        //  $this->demoAppService->maybeSetDemoLocaleToEnByDefault();
 
         $pageTitle = Hook::applyFilters(
             AuthFilterHook::LOGIN_PAGE_TITLE,
@@ -163,7 +162,7 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        $this->demoAppService->maybeSetDemoLocaleToEnByDefault();
+        //$this->demoAppService->maybeSetDemoLocaleToEnByDefault();
 
         Hook::doAction(AuthActionHook::AFTER_LOGIN_SUCCESS, $user, $request);
 

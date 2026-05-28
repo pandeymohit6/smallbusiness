@@ -147,7 +147,7 @@ class CoreZipCommand extends Command
         'public/build-*',
 
         // Build artifacts
-        'laradashboard-v*.zip',
+        'AdminDashboard-v*.zip',
         '*.log',
 
         // Legacy / Unused
@@ -170,7 +170,7 @@ class CoreZipCommand extends Command
 
         $this->newLine();
         $this->info('╔═══════════════════════════════════════════════════════════╗');
-        $this->info("║  Building LaraDashboard Core v{$version}");
+        $this->info("║  Building AdminDashboard Core v{$version}");
         $this->info('╚═══════════════════════════════════════════════════════════╝');
         $this->newLine();
 
@@ -215,7 +215,7 @@ class CoreZipCommand extends Command
         $this->comment('Step 5/5: Creating ZIP package...');
 
         $outputPath = $this->option('output')
-            ?? $basePath . "/laradashboard-v{$version}.zip";
+            ?? $basePath . "/AdminDashboard-v{$version}.zip";
 
         // Remove existing ZIP if it exists
         if (file_exists($outputPath)) {
@@ -230,7 +230,7 @@ class CoreZipCommand extends Command
         }
 
         // Add core files
-        $this->addDirectoryToZip($zip, $basePath, 'laradashboard');
+        $this->addDirectoryToZip($zip, $basePath, 'AdminDashboard');
 
         // Add required empty directories with .gitkeep
         $this->addEmptyDirectories($zip);
@@ -238,7 +238,7 @@ class CoreZipCommand extends Command
         // Add .env file from .env.example
         $envExample = $basePath . '/.env.example';
         if (file_exists($envExample)) {
-            $zip->addFile($envExample, 'laradashboard/.env');
+            $zip->addFile($envExample, 'AdminDashboard/.env');
         }
 
         $zip->close();
@@ -397,13 +397,13 @@ class CoreZipCommand extends Command
         ];
 
         foreach ($dirsWithGitignore as $dir => $gitignoreContent) {
-            $zip->addEmptyDir("laradashboard/{$dir}");
-            $zip->addFromString("laradashboard/{$dir}/.gitignore", $gitignoreContent);
+            $zip->addEmptyDir("AdminDashboard/{$dir}");
+            $zip->addFromString("AdminDashboard/{$dir}/.gitignore", $gitignoreContent);
         }
 
         // Add empty modules directory (modules are installed separately)
-        $zip->addEmptyDir('laradashboard/modules');
-        $zip->addFromString('laradashboard/modules/.gitkeep', '');
+        $zip->addEmptyDir('AdminDashboard/modules');
+        $zip->addFromString('AdminDashboard/modules/.gitkeep', '');
     }
 
     /**

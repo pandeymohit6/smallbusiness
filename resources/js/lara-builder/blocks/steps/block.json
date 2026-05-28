@@ -19,7 +19,7 @@
             {
                 "title": "Download",
                 "description": "Get the starter template and follow the installation wizard.",
-                "code": "git clone https://github.com/laradashboard/laradashboard.git",
+                "code": "git clone https://github.com/AdminDashboard/AdminDashboard.git",
                 "linkText": "Installation Guide",
                 "linkUrl": "#"
             },

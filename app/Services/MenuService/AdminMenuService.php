@@ -111,6 +111,31 @@ class AdminMenuService
         $this->registerPostTypesInMenu(null);
 
         $this->addMenuItem([
+            'label' => __('Business'),
+            'icon' => 'lucide:briefcase-business',
+            'id' => 'business-submenu',
+            'active' => Route::is('admin.business.*'),
+            'priority' => 12,
+            'permissions' => ['business.view', 'business_inquiry.view'],
+            'children' => [
+                [
+                    'label' => __('Listings'),
+                    'route' => route('admin.business.index'),
+                    'active' => Route::is('admin.business.index') || Route::is('admin.business.create') || Route::is('admin.business.edit') || Route::is('admin.business.show'),
+                    'priority' => 10,
+                    'permissions' => 'business.view',
+                ],
+                [
+                    'label' => __('Enquiries'),
+                    'route' => route('admin.business.all-inquiries'),
+                    'active' => Route::is('admin.business.all-inquiries') || Route::is('admin.business.inquiries'),
+                    'priority' => 20,
+                    'permissions' => 'business_inquiry.view',
+                ],
+            ],
+        ]);
+
+        $this->addMenuItem([
             'label' => __('Media Library'),
             'icon' => 'lucide:image',
             'route' => route('admin.media.index'),
@@ -173,6 +198,27 @@ class AdminMenuService
                         'permissions' => 'user.view',
                     ],
                     [
+                        'label' => __('Buyers'),
+                        'route' => route('admin.users.index', ['role' => 'Buyer']),
+                        'active' => request('role') === 'Buyer',
+                        'priority' => 11,
+                        'permissions' => 'user.view',
+                    ],
+                    [
+                        'label' => __('Sellers'),
+                        'route' => route('admin.users.index', ['role' => 'Seller']),
+                        'active' => request('role') === 'Seller',
+                        'priority' => 12,
+                        'permissions' => 'user.view',
+                    ],
+                    [
+                        'label' => __('Brokers'),
+                        'route' => route('admin.users.index', ['role' => 'Broker']),
+                        'active' => request('role') === 'Broker',
+                        'priority' => 13,
+                        'permissions' => 'user.view',
+                    ],
+                    [
                         'label' => __('Roles'),
                         'route' => route('admin.roles.index'),
                         'active' => Route::is('admin.roles.index') || Route::is('admin.roles.create') || Route::is('admin.roles.edit') || Route::is('admin.roles.show'),
@@ -195,9 +241,9 @@ class AdminMenuService
             'label' => __('Settings'),
             'icon' => 'lucide:settings',
             'id' => 'settings-submenu',
-            'active' => Route::is('admin.settings.*') || Route::is('admin.translations.*') || Route::is('admin.email-templates.*') || Route::is('admin.notifications.*') || Route::is('admin.email-settings.*') || Route::is('admin.email-connections.*') || Route::is('admin.menus.*'),
+            'active' => Route::is('admin.settings.*') || Route::is('admin.translations.*') || Route::is('admin.email-templates.*') || Route::is('admin.notifications.*') || Route::is('admin.email-settings.*') || Route::is('admin.email-connections.*') || Route::is('admin.menus.*') || Route::is('admin.newsletter.*'),
             'priority' => 40,
-            'permissions' => ['settings.edit', 'translations.view', 'menu.view'],
+            'permissions' => ['settings.edit', 'translations.view', 'menu.view', 'newsletter.view'],
             'children' => [
                 [
                     'label' => __('Settings'),
@@ -219,6 +265,13 @@ class AdminMenuService
                     'active' => Route::is('admin.email-templates.*') || Route::is('admin.notifications.*') || Route::is('admin.email-settings.*') || Route::is('admin.email-connections.*'),
                     'priority' => 15,
                     'permissions' => 'settings.edit',
+                ],
+                [
+                    'label' => __('Newsletter'),
+                    'route' => route('admin.newsletter.index'),
+                    'active' => Route::is('admin.newsletter.*'),
+                    'priority' => 16,
+                    'permissions' => 'newsletter.view',
                 ],
                 [
                     'label' => __('Translations'),

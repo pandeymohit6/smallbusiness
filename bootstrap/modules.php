@@ -81,8 +81,8 @@
             continue;
         }
 
-        // Check minimum LaraDashboard version compatibility
-        if (! empty($moduleConfig['min_laradashboard_required'])) {
+        // Check minimum AdminDashboard version compatibility
+        if (! empty($moduleConfig['min_AdminDashboard_required'])) {
             $coreVersion = null;
             $versionFile = dirname(__DIR__) . '/version.json';
             if (file_exists($versionFile)) {
@@ -90,12 +90,12 @@
                 $coreVersion = $versionData['version'] ?? null;
             }
 
-            if ($coreVersion && version_compare($coreVersion, $moduleConfig['min_laradashboard_required'], '<')) {
+            if ($coreVersion && version_compare($coreVersion, $moduleConfig['min_AdminDashboard_required'], '<')) {
                 $statuses[$moduleName] = false;
                 $modified = true;
                 $disabledModules[$moduleName] = sprintf(
-                    'Requires LaraDashboard v%s or higher (current: v%s). Please update this module.',
-                    $moduleConfig['min_laradashboard_required'],
+                    'Requires AdminDashboard v%s or higher (current: v%s). Please update this module.',
+                    $moduleConfig['min_AdminDashboard_required'],
                     $coreVersion
                 );
 

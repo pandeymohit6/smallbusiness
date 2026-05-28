@@ -5,7 +5,6 @@ namespace App\Providers;
 use App\Enums\Hooks\AdminFilterHook;
 use App\Models\Setting;
 use App\Models\User;
-use App\Services\InstallationService;
 use App\Observers\EmailObserver;
 use App\Services\EmailConnectionService;
 use App\Services\EmailProviderRegistry;
@@ -106,23 +105,6 @@ class AppServiceProvider extends ServiceProvider
         if (env('SKIP_DB_CHECK_IN_CI') === 'true') {
             return;
         }
-
-        // Check if database is configured before attempting to load settings
-        // This prevents errors during installation when database isn't configured yet
-        if (InstallationService::isDatabaseConfigured()) {
-            try {
-                if (Schema::hasTable('settings')) {
-                    $settings = Setting::pluck('option_value', 'option_name')->toArray();
-                    foreach ($settings as $key => $value) {
-                        config(['settings.' . $key => $value]);
-                    }
-                }
-            } catch (\Exception $e) {
-                // Skip loading settings if database connection fails
-                // This prevents errors during package discovery in CI environment
-            }
-        }
-
         // Only allowed people can view the pulse.
         Gate::define('viewPulse', function (User $user) {
             return $user->can('pulse.view');
@@ -148,11 +130,6 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function configureDefaultMailer(): void
     {
-        // Skip if database isn't configured (during installation)
-        if (! InstallationService::isDatabaseConfigured()) {
-            return;
-        }
-
         // Skip if email_connections table doesn't exist yet (during installation before migrations)
         try {
             if (! Schema::hasTable('email_connections')) {

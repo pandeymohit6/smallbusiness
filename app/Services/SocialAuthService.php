@@ -31,8 +31,11 @@ class SocialAuthService
             'setting_client_secret' => 'auth_social_google_client_secret',
             'env_client_id' => 'GOOGLE_CLIENT_ID',
             'env_client_secret' => 'GOOGLE_CLIENT_SECRET',
-            'console_url' => 'https://console.cloud.google.com/apis/credentials',
-            'docs_url' => 'https://developers.google.com/identity/protocols/oauth2',
+            'console_url' => '',
+            'docs_url' => '',
+            // See documentation: Google Cloud Console for credentials
+            // 'console_url' => 'https://console.cloud.google.com/apis/credentials',
+            // 'docs_url' => 'https://developers.google.com/identity/protocols/oauth2',
         ],
         'github' => [
             'name' => 'GitHub',
@@ -43,8 +46,11 @@ class SocialAuthService
             'setting_client_secret' => 'auth_social_github_client_secret',
             'env_client_id' => 'GITHUB_CLIENT_ID',
             'env_client_secret' => 'GITHUB_CLIENT_SECRET',
-            'console_url' => 'https://github.com/settings/developers',
-            'docs_url' => 'https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app',
+            'console_url' => '',
+            'docs_url' => '',
+            // See documentation: GitHub Settings > Developer settings
+            // 'console_url' => 'https://github.com/settings/developers',
+            // 'docs_url' => 'https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app',
         ],
         'facebook' => [
             'name' => 'Facebook',
@@ -55,8 +61,11 @@ class SocialAuthService
             'setting_client_secret' => 'auth_social_facebook_client_secret',
             'env_client_id' => 'FACEBOOK_CLIENT_ID',
             'env_client_secret' => 'FACEBOOK_CLIENT_SECRET',
-            'console_url' => 'https://developers.facebook.com/apps/',
-            'docs_url' => 'https://developers.facebook.com/docs/facebook-login/web',
+            'console_url' => '',
+            'docs_url' => '',
+            // See documentation: Facebook Developers App Dashboard
+            // 'console_url' => 'https://developers.facebook.com/apps/',
+            // 'docs_url' => 'https://developers.facebook.com/docs/facebook-login/web',
         ],
         'twitter' => [
             'name' => 'Twitter/X',
@@ -67,8 +76,11 @@ class SocialAuthService
             'setting_client_secret' => 'auth_social_twitter_client_secret',
             'env_client_id' => 'TWITTER_CLIENT_ID',
             'env_client_secret' => 'TWITTER_CLIENT_SECRET',
-            'console_url' => 'https://developer.twitter.com/en/portal/dashboard',
-            'docs_url' => 'https://developer.twitter.com/en/docs/authentication/oauth-2-0',
+            'console_url' => '',
+            'docs_url' => '',
+            // See documentation: X Developer Portal Dashboard
+            // 'console_url' => 'https://developer.twitter.com/en/portal/dashboard',
+            // 'docs_url' => 'https://developer.twitter.com/en/docs/authentication/oauth-2-0',
         ],
         'linkedin' => [
             'name' => 'LinkedIn',
@@ -79,8 +91,11 @@ class SocialAuthService
             'setting_client_secret' => 'auth_social_linkedin_client_secret',
             'env_client_id' => 'LINKEDIN_CLIENT_ID',
             'env_client_secret' => 'LINKEDIN_CLIENT_SECRET',
-            'console_url' => 'https://www.linkedin.com/developers/apps',
-            'docs_url' => 'https://learn.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow',
+            'console_url' => '',
+            'docs_url' => '',
+            // See documentation: LinkedIn Developers Apps Dashboard
+            // 'console_url' => 'https://www.linkedin.com/developers/apps',
+            // 'docs_url' => 'https://learn.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow',
         ],
     ];
 

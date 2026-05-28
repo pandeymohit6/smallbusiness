@@ -14,6 +14,8 @@ class BusinessInquiry extends Model
 
     protected $fillable = [
         'business_id',
+        'user_id',
+        'broker_id',
         'name',
         'email',
         'phone',
@@ -33,6 +35,16 @@ class BusinessInquiry extends Model
     public function business(): BelongsTo
     {
         return $this->belongsTo(Business::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function broker(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'broker_id');
     }
 
     /**

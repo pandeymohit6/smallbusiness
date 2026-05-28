@@ -76,7 +76,10 @@ class PublicBusinessController extends Controller
             'message' => ['required', 'string', 'min:10'],
         ]);
 
-        BusinessInquiry::create(array_merge($validated, ['business_id' => $business->id]));
+        BusinessInquiry::create(array_merge($validated, [
+            'business_id' => $business->id,
+            'user_id' => auth()->id(),
+        ]));
 
         return redirect()->back()
             ->with('success', __('Your inquiry has been submitted successfully. The business owner will contact you soon.'));

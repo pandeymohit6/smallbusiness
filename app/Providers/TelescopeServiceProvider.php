@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Services\InstallationService;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
 use Laravel\Telescope\IncomingEntry;
@@ -45,10 +44,6 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     protected function isTelescopeReady(): bool
     {
-        // Check if database is configured first (fastest check, no I/O)
-        if (! InstallationService::isDatabaseConfigured()) {
-            return false;
-        }
 
         // Check if telescope_entries table exists
         try {

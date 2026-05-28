@@ -23,7 +23,7 @@
     <form
         action="{{ route('register') }}"
         method="POST"
-        x-data="{ loading: false }"
+        x-data="{ loading: false, accountType: '{{ old('account_type', $accountType ?? 'buyer') }}' }"
         @submit="loading = true"
         data-prevent-unsaved-changes
     >
@@ -32,6 +32,24 @@
             <x-messages />
 
             {!! Hook::applyFilters(AuthFilterHook::REGISTER_FORM_FIELDS_BEFORE, '') !!}
+
+            <div>
+                <label class="form-label" for="account_type">{{ __('Account Type') }}</label>
+                <select
+                    id="account_type"
+                    name="account_type"
+                    x-model="accountType"
+                    class="form-control @error('account_type') border-red-500 ring-red-500 @enderror"
+                    required
+                >
+                    <option value="buyer">{{ __('Buyer') }}</option>
+                    <option value="seller">{{ __('Seller') }}</option>
+                    <option value="broker">{{ __('Broker') }}</option>
+                </select>
+                @error('account_type')
+                    <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                @enderror
+            </div>
 
             {{-- Name Fields --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">

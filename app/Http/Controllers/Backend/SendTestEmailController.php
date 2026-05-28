@@ -104,7 +104,7 @@ class SendTestEmailController extends Controller
 
         // Ensure fromEmail is always a valid string
         if (empty($fromEmail) || ! filter_var($fromEmail, FILTER_VALIDATE_EMAIL)) {
-            $fromEmail = 'no-reply@laradashboard.com';
+            $fromEmail = 'no-reply@AdminDashboard.com';
         }
         if (empty($fromName)) {
             $fromName = 'Admin Dashboardd';

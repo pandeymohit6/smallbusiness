@@ -92,7 +92,7 @@
                 @if(!empty($updateInfo['required_core']) || !empty($updateInfo['required_php']))
                     <div class="text-xs text-gray-500 dark:text-gray-400 space-y-1">
                         @if(!empty($updateInfo['required_core']))
-                            <p>{{ __('Requires LaraDashboard') }}: v{{ $updateInfo['required_core'] }}+</p>
+                            <p>{{ __('Requires AdminDashboard') }}: v{{ $updateInfo['required_core'] }}+</p>
                         @endif
                         @if(!empty($updateInfo['required_php']))
                             <p>{{ __('Requires PHP') }}: v{{ $updateInfo['required_php'] }}+</p>

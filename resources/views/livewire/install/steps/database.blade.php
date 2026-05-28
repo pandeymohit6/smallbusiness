@@ -37,7 +37,7 @@
             label="{{ $dbDriver === 'sqlite' ? __('Database File Name') : __('Database Name') }}"
             wire:model="dbDatabase"
             :value="$dbDatabase"
-            :placeholder="$dbDriver === 'sqlite' ? 'database.sqlite' : 'laradashboard'"
+            :placeholder="$dbDriver === 'sqlite' ? 'database.sqlite' : 'AdminDashboard'"
             :hint="$dbDriver === 'sqlite' ? __('The file will be created in the database directory') : __('Make sure this database exists')"
         />
     </div>

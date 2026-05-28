@@ -467,16 +467,18 @@
                                     {{ __('.env configured') }}
                                 </span>
                             @endif
-                            <a
-                                href="{{ $config['console_url'] }}"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="inline-flex items-center gap-1 text-xs px-2 py-1 bg-brand-100 dark:bg-brand-900/30 text-brand-700 dark:text-brand-400 rounded hover:bg-brand-200 dark:hover:bg-brand-900/50 transition-colors"
-                                title="{{ __('Open :provider Developer Console', ['provider' => $config['name']]) }}"
-                            >
-                                <iconify-icon icon="lucide:external-link" class="text-xs"></iconify-icon>
-                                {{ __('Get Credentials') }}
-                            </a>
+                            @if(!empty($config['console_url']))
+                                <a
+                                    href="{{ $config['console_url'] }}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="inline-flex items-center gap-1 text-xs px-2 py-1 bg-brand-100 dark:bg-brand-900/30 text-brand-700 dark:text-brand-400 rounded hover:bg-brand-200 dark:hover:bg-brand-900/50 transition-colors"
+                                    title="{{ __('Open :provider Developer Console', ['provider' => $config['name']]) }}"
+                                >
+                                    <iconify-icon icon="lucide:external-link" class="text-xs"></iconify-icon>
+                                    {{ __('Get Credentials') }}
+                                </a>
+                            @endif
                         </div>
                     </div>
 
@@ -551,25 +553,31 @@
                             {{-- Quick Links --}}
                             <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-gray-200 dark:border-gray-600">
                                 <span class="text-xs text-gray-500 dark:text-gray-400">{{ __('Quick Links:') }}</span>
-                                <a
-                                    href="{{ $config['console_url'] }}"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="inline-flex items-center gap-1 text-xs text-brand-600 dark:text-brand-400 hover:text-brand-800 dark:hover:text-brand-300 hover:underline"
-                                >
-                                    <iconify-icon icon="lucide:settings"></iconify-icon>
-                                    {{ __(':provider Console', ['provider' => $config['name']]) }}
-                                </a>
-                                <span class="text-gray-300 dark:text-gray-600">|</span>
-                                <a
-                                    href="{{ $config['docs_url'] }}"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="inline-flex items-center gap-1 text-xs text-brand-600 dark:text-brand-400 hover:text-brand-800 dark:hover:text-brand-300 hover:underline"
-                                >
-                                    <iconify-icon icon="lucide:book-open"></iconify-icon>
-                                    {{ __('Documentation') }}
-                                </a>
+                                @if(!empty($config['console_url']))
+                                    <a
+                                        href="{{ $config['console_url'] }}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="inline-flex items-center gap-1 text-xs text-brand-600 dark:text-brand-400 hover:text-brand-800 dark:hover:text-brand-300 hover:underline"
+                                    >
+                                        <iconify-icon icon="lucide:settings"></iconify-icon>
+                                        {{ __(':provider Console', ['provider' => $config['name']]) }}
+                                    </a>
+                                    @if(!empty($config['docs_url']))
+                                        <span class="text-gray-300 dark:text-gray-600">|</span>
+                                    @endif
+                                @endif
+                                @if(!empty($config['docs_url']))
+                                    <a
+                                        href="{{ $config['docs_url'] }}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="inline-flex items-center gap-1 text-xs text-brand-600 dark:text-brand-400 hover:text-brand-800 dark:hover:text-brand-300 hover:underline"
+                                    >
+                                        <iconify-icon icon="lucide:book-open"></iconify-icon>
+                                        {{ __('Documentation') }}
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     </div>

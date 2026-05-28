@@ -37,6 +37,30 @@
             <div class="grid grid-cols-2 gap-4 md:grid-cols-5 lg:grid-cols-5 md:gap-6">
                 {!! Hook::applyFilters(DashboardFilterHook::DASHBOARD_CARDS_BEFORE_USERS, '') !!}
 
+                @can('business.view')
+                @include('backend.pages.dashboard.partials.card', [
+                    'icon' => 'lucide:briefcase-business',
+                    'icon_bg' => '#0EA5E9',
+                    'label' => __('Listings'),
+                    'value' => $business_stats['listings'],
+                    'class' => 'bg-white',
+                    'url' => route('admin.business.index'),
+                    'enable_full_div_click' => true,
+                ])
+                @endcan
+
+                @can('business_inquiry.view')
+                @include('backend.pages.dashboard.partials.card', [
+                    'icon' => 'lucide:messages-square',
+                    'icon_bg' => '#10B981',
+                    'label' => __('Enquiries'),
+                    'value' => $business_stats['enquiries'],
+                    'class' => 'bg-white',
+                    'url' => route('admin.business.all-inquiries'),
+                    'enable_full_div_click' => true,
+                ])
+                @endcan
+
                 @can('post.view')
                 @include('backend.pages.dashboard.partials.card', [
                     'icon' => 'heroicons:document-duplicate',

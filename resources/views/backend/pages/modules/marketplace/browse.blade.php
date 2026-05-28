@@ -134,7 +134,7 @@
                             'iconUrl' => $moduleIconUrl,
                             'iconString' => $iconString,
                             'screenshots' => $screenshots,
-                            'minRequired' => $module['min_laradashboard_required'] ?? '1.0.0',
+                            'minRequired' => $module['min_AdminDashboard_required'] ?? '1.0.0',
                             'documentationUrl' => $module['documentation_url'] ?? null,
                             'demoUrl' => $module['demo_url'] ?? null,
                             'issuesUrl' => $module['issues_url'] ?? null,

@@ -192,9 +192,36 @@ class User extends Authenticatable implements MustVerifyEmail
             return asset('storage/media/' . $this->avatar->file_name);
         }
 
-        $brandColor = ltrim(config('settings.theme_primary_color', '#635bff'), '#');
+        // Generate local avatar initials instead of using external API
+        $initials = collect(explode(' ', $this->full_name ?? 'U'))
+            ->take(2)
+            ->map(fn($name) => strtoupper(substr($name, 0, 1)))
+            ->join('');
 
-        return "https://ui-avatars.com/api/{$this->full_name}/{$size}/{$brandColor}/fff/2";
+        $brandColor = ltrim(config('settings.theme_primary_color', '#635bff'), '#');
+        
+        // Return data URI for initials avatar or use placeholder
+        return $this->generateInitialsAvatar($initials, $brandColor, $size);
+    }
+
+    /**
+     * Generate a local avatar with initials
+     */
+    private function generateInitialsAvatar(string $initials, string $color, int $size = 32): string
+    {
+        // Return a simple colored square with initials using SVG data URI
+        $svg = sprintf(
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %d %d"><rect fill="#%s" width="%d" height="%d"/><text x="50%%" y="50%%" font-size="%d" fill="#fff" text-anchor="middle" dy=".3em" font-family="sans-serif" font-weight="bold">%s</text></svg>',
+            $size,
+            $size,
+            $color,
+            $size,
+            $size,
+            $size * 0.5,
+            htmlspecialchars($initials)
+        );
+        
+        return 'data:image/svg+xml;base64,' . base64_encode($svg);
     }
 
     /**

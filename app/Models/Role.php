@@ -18,6 +18,9 @@ class Role extends SpatieRole
     public const EDITOR = 'Editor';
     public const ADMIN = 'Admin';
     public const SUBSCRIBER = 'Subscriber';
+    public const BUYER = 'Buyer';
+    public const SELLER = 'Seller';
+    public const BROKER = 'Broker';
 
     /**
      * Get searchable columns for the model.

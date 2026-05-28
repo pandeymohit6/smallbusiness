@@ -30,10 +30,10 @@ class RegistrationWelcomeNotification extends BaseNotification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        // Try laradashboard dashboard first, fallback to admin dashboard or home
+        // Try AdminDashboard dashboard first, fallback to admin dashboard or home
         $dashboardUrl = config('app.url');
-        if (\Illuminate\Support\Facades\Route::has('laradashboard.dashboard.index')) {
-            $dashboardUrl .= route('laradashboard.dashboard.index', [], false);
+        if (\Illuminate\Support\Facades\Route::has('AdminDashboard.dashboard.index')) {
+            $dashboardUrl .= route('AdminDashboard.dashboard.index', [], false);
         } elseif (\Illuminate\Support\Facades\Route::has('admin.dashboard')) {
             $dashboardUrl .= route('admin.dashboard', [], false);
         } else {

@@ -1,5 +1,5 @@
 {
-    "name": "laradashboard/laradashboard",
+    "name": "dashboard/dashboard",
     "type": "project",
     "description": "Admin Dashboardd - A Laravel CMS with Role, Permission, Module, Translation, Content Management",
     "keywords": [
@@ -28,6 +28,7 @@
         "laravel/tinker": "^3.0",
         "laravel/ui": "^4.5",
         "livewire/livewire": "^4.0",
+        "nwidart/laravel-modules": "*",
         "opis/closure": "^3.7",
         "spatie/browsershot": "^5.0",
         "spatie/laravel-medialibrary": "^11.13",

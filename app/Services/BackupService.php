@@ -590,7 +590,7 @@ class BackupService
             return [
                 'version' => '0.0.0',
                 'release_date' => null,
-                'name' => 'LaraDashboard',
+                'name' => 'AdminDashboard',
             ];
         }
 
@@ -599,7 +599,7 @@ class BackupService
         return json_decode($content, true) ?? [
             'version' => '0.0.0',
             'release_date' => null,
-            'name' => 'LaraDashboard',
+            'name' => 'AdminDashboard',
         ];
     }
 }

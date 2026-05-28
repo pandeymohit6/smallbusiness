@@ -58,6 +58,11 @@ class RecaptchaService
             return false;
         }
 
+        // If reCAPTCHA is disabled in environment, use local verification
+        if (config('settings.disable_external_recaptcha', false)) {
+            return $this->verifyLocally($request);
+        }
+
         // Apply filter hook to allow custom verification logic
         $preVerificationResult = Hook::applyFilters(CommonFilterHook::RECAPTCHA_PRE_VERIFICATION, null, $request);
         if ($preVerificationResult !== null && $preVerificationResult !== '') {
@@ -107,12 +112,34 @@ class RecaptchaService
     }
 
     /**
+     * Local verification fallback when external reCAPTCHA is disabled
+     */
+    private function verifyLocally(Request $request): bool
+    {
+        // Local verification: Simply check that the response token exists and is not empty
+        // This is for development/offline use only - not production secure
+        $recaptchaResponse = $request->input('g-recaptcha-response');
+        
+        if (! empty($recaptchaResponse)) {
+            \Log::info('Local reCAPTCHA verification passed for IP: ' . $request->ip());
+            return true;
+        }
+        
+        return false;
+    }
+
+    /**
      * Get reCAPTCHA v3 script tag
      */
     public function getScriptTag(): string
     {
         if (empty($this->siteKey)) {
             return '';
+        }
+
+        // If external reCAPTCHA is disabled, return empty
+        if (config('settings.disable_external_recaptcha', false)) {
+            return '<!-- reCAPTCHA disabled for offline use -->';
         }
 
         return sprintf(

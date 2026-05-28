@@ -1,4 +1,4 @@
-<title>{{ $title ?? config('app.name', 'LaraDashboard') }}</title>
+<title>{{ $title ?? config('app.name', 'AdminDashboard') }}</title>
 
 <meta name="description" content="{{ $description ?? '' }}">
 <meta name="keywords" content="{{ $keywords ?? '' }}">

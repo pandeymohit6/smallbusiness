@@ -15,7 +15,7 @@
 
     $defaultLinks[] = [
         'label' => __('Marketplace'),
-        'url' => 'https://laradashboard.com/marketplace',
+        'url' => '#/marketplace',
         'icon' => 'lucide:store',
         'target' => '_blank',
     ];

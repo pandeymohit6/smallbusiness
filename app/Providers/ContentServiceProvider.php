@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Enums\Hooks\ContentActionHook;
 use App\Services\Content\ContentService;
-use App\Services\InstallationService;
 use App\Support\Facades\Hook;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Schema;
@@ -21,11 +20,6 @@ class ContentServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        // Skip if database isn't configured (during installation)
-        if (! InstallationService::isDatabaseConfigured()) {
-            return;
-        }
-
         // Skip registering taxonomies if tables don't exist yet.
         try {
             if (! Schema::hasTable('taxonomies')) {

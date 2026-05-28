@@ -4,19 +4,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | LaraDashboard Marketplace Configuration
+    | AdminDashboard Marketplace Configuration
     |--------------------------------------------------------------------------
     |
-    | Configuration for connecting to the LaraDashboard marketplace for
+    | Configuration for connecting to the AdminDashboard marketplace for
     | module updates, licenses, and other marketplace-related features.
     |
     */
 
     'marketplace' => [
         /*
-         * The base URL of the LaraDashboard marketplace.
+         * The base URL of the AdminDashboard marketplace.
          */
-        'url' => env('MARKETPLACE_URL', 'https://laradashboard.com'),
+        'url' => env('MARKETPLACE_URL', '#'),
 
         /*
          * The API endpoint for checking module updates.
@@ -63,12 +63,12 @@ return [
         /*
          * The cache key for storing update check results.
          */
-        'cache_key' => 'laradashboard:module_updates',
+        'cache_key' => 'AdminDashboard:module_updates',
 
         /*
          * The cache key for storing the last update check timestamp.
          */
-        'last_check_key' => 'laradashboard:last_update_check',
+        'last_check_key' => 'AdminDashboard:last_update_check',
 
         /*
          * Minimum interval between fallback update checks (in minutes).
