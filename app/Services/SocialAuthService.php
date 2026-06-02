@@ -37,21 +37,6 @@ class SocialAuthService
             // 'console_url' => 'https://console.cloud.google.com/apis/credentials',
             // 'docs_url' => 'https://developers.google.com/identity/protocols/oauth2',
         ],
-        'github' => [
-            'name' => 'GitHub',
-            'icon' => 'mdi:github',
-            'color' => '#333333',
-            'setting_enable' => 'auth_social_enable_github',
-            'setting_client_id' => 'auth_social_github_client_id',
-            'setting_client_secret' => 'auth_social_github_client_secret',
-            'env_client_id' => 'GITHUB_CLIENT_ID',
-            'env_client_secret' => 'GITHUB_CLIENT_SECRET',
-            'console_url' => '',
-            'docs_url' => '',
-            // See documentation: GitHub Settings > Developer settings
-            // 'console_url' => 'https://github.com/settings/developers',
-            // 'docs_url' => 'https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app',
-        ],
         'facebook' => [
             'name' => 'Facebook',
             'icon' => 'logos:facebook',
@@ -67,35 +52,21 @@ class SocialAuthService
             // 'console_url' => 'https://developers.facebook.com/apps/',
             // 'docs_url' => 'https://developers.facebook.com/docs/facebook-login/web',
         ],
-        'twitter' => [
-            'name' => 'Twitter/X',
-            'icon' => 'ri:twitter-x-fill',
+       
+        'apple' => [
+            'name' => 'Apple',
+            'icon' => 'logos:apple-icon',
             'color' => '#000000',
-            'setting_enable' => 'auth_social_enable_twitter',
-            'setting_client_id' => 'auth_social_twitter_client_id',
-            'setting_client_secret' => 'auth_social_twitter_client_secret',
-            'env_client_id' => 'TWITTER_CLIENT_ID',
-            'env_client_secret' => 'TWITTER_CLIENT_SECRET',
+            'setting_enable' => 'auth_social_enable_apple',
+            'setting_client_id' => 'auth_social_apple_client_id',
+            'setting_client_secret' => 'auth_social_apple_client_secret',
+            'env_client_id' => 'APPLE_CLIENT_ID',
+            'env_client_secret' => 'APPLE_CLIENT_SECRET',
             'console_url' => '',
             'docs_url' => '',
-            // See documentation: X Developer Portal Dashboard
-            // 'console_url' => 'https://developer.twitter.com/en/portal/dashboard',
-            // 'docs_url' => 'https://developer.twitter.com/en/docs/authentication/oauth-2-0',
-        ],
-        'linkedin' => [
-            'name' => 'LinkedIn',
-            'icon' => 'mdi:linkedin',
-            'color' => '#0A66C2',
-            'setting_enable' => 'auth_social_enable_linkedin',
-            'setting_client_id' => 'auth_social_linkedin_client_id',
-            'setting_client_secret' => 'auth_social_linkedin_client_secret',
-            'env_client_id' => 'LINKEDIN_CLIENT_ID',
-            'env_client_secret' => 'LINKEDIN_CLIENT_SECRET',
-            'console_url' => '',
-            'docs_url' => '',
-            // See documentation: LinkedIn Developers Apps Dashboard
-            // 'console_url' => 'https://www.linkedin.com/developers/apps',
-            // 'docs_url' => 'https://learn.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow',
+            // See documentation: Apple Developer Portal
+            // 'console_url' => 'https://developer.apple.com/account/',
+            // 'docs_url' => 'https://developer.apple.com/documentation/sign_in_with_apple/set_up_the_sign_in_with_apple_button',
         ],
     ];
 
@@ -208,10 +179,9 @@ class SocialAuthService
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function redirect(string $provider)
+    public function redirect(string $provider, string $role = 'Subscriber')
     {
         $this->configureProvider($provider);
-
         return Socialite::driver($provider)->redirect();
     }
 

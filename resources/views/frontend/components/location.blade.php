@@ -15,109 +15,126 @@
 
 				<div class="row justify-content-start g-4">
 
-					<!-- Single Item -->
-					<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-						<div class="propertyTypesgrid style-2">
-							<a href="#" class="typesLink smalls">
-								<img src="assets/img/cat-1.jpg" class="img" alt="Property Types">
-								<div class="typesCaps">
-									<div class="typesTitle">
-										<h5 class="title">Family House</h5>
+					@forelse($businessCategories ?? [] as $category)
+						<!-- Dynamic Category Item -->
+						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+							<div class="propertyTypesgrid style-2">
+								<a href="{{ route('businesses.index', ['type' => $category->business_type]) }}" class="typesLink smalls">
+									<img src="https://via.placeholder.com/300x200?text={{ urlencode($category->business_type) }}" class="img" alt="{{ $category->business_type }}">
+									<div class="typesCaps">
+										<div class="typesTitle">
+											<h5 class="title">{{ $category->business_type }}</h5>
+										</div>
+										<div class="listFounded"><span class="list text-light">{{ $category->total }}</span></div>
 									</div>
-									<div class="listFounded"><span class="list text-light">52 </span></div>
-								</div>
-							</a>
+								</a>
+							</div>
 						</div>
-					</div>
+					@empty
+						<!-- Fallback static categories -->
+						<!-- Single Item -->
+						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+							<div class="propertyTypesgrid style-2">
+								<a href="#" class="typesLink smalls">
+									<img src="assets/img/cat-1.jpg" class="img" alt="Property Types">
+									<div class="typesCaps">
+										<div class="typesTitle">
+											<h5 class="title">Family House</h5>
+										</div>
+										<div class="listFounded"><span class="list text-light">52 </span></div>
+									</div>
+								</a>
+							</div>
+						</div>
 
-					<!-- Single Item -->
-					<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-						<div class="propertyTypesgrid style-2">
-							<a href="#" class="typesLink smalls">
-								<img src="assets/img/cat-2.jpg" class="img" alt="Property Types">
-								<div class="typesCaps">
-									<div class="typesTitle">
-										<h5 class="title">Apartments</h5>
+						<!-- Single Item -->
+						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+							<div class="propertyTypesgrid style-2">
+								<a href="#" class="typesLink smalls">
+									<img src="assets/img/cat-2.jpg" class="img" alt="Property Types">
+									<div class="typesCaps">
+										<div class="typesTitle">
+											<h5 class="title">Apartments</h5>
+										</div>
+										<div class="listFounded"><span class="list text-light">19 </span></div>
 									</div>
-									<div class="listFounded"><span class="list text-light">19 </span></div>
-								</div>
-							</a>
+								</a>
+							</div>
 						</div>
-					</div>
 
-					<!-- Single Item -->
-					<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-						<div class="propertyTypesgrid style-2">
-							<a href="#" class="typesLink smalls">
-								<img src="assets/img/cat-3.jpg" class="img" alt="Property Types">
-								<div class="typesCaps">
-									<div class="typesTitle">
-										<h5 class="title">Villa & Resort</h5>
+						<!-- Single Item -->
+						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+							<div class="propertyTypesgrid style-2">
+								<a href="#" class="typesLink smalls">
+									<img src="assets/img/cat-3.jpg" class="img" alt="Property Types">
+									<div class="typesCaps">
+										<div class="typesTitle">
+											<h5 class="title">Villa & Resort</h5>
+										</div>
+										<div class="listFounded"><span class="list text-light">48 </span></div>
 									</div>
-									<div class="listFounded"><span class="list text-light">48 </span></div>
-								</div>
-							</a>
+								</a>
+							</div>
 						</div>
-					</div>
 
-					<!-- Single Item -->
-					<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-						<div class="propertyTypesgrid style-2">
-							<a href="#" class="typesLink smalls">
-								<img src="assets/img/cat-4.jpg" class="img" alt="Property Types">
-								<div class="typesCaps">
-									<div class="typesTitle">
-										<h5 class="title">Office & Studio</h5>
+						<!-- Single Item -->
+						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+							<div class="propertyTypesgrid style-2">
+								<a href="#" class="typesLink smalls">
+									<img src="assets/img/cat-4.jpg" class="img" alt="Property Types">
+									<div class="typesCaps">
+										<div class="typesTitle">
+											<h5 class="title">Office & Studio</h5>
+										</div>
+										<div class="listFounded"><span class="list text-light">36 </span></div>
 									</div>
-									<div class="listFounded"><span class="list text-light">36 </span></div>
-								</div>
-							</a>
+								</a>
+							</div>
 						</div>
-					</div>
 
-					<!-- Single Item -->
-					<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-						<div class="propertyTypesgrid style-2">
-							<a href="#" class="typesLink smalls">
-								<img src="assets/img/cat-5.jpg" class="img" alt="Property Types">
-								<div class="typesCaps">
-									<div class="typesTitle">
-										<h5 class="title">Duplexes </h5>
+						<!-- Single Item -->
+						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+							<div class="propertyTypesgrid style-2">
+								<a href="#" class="typesLink smalls">
+									<img src="assets/img/cat-5.jpg" class="img" alt="Property Types">
+									<div class="typesCaps">
+										<div class="typesTitle">
+											<h5 class="title">Duplexes </h5>
+										</div>
+										<div class="listFounded"><span class="list text-light">45 </span></div>
 									</div>
-									<div class="listFounded"><span class="list text-light">45 </span></div>
-								</div>
-							</a>
+								</a>
+							</div>
 						</div>
-					</div>
 
-					<!-- Single Item -->
-					<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-						<div class="propertyTypesgrid style-2">
-							<a href="#" class="typesLink smalls">
-								<img src="assets/img/cat-6.jpg" class="img" alt="Property Types">
-								<div class="typesCaps">
-									<div class="typesTitle">
-										<h5 class="title">Condo House</h5>
+						<!-- Single Item -->
+						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+							<div class="propertyTypesgrid style-2">
+								<a href="#" class="typesLink smalls">
+									<img src="assets/img/cat-6.jpg" class="img" alt="Property Types">
+									<div class="typesCaps">
+										<div class="typesTitle">
+											<h5 class="title">Condo House</h5>
+										</div>
+										<div class="listFounded"><span class="list text-light">12 </span></div>
 									</div>
-									<div class="listFounded"><span class="list text-light">12 </span></div>
-								</div>
-							</a>
+								</a>
+							</div>
 						</div>
-					</div>
 
-					<!-- Single Item -->
-					<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
-						<div class="propertyTypesgrid style-2">
-							<a href="#" class="typesLink smalls">
-								<img src="assets/img/cat-7.jpg" class="img" alt="Property Types">
-								<div class="typesCaps">
-									<div class="typesTitle">
-										<h5 class="title">Condo House</h5>
+						<!-- Single Item -->
+						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6">
+							<div class="propertyTypesgrid style-2">
+								<a href="#" class="typesLink smalls">
+									<img src="assets/img/cat-7.jpg" class="img" alt="Property Types">
+									<div class="typesCaps">
+										<div class="typesTitle">
+											<h5 class="title">Condo House</h5>
+										</div>
+										<div class="listFounded"><span class="list text-light">12 </span></div>
 									</div>
-									<div class="listFounded"><span class="list text-light">12 </span></div>
-								</div>
-							</a>
-						</div>
+								</a>
+							</div>
 					</div>
 
 					<!-- Single Item -->
@@ -140,6 +157,7 @@
 								class="arrow">&rarr;</span></a>
 						<a href="#" class="category-link">View all Categories <span class="arrow">&rarr;</span></a>
 					</div>
+				@endforelse
 
 				</div>
 
@@ -514,4 +532,3 @@
 
 			</div>
 		</section>
-		<!-- ============================ Browse By Locations End ================================== -->

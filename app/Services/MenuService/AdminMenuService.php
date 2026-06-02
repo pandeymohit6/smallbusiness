@@ -283,26 +283,6 @@ class AdminMenuService
             ],
         ], __('More'));
 
-        $this->addMenuItem([
-            'label' => __('Logout'),
-            'icon' => 'lucide:log-out',
-            'route' => route('admin.dashboard'),
-            'active' => false,
-            'id' => 'logout',
-            'priority' => 10000,
-            'html' => '
-                <li>
-                    <form method="POST" action="' . route('admin.logout.submit') . '">
-                        ' . csrf_field() . '
-                        <button type="submit" :style="`color: ${textColor}`" class="menu-item group w-full text-left menu-item-inactive text-gray-700 dark:text-white hover:text-gray-700">
-                            <iconify-icon icon="lucide:log-out" class="menu-item-icon " width="16" height="16"></iconify-icon>
-                            <span class="menu-item-text">' . __('Logout') . '</span>
-                        </button>
-                    </form>
-                </li>
-            ',
-        ], __('More'));
-
         $this->groups = Hook::applyFilters(AdminFilterHook::ADMIN_MENU_GROUPS_BEFORE_SORTING, $this->groups);
 
         $this->sortMenuItemsByPriority();

@@ -91,9 +91,20 @@ class LoginController extends Controller
      */
     protected function redirectTo(): string
     {
-        $defaultRedirect = config('settings.auth_redirect_after_login', RouteServiceProvider::ADMIN_DASHBOARD);
-
-        return Hook::applyFilters(AuthFilterHook::LOGIN_REDIRECT_PATH, $defaultRedirect);
+        // Check if user is authenticated
+        if (Auth::check()) {
+            $user = Auth::user();
+            
+            // Redirect admin and superadmin users to dashboard
+            // Using Spatie Permission package to check user roles
+            /** @noinspection PhpUndefinedMethodInspection */
+            if ($user->roles()->whereIn('name', ['superadmin', 'admin'])->exists()) {
+                return RouteServiceProvider::ADMIN_DASHBOARD; // Redirect to /admin
+            }
+        }
+        
+        // Default: redirect to home for non-admin users
+        return RouteServiceProvider::HOME; // Redirect to /
     }
 
     /**

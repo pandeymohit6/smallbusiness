@@ -71,9 +71,9 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::group(['prefix' => 'auth', 'middleware' => 'guest'], function () {
     Route::get('{provider}/redirect', [SocialLoginController::class, 'redirect'])
         ->name('social.redirect')
-        ->whereIn('provider', ['google', 'github', 'facebook', 'twitter', 'linkedin']);
+        ->whereIn('provider', ['google', 'facebook', 'apple']);
 
     Route::get('{provider}/callback', [SocialLoginController::class, 'callback'])
         ->name('social.callback')
-        ->whereIn('provider', ['google', 'github', 'facebook', 'twitter', 'linkedin']);
+        ->whereIn('provider', ['google', 'facebook', 'apple']);
 });

@@ -9,6 +9,8 @@ use App\Models\BusinessInquiry;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class PublicBusinessController extends Controller
 {
@@ -32,12 +34,8 @@ class PublicBusinessController extends Controller
             $query->where('country_code', $request->input('country'));
         }
 
-        if ($request->filled('state')) {
-            $query->where('state', $request->input('state'));
-        }
-
-        if ($request->filled('city')) {
-            $query->where('city', $request->input('city'));
+        if ($request->filled('location')) {
+            $query->where('location', 'like', "%{$request->input('location')}%");
         }
 
         if ($request->filled('type')) {
@@ -56,7 +54,43 @@ class PublicBusinessController extends Controller
 
         $businesses = $query->paginate(12);
 
-        return view('business.index', compact('businesses'));
+        // Fetch dynamic filter options
+        $businessTypes = Business::active()
+            ->select('business_type')
+            ->distinct()
+            ->whereNotNull('business_type')
+            ->pluck('business_type')
+            ->sort();
+
+        $industries = Business::active()
+            ->select('industry')
+            ->distinct()
+            ->whereNotNull('industry')
+            ->pluck('industry')
+            ->sort();
+
+        // Get available countries
+        $countries = Business::active()
+            ->select('country_code')
+            ->distinct()
+            ->whereNotNull('country_code')
+            ->pluck('country_code');
+
+        // Get available locations
+        $locations = Business::active()
+            ->select('location')
+            ->distinct()
+            ->whereNotNull('location')
+            ->pluck('location')
+            ->sort();
+
+        return view('business.index', compact(
+            'businesses',
+            'businessTypes',
+            'industries',
+            'countries',
+            'locations'
+        ));
     }
 
     /**
@@ -90,7 +124,7 @@ class PublicBusinessController extends Controller
 
         BusinessInquiry::create(array_merge($validated, [
             'business_id' => $business->id,
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
         ]));
 
         return redirect()->back()

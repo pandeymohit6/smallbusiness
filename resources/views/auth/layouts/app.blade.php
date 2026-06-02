@@ -62,7 +62,7 @@ class="bg-gray-50 dark:bg-gray-900 min-h-screen">
 
     <div class="auth-container min-h-screen flex flex-col justify-center py-8 px-4 sm:px-6 lg:px-8">
         {{-- Logo --}}
-        <div class="mx-auto w-full @yield('auth_card_width', 'max-w-xl') mb-4">
+        {{--  <div class="mx-auto w-full @yield('auth_card_width', 'max-w-xl') mb-4">
             <a href="{{ url('/') }}" class="flex justify-center">
                 @php
                     $logoLite = config('settings.site_logo_lite');
@@ -79,11 +79,11 @@ class="bg-gray-50 dark:bg-gray-900 min-h-screen">
                     @endif
                 @else
                     <span class="text-xl font-bold text-gray-900 dark:text-white">
-                        {{ config('app.name') }}
+                       SmallBusinessesForSale.com
                     </span>
                 @endif
             </a>
-        </div>
+        </div>  --}}
 
         {{-- Card Container --}}
         <div class="mx-auto w-full @yield('auth_card_width', 'max-w-sm')">

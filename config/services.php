@@ -70,4 +70,10 @@ return [
         'redirect' => '/auth/linkedin/callback',
     ],
 
+     'apple' => [
+        'client_id' => env('APPLE_CLIENT_ID'),
+        'client_secret' => env('APPLE_CLIENT_SECRET'),
+        'redirect' => '/auth/apple/callback',
+    ],
+
 ];
