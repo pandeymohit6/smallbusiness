@@ -6,7 +6,10 @@
         <div class="col-lg-8">
             <a href="{{ route('businesses.index') }}" class="btn btn-link px-0">{{ __('Back to listings') }}</a>
             <h1 class="h3">{{ $business->title }}</h1>
-            <p class="text-muted">{{ $business->location }} · {{ \App\Models\Business::getBusinessTypes()[$business->business_type] ?? $business->business_type }}</p>
+            <p class="text-muted">
+                {{ format_location($business->country_code, $business->state, $business->city) }}
+                · {{ \App\Models\Business::getBusinessTypes()[$business->business_type] ?? $business->business_type }}
+            </p>
 
             <div class="card mb-4">
                 <div class="card-body">
@@ -25,6 +28,8 @@
                 <div class="card-body">
                     <h2 class="h5">{{ __('Listing Snapshot') }}</h2>
                     <dl class="mb-0">
+                        <dt>{{ __('Location') }}</dt>
+                        <dd>{{ format_location($business->country_code, $business->state, $business->city) }}</dd>
                         <dt>{{ __('Asking Price') }}</dt>
                         <dd>{{ number_format((float) $business->asking_price, 2) }}</dd>
                         <dt>{{ __('Annual Revenue') }}</dt>

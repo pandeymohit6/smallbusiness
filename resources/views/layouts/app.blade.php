@@ -33,6 +33,11 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto"></ul>
 
+                    <!-- Center: Country Switcher -->
+                    <div class="navbar-nav mx-auto">
+                        <x-country-switcher />
+                    </div>
+
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         @guest

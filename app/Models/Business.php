@@ -16,7 +16,7 @@ use Spatie\MediaLibrary\HasMedia as SpatieHasMedia;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
-class Business extends Model implements SpatieHasMedia
+class Business extends CountryAwareModel implements SpatieHasMedia
 {
     use HasFactory;
     use QueryBuilderTrait;
@@ -32,6 +32,9 @@ class Business extends Model implements SpatieHasMedia
         'business_type',
         'industry',
         'location',
+        'country_code',
+        'state',
+        'city',
         'asking_price',
         'annual_revenue',
         'annual_profit',
@@ -167,6 +170,48 @@ class Business extends Model implements SpatieHasMedia
     }
 
     /**
+     * Scope to filter by country.
+     */
+    public function scopeByCountry(Builder $query, string $country): Builder
+    {
+        return $query->where('country_code', $country);
+    }
+
+    /**
+     * Scope to filter by state.
+     */
+    public function scopeByState(Builder $query, string $state): Builder
+    {
+        return $query->where('state', $state);
+    }
+
+    /**
+     * Scope to filter by city.
+     */
+    public function scopeByCity(Builder $query, string $city): Builder
+    {
+        return $query->where('city', $city);
+    }
+
+    /**
+     * Scope to filter by country and state.
+     */
+    public function scopeByCountryAndState(Builder $query, string $country, string $state): Builder
+    {
+        return $query->where('country_code', $country)->where('state', $state);
+    }
+
+    /**
+     * Scope to filter by country, state, and city.
+     */
+    public function scopeByCountryStateCity(Builder $query, string $country, string $state, string $city): Builder
+    {
+        return $query->where('country_code', $country)
+            ->where('state', $state)
+            ->where('city', $city);
+    }
+
+    /**
      * Get business statuses.
      */
     public static function getStatuses(): array
@@ -216,5 +261,88 @@ class Business extends Model implements SpatieHasMedia
             'entertainment' => __('Entertainment'),
             'other' => __('Other'),
         ];
+    }
+
+    /**
+     * Get countries list.
+     */
+    public static function getCountries(): array
+    {
+        return [
+            'United States' => __('United States'),
+            'Canada' => __('Canada'),
+            'Australia' => __('Australia'),
+        ];
+    }
+
+    /**
+     * Get states by country.
+     */
+    public static function getStatesByCountry(string $country): array
+    {
+        $states = [
+            'United States' => [
+                'AL' => 'Alabama', 'AK' => 'Alaska', 'AZ' => 'Arizona', 'AR' => 'Arkansas',
+                'CA' => 'California', 'CO' => 'Colorado', 'CT' => 'Connecticut', 'DE' => 'Delaware',
+                'FL' => 'Florida', 'GA' => 'Georgia', 'HI' => 'Hawaii', 'ID' => 'Idaho',
+                'IL' => 'Illinois', 'IN' => 'Indiana', 'IA' => 'Iowa', 'KS' => 'Kansas',
+                'KY' => 'Kentucky', 'LA' => 'Louisiana', 'ME' => 'Maine', 'MD' => 'Maryland',
+                'MA' => 'Massachusetts', 'MI' => 'Michigan', 'MN' => 'Minnesota', 'MS' => 'Mississippi',
+                'MO' => 'Missouri', 'MT' => 'Montana', 'NE' => 'Nebraska', 'NV' => 'Nevada',
+                'NH' => 'New Hampshire', 'NJ' => 'New Jersey', 'NM' => 'New Mexico', 'NY' => 'New York',
+                'NC' => 'North Carolina', 'ND' => 'North Dakota', 'OH' => 'Ohio', 'OK' => 'Oklahoma',
+                'OR' => 'Oregon', 'PA' => 'Pennsylvania', 'RI' => 'Rhode Island', 'SC' => 'South Carolina',
+                'SD' => 'South Dakota', 'TN' => 'Tennessee', 'TX' => 'Texas', 'UT' => 'Utah',
+                'VT' => 'Vermont', 'VA' => 'Virginia', 'WA' => 'Washington', 'WV' => 'West Virginia',
+                'WI' => 'Wisconsin', 'WY' => 'Wyoming', 'DC' => 'District of Columbia',
+            ],
+            'Canada' => [
+                'AB' => 'Alberta', 'BC' => 'British Columbia', 'MB' => 'Manitoba',
+                'NB' => 'New Brunswick', 'NL' => 'Newfoundland and Labrador', 'NS' => 'Nova Scotia',
+                'NT' => 'Northwest Territories', 'NU' => 'Nunavut', 'ON' => 'Ontario',
+                'PE' => 'Prince Edward Island', 'QC' => 'Quebec', 'SK' => 'Saskatchewan',
+                'YT' => 'Yukon',
+            ],
+            'Australia' => [
+                'NSW' => 'New South Wales', 'QLD' => 'Queensland', 'SA' => 'South Australia',
+                'TAS' => 'Tasmania', 'VIC' => 'Victoria', 'WA' => 'Western Australia',
+                'ACT' => 'Australian Capital Territory', 'NT' => 'Northern Territory',
+            ],
+        ];
+
+        return $states[$country] ?? [];
+    }
+
+    /**
+     * Get cities by country and state (simplified - can be extended with database).
+     */
+    public static function getCitiesByCountryAndState(string $country, string $state): array
+    {
+        // This is a simplified list. In production, you might want to fetch from a cities database.
+        $cities = [
+            'United States' => [
+                'CA' => ['Los Angeles', 'San Francisco', 'San Diego', 'Sacramento', 'San Jose'],
+                'NY' => ['New York', 'Buffalo', 'Rochester', 'Yonkers', 'Albany'],
+                'TX' => ['Houston', 'Dallas', 'Austin', 'San Antonio', 'Fort Worth'],
+                'FL' => ['Miami', 'Orlando', 'Tampa', 'Jacksonville', 'Fort Lauderdale'],
+                // Add more states as needed
+            ],
+            'Canada' => [
+                'ON' => ['Toronto', 'Ottawa', 'Hamilton', 'London', 'Kitchener'],
+                'QC' => ['Montreal', 'Quebec City', 'Laval', 'Gatineau', 'Longueuil'],
+                'BC' => ['Vancouver', 'Victoria', 'Surrey', 'Burnaby', 'Coquitlam'],
+                'AB' => ['Calgary', 'Edmonton', 'Red Deer', 'Lethbridge', 'Medicine Hat'],
+                // Add more provinces as needed
+            ],
+            'Australia' => [
+                'NSW' => ['Sydney', 'Newcastle', 'Wollongong', 'Central Coast', 'Lismore'],
+                'VIC' => ['Melbourne', 'Geelong', 'Ballarat', 'Bendigo', 'Echuca'],
+                'QLD' => ['Brisbane', 'Gold Coast', 'Sunshine Coast', 'Cairns', 'Townsville'],
+                'WA' => ['Perth', 'Fremantle', 'Mandurah', 'Bunbury', 'Geraldton'],
+                // Add more states as needed
+            ],
+        ];
+
+        return $cities[$country][$state] ?? [];
     }
 }

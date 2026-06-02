@@ -1,8 +1,17 @@
 @php
 use App\Services\ThemeColorService;
 
-$primaryColor = config('settings.theme_primary_color', '#635bff');
-$secondaryColor = config('settings.theme_secondary_color', '#1f2937');
+$primaryColor = config('settings.theme_primary_color');
+if ($primaryColor === null || $primaryColor === '') {
+    $primaryColor = get_setting('theme_primary_color', '#635bff');
+    config(['settings.theme_primary_color' => $primaryColor]);
+}
+
+$secondaryColor = config('settings.theme_secondary_color');
+if ($secondaryColor === null || $secondaryColor === '') {
+    $secondaryColor = get_setting('theme_secondary_color', '#1f2937');
+    config(['settings.theme_secondary_color' => $secondaryColor]);
+}
 
 $primaryPalette = ThemeColorService::generateColorPalette($primaryColor);
 @endphp

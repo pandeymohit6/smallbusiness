@@ -20,7 +20,7 @@ class SettingsSeeder extends Seeder
     public function run(): void
     {
         $options = [
-            ['option_name' => Setting::APP_NAME, 'option_value' => 'Admin Dashboardd'],
+            ['option_name' => Setting::APP_NAME, 'option_value' => 'Admin Dashboard'],
 
             // Theme colors
             ['option_name' => Setting::THEME_PRIMARY_COLOR, 'option_value' => '#635bff'],
@@ -45,8 +45,8 @@ class SettingsSeeder extends Seeder
             ['option_name' => Setting::TEXT_COLOR_DARK, 'option_value' => '#f8f9fa'],
 
             // Site logo and icons
-            ['option_name' => Setting::SITE_LOGO_LITE, 'option_value' => '/images/logo/lara-dashboard.png'],
-            ['option_name' => Setting::SITE_LOGO_DARK, 'option_value' => '/images/logo/lara-dashboard-dark.png'],
+            ['option_name' => Setting::SITE_LOGO_LITE, 'option_value' => '/images/logo/logo.png'],
+            ['option_name' => Setting::SITE_LOGO_DARK, 'option_value' => '/images/logo/logo-dark.png'],
             ['option_name' => Setting::SITE_ICON, 'option_value' => '/images/logo/icon.png'],
             ['option_name' => Setting::SITE_FAVICON, 'option_value' => '/images/logo/icon.png'],
 
@@ -55,7 +55,7 @@ class SettingsSeeder extends Seeder
 
             // Site identity defaults
             ['option_name' => Setting::SITE_TAGLINE, 'option_value' => 'The Agentic CMS for Laravel'],
-            ['option_name' => Setting::COPYRIGHT_TEXT, 'option_value' => '© {year} Admin Dashboardd. All rights reserved.'],
+            ['option_name' => Setting::COPYRIGHT_TEXT, 'option_value' => '© {year} Admin Dashboard. All rights reserved.'],
             ['option_name' => Setting::CONTACT_EMAIL, 'option_value' => 'hello@AdminDashboard.com'],
             ['option_name' => Setting::CONTACT_PHONE, 'option_value' => ''],
             ['option_name' => Setting::CONTACT_ADDRESS, 'option_value' => ''],

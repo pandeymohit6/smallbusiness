@@ -52,7 +52,7 @@ class DashboardController extends Controller
             }
         }
 
-        $dashboardData = [
+        $Dashboardata = [
             'total_users' => number_format(User::count()),
             'total_posts' => number_format(Post::count()),
             'total_roles' => number_format(Role::count()),
@@ -91,7 +91,7 @@ class DashboardController extends Controller
             ],
         ];
 
-        return view($this->dashboardViewFor($user), $dashboardData);
+        return view($this->dashboardViewFor($user), $Dashboardata);
     }
 
     private function dashboardViewFor(User $user): string

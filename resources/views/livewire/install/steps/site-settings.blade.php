@@ -48,7 +48,7 @@
             >
                 <span class="text-white font-bold text-lg" x-text="(siteName || 'L').charAt(0).toUpperCase()"></span>
             </div>
-            <span class="text-lg font-semibold text-gray-900 dark:text-white" x-text="siteName || '{{ __('Admin Dashboardd') }}'"></span>
+            <span class="text-lg font-semibold text-gray-900 dark:text-white" x-text="siteName || '{{ __('Admin Dashboard') }}'"></span>
         </div>
 
         {{-- Button Preview --}}

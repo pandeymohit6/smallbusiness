@@ -22,6 +22,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Scopes\CountryScope;
 
 #[ObservedBy([UserObserver::class])]
 class User extends Authenticatable implements MustVerifyEmail
@@ -33,6 +34,19 @@ class User extends Authenticatable implements MustVerifyEmail
     use MustVerifyEmailTrait;
     use Notifiable;
     use QueryBuilderTrait;
+
+    protected static function booted(): void
+    {
+        // Apply country filter to user queries
+        static::addGlobalScope(new CountryScope());
+        
+        // Auto-assign country when creating users
+        static::creating(function ($model) {
+            if (empty($model->country_code)) {
+                $model->country_code = session('country', 'usa');
+            }
+        });
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -47,6 +61,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'username',
         'avatar_id',
         'email_subscribed',
+        'country_code',
     ];
 
     /**

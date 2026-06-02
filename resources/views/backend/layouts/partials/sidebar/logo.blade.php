@@ -64,7 +64,7 @@
             {!! $sidebarLogoOverride !!}
         @else
             @php
-                $siteName = config('settings.app_name') ?: config('app.name', 'Admin Dashboardd');
+                $siteName = config('settings.app_name') ?: config('app.name', 'Admin Dashboard');
                 $hasLiteLogo = !empty(config('settings.site_logo_lite'));
                 $hasDarkLogo = !empty(config('settings.site_logo_dark'));
                 $hasIcon = !empty(config('settings.site_icon'));

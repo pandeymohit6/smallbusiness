@@ -424,7 +424,6 @@ function aiCommandModal() {
         },
 
         init() {
-            this.loadStatus();
             this.initVoiceRecognition();
 
             // Listen for voice activation event from keyboard shortcut
@@ -566,23 +565,7 @@ function aiCommandModal() {
             this.interimTranscript = '';
         },
 
-        async loadStatus() {
-            this.loading = true;
-            try {
-                const response = await fetch('{{ route("admin.ai.command.status") }}');
-                const data = await response.json();
-
-                if (data.success) {
-                    this.isConfigured = data.data.configured;
-                    this.provider = data.data.provider;
-                    this.actions = data.data.actions || [];
-                }
-            } catch (e) {
-                console.error('Failed to load AI status:', e);
-            } finally {
-                this.loading = false;
-            }
-        },
+      
 
         // Action metadata from core + modules (via filter hook)
         actionMeta: @php
@@ -623,88 +606,6 @@ function aiCommandModal() {
             const meta = this.actionMeta[action.name];
             this.command = meta?.prompt || (action.description ? action.description.replace(/\.$/, '') : this.getActionTitle(action.name));
             this.$refs.commandInput?.focus();
-        },
-
-        async executeCommand() {
-            if (!this.command.trim() || this.processing || !this.isConfigured) return;
-
-            this.processing = true;
-            this.error = null;
-            this.result = null;
-            this.progressSteps = [];
-            this.currentStep = '{{ __("Starting...") }}';
-
-            try {
-                const response = await fetch('{{ route("admin.ai.command.process-stream") }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Accept': 'text/event-stream',
-                    },
-                    body: JSON.stringify({ command: this.command }),
-                });
-
-                if (!response.ok) {
-                    throw new Error('Request failed');
-                }
-
-                // Process SSE stream
-                const reader = response.body.getReader();
-                const decoder = new TextDecoder();
-                let buffer = '';
-
-                const processBuffer = (text) => {
-                    const lines = text.split('\n');
-                    let currentEvent = null;
-
-                    for (const line of lines) {
-                        if (line.startsWith('event: ')) {
-                            currentEvent = line.substring(7).trim();
-                        } else if (line.startsWith('data: ') && currentEvent) {
-                            try {
-                                const data = JSON.parse(line.substring(6));
-                                this.handleStreamEvent(currentEvent, data);
-                            } catch (e) {
-                                console.warn('Failed to parse SSE data:', e);
-                            }
-                            currentEvent = null;
-                        }
-                    }
-                };
-
-                while (true) {
-                    const { done, value } = await reader.read();
-
-                    if (value) {
-                        buffer += decoder.decode(value, { stream: !done });
-                    }
-
-                    if (done) {
-                        // Process any remaining data in buffer
-                        if (buffer.trim()) {
-                            processBuffer(buffer);
-                        }
-                        break;
-                    }
-
-                    // Process complete events (separated by double newlines)
-                    const parts = buffer.split('\n\n');
-                    buffer = parts.pop() || '';
-
-                    for (const part of parts) {
-                        if (part.trim()) {
-                            processBuffer(part);
-                        }
-                    }
-                }
-            } catch (e) {
-                console.error('AI command error:', e);
-                this.error = '{{ __("Failed to process command. Please try again.") }}';
-            } finally {
-                this.processing = false;
-                this.currentStep = '';
-            }
         },
 
         handleStreamEvent(event, data) {

@@ -4,7 +4,7 @@
 
     // Only show "Visit Site" when a frontend theme is active (ADMIN_SITE_ONLY is false)
     $isAdminOnly = Hook::applyFilters(AdminFilterHook::ADMIN_SITE_ONLY, true);
-    if (! $isAdminOnly) {
+    if (!$isAdminOnly) {
         $defaultLinks[] = [
             'label' => __('Visit Site'),
             'url' => config('app.url'),

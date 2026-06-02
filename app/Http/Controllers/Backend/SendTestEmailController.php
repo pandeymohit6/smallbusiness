@@ -107,7 +107,7 @@ class SendTestEmailController extends Controller
             $fromEmail = 'no-reply@AdminDashboard.com';
         }
         if (empty($fromName)) {
-            $fromName = 'Admin Dashboardd';
+            $fromName = 'Admin Dashboard';
         }
 
         // Use the unified Mailer service which respects email connections

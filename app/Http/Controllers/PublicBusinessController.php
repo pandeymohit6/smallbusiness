@@ -28,6 +28,18 @@ class PublicBusinessController extends Controller
             });
         }
 
+        if ($request->filled('country')) {
+            $query->where('country_code', $request->input('country'));
+        }
+
+        if ($request->filled('state')) {
+            $query->where('state', $request->input('state'));
+        }
+
+        if ($request->filled('city')) {
+            $query->where('city', $request->input('city'));
+        }
+
         if ($request->filled('type')) {
             $query->byType($request->input('type'));
         }

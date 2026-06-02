@@ -43,7 +43,7 @@ return new class () extends Migration {
 
         $settings = [
             // App name default
-            ['option_name' => Setting::APP_NAME, 'option_value' => 'Admin Dashboardd'],
+            ['option_name' => Setting::APP_NAME, 'option_value' => 'Admin Dashboard'],
 
             // Theme colors
             ['option_name' => Setting::THEME_PRIMARY_COLOR, 'option_value' => '#635bff'],

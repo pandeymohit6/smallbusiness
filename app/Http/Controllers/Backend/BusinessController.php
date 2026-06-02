@@ -38,6 +38,18 @@ class BusinessController extends Controller
             $query->where('status', $request->input('status'));
         }
 
+        if ($request->filled('country')) {
+            $query->where('country_code', $request->input('country'));
+        }
+
+        if ($request->filled('state')) {
+            $query->where('state', $request->input('state'));
+        }
+
+        if ($request->filled('city')) {
+            $query->where('city', $request->input('city'));
+        }
+
         if ($request->filled('search')) {
             $search = $request->input('search');
             $query->where(function ($builder) use ($search) {
@@ -66,6 +78,7 @@ class BusinessController extends Controller
             'business' => new Business(),
             'businessTypes' => Business::getBusinessTypes(),
             'industries' => Business::getIndustries(),
+            'countries' => Business::getCountries(),
         ]);
     }
 
@@ -81,6 +94,9 @@ class BusinessController extends Controller
             'business_type' => ['required', 'string'],
             'industry' => ['required', 'string'],
             'location' => ['required', 'string'],
+            'country_code' => ['required', 'string', 'in:United States,Canada,Australia'],
+            'state' => ['required', 'string'],
+            'city' => ['required', 'string'],
             'asking_price' => ['required', 'numeric', 'min:0'],
             'annual_revenue' => ['nullable', 'numeric', 'min:0'],
             'annual_profit' => ['nullable', 'numeric', 'min:0'],
@@ -126,6 +142,7 @@ class BusinessController extends Controller
             'business' => $business,
             'businessTypes' => Business::getBusinessTypes(),
             'industries' => Business::getIndustries(),
+            'countries' => Business::getCountries(),
         ]);
     }
 
@@ -141,6 +158,9 @@ class BusinessController extends Controller
             'business_type' => ['required', 'string'],
             'industry' => ['required', 'string'],
             'location' => ['required', 'string'],
+            'country_code' => ['required', 'string', 'in:United States,Canada,Australia'],
+            'state' => ['required', 'string'],
+            'city' => ['required', 'string'],
             'asking_price' => ['required', 'numeric', 'min:0'],
             'annual_revenue' => ['nullable', 'numeric', 'min:0'],
             'annual_profit' => ['nullable', 'numeric', 'min:0'],

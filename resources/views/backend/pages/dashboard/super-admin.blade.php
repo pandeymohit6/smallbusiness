@@ -1,5 +1,14 @@
 @section('title', __('Super Admin Dashboard') . ' | ' . config('app.name'))
-
+@php
+    $dashboardSections = Hook::applyFilters(DashboardFilterHook::DASHBOARD_SECTIONS, [
+        'quick_actions',
+        'stat_cards',
+        'user_growth',
+        'quick_draft',
+        'post_chart',
+        'recent_posts',
+    ]);
+@endphp
 <x-layouts.backend-layout>
     <div class="mb-6">
         <h2 class="text-xl font-semibold text-gray-700 dark:text-white/90">{{ __('Super Admin Dashboard') }}</h2>
@@ -64,4 +73,62 @@
             'url' => route('admin.posts.index', 'page'),
         ])
     </div>
+
+    @section('before_vite_build')
+        <script>
+            var userGrowthData = @json($user_growth_data['data']);
+            var userGrowthLabels = @json($user_growth_data['labels']);
+        </script>
+    @endsection
+
+    {{-- Charts Row: User Growth + Quick Draft --}}
+    @if(in_array('user_growth', $dashboardSections) || in_array('quick_draft', $dashboardSections))
+    @can('user.view')
+    <div class="mt-6">
+        <div class="grid grid-cols-12 gap-4 md:gap-6">
+            {{-- User Growth Chart --}}
+            @if(in_array('user_growth', $dashboardSections))
+            <div class="col-span-12 lg:col-span-8">
+                @include('backend.pages.dashboard.partials.user-growth')
+            </div>
+            @endif
+            {{-- Quick Draft Form --}}
+            @if(in_array('quick_draft', $dashboardSections))
+            <div class="col-span-12 md:col-span-6 lg:col-span-4">
+                @can('post.create')
+                <livewire:dashboard.quick-draft />
+                @endcan
+            </div>
+            @endif
+        </div>
+    </div>
+    @endcan
+    @endif
+
+    {{-- Bottom Row: Post Activity + Recent Posts --}}
+    @if(in_array('post_chart', $dashboardSections) || in_array('recent_posts', $dashboardSections))
+    <div class="mt-6">
+        <div class="grid grid-cols-12 gap-4 md:gap-6">
+            {{-- Post Activity Chart --}}
+            @if(in_array('post_chart', $dashboardSections))
+            @can('post.view')
+            <div class="col-span-12 lg:col-span-8">
+                <div class="grid grid-cols-12 gap-4 md:gap-6">
+                    @include('backend.pages.dashboard.partials.post-chart')
+                </div>
+            </div>
+            @endcan
+            @endif
+
+            {{-- Recent Posts Sidebar --}}
+            @if(in_array('recent_posts', $dashboardSections))
+            <div class="col-span-12 lg:col-span-4">
+                @can('post.view')
+                <livewire:dashboard.recent-posts :limit="5" />
+                @endcan
+            </div>
+            @endif
+        </div>
+    </div>
+    @endif
 </x-layouts.backend-layout>

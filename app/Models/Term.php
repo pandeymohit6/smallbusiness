@@ -20,7 +20,7 @@ use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 #[ObservedBy([TermObserver::class])]
-class Term extends Model implements SpatieHasMedia
+class Term extends CountryAwareModel implements SpatieHasMedia
 {
     use HasFactory;
     use HasUniqueSlug;
@@ -34,6 +34,7 @@ class Term extends Model implements SpatieHasMedia
         'description',
         'parent_id',
         'count',
+        'country_code',
     ];
 
     /**

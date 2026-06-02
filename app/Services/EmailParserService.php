@@ -39,7 +39,7 @@ class EmailParserService
         '/^\*{3,}$/m',
 
         // Email template markers (common in HTML emails)
-        '/^(Admin Dashboardd|Support Ticket|New Reply to Your Ticket)\s*$/im',
+        '/^(Admin Dashboard|Support Ticket|New Reply to Your Ticket)\s*$/im',
         '/^(Email|Email\s*\n\s*\n)\s*$/im',
         '/^Your Support Ticket Has/im',
         '/^Hello\s+(Customer|.+?),?\s*$/im',

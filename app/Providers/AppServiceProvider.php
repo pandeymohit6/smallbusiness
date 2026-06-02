@@ -79,7 +79,7 @@ class AppServiceProvider extends ServiceProvider
         if (
             ! $this->app->runningInConsole() &&
             request()->is('/') &&
-            Hook::applyFilters(AdminFilterHook::ADMIN_SITE_ONLY, true)
+            Hook::applyFilters(AdminFilterHook::ADMIN_SITE_ONLY, false)
         ) {
             redirect('/admin')->send();
             exit;
@@ -96,6 +96,8 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->runningUnitTests()) {
             return;
         }
+
+        $this->loadSettingsFromDatabase();
 
         if (env('REDIRECT_HTTPS')) {
             URL::forceScheme('https');
@@ -120,6 +122,33 @@ class AppServiceProvider extends ServiceProvider
         // Configure Laravel's default mail driver to use the best email connection
         // This ensures all emails (including notifications like password reset) use the unified email system
         $this->configureDefaultMailer();
+    }
+
+    /**
+     * Load saved settings from the database into the application config.
+     */
+    protected function loadSettingsFromDatabase(): void
+    {
+        try {
+            if (! Schema::hasTable('settings')) {
+                return;
+            }
+        } catch (\Exception $e) {
+            return;
+        }
+
+        try {
+            $settings = Setting::pluck('option_value', 'option_name')->toArray();
+            $currentSettings = config('settings', []);
+
+            if (! is_array($currentSettings)) {
+                $currentSettings = [];
+            }
+
+            config(['settings' => array_merge($currentSettings, $settings)]);
+        } catch (\Exception $e) {
+            // Ignore errors loading settings during installation or when DB is unavailable.
+        }
     }
 
     /**

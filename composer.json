@@ -1,7 +1,7 @@
 {
     "name": "dashboard/dashboard",
     "type": "project",
-    "description": "Admin Dashboardd - A Laravel CMS with Role, Permission, Module, Translation, Content Management",
+    "description": "Admin Dashboard - A Laravel CMS with Role, Permission, Module, Translation, Content Management",
     "keywords": [
         "framework",
         "laravel",

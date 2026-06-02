@@ -229,3 +229,177 @@ if (! function_exists('generate_secure_password')) {
             ->generatePassword($length, $includeSpecialChars);
     }
 }
+
+/**
+ * Get the current country.
+ *
+ * @return \App\Enums\Country|null
+ */
+if (! function_exists('current_country')) {
+    function current_country(): ?\App\Enums\Country
+    {
+        return app(\App\Services\MultiCountryService::class)::current();
+    }
+}
+
+/**
+ * Get the current country value.
+ *
+ * @return string|null
+ */
+if (! function_exists('current_country_value')) {
+    function current_country_value(): ?string
+    {
+        return app(\App\Services\MultiCountryService::class)::currentValue();
+    }
+}
+
+/**
+ * Check if the current country matches the given country.
+ *
+ * @param  \App\Enums\Country  $country
+ *
+ * @return bool
+ */
+if (! function_exists('is_country')) {
+    function is_country(\App\Enums\Country $country): bool
+    {
+        return app(\App\Services\MultiCountryService::class)::is($country);
+    }
+}
+
+/**
+ * Get URL for a specific country.
+ *
+ * @param  \App\Enums\Country  $country
+ * @param  string  $path
+ *
+ * @return string
+ */
+if (! function_exists('country_url')) {
+    function country_url(\App\Enums\Country $country, string $path = '/'): string
+    {
+        return app(\App\Services\MultiCountryService::class)::url($country, $path);
+    }
+}
+/**
+ * Check if viewing all countries (on main domain without country filter)
+ *
+ * @return bool
+ */
+if (! function_exists('is_viewing_all_countries')) {
+    function is_viewing_all_countries(): bool
+    {
+        return app(\App\Services\MultiCountryService::class)::isViewingAll();
+    }
+}
+
+/**
+ * Get main/all countries URL
+ *
+ * @param  string  $path
+ *
+ * @return string
+ */
+if (! function_exists('all_countries_url')) {
+    function all_countries_url(string $path = '/'): string
+    {
+        return app(\App\Services\MultiCountryService::class)::mainUrl($path);
+    }
+}
+/**
+ * Get all available countries.
+ *
+ * @return array
+ */
+if (! function_exists('get_all_countries')) {
+    function get_all_countries(): array
+    {
+        return app(\App\Services\MultiCountryService::class)::all();
+    }
+}
+
+/**
+ * Get all countries with their details.
+ *
+ * @return array
+ */
+if (! function_exists('get_all_countries_with_details')) {
+    function get_all_countries_with_details(): array
+    {
+        return app(\App\Services\MultiCountryService::class)::allWithDetails();
+    }
+}
+
+/**
+ * Get all available countries for location selection.
+ *
+ * @return array
+ */
+if (! function_exists('get_location_countries')) {
+    function get_location_countries(): array
+    {
+        return [
+            'United States' => __('United States'),
+            'Canada' => __('Canada'),
+            'Australia' => __('Australia'),
+        ];
+    }
+}
+
+/**
+ * Get states for a specific country.
+ *
+ * @param  string  $country
+ *
+ * @return array
+ */
+if (! function_exists('get_location_states')) {
+    function get_location_states(string $country): array
+    {
+        return \App\Models\Business::getStatesByCountry($country);
+    }
+}
+
+/**
+ * Get cities for a specific country and state.
+ *
+ * @param  string  $country
+ * @param  string  $state
+ *
+ * @return array
+ */
+if (! function_exists('get_location_cities')) {
+    function get_location_cities(string $country, string $state): array
+    {
+        return \App\Models\Business::getCitiesByCountryAndState($country, $state);
+    }
+}
+
+/**
+ * Format location display (country, state, city).
+ *
+ * @param  string|null  $country
+ * @param  string|null  $state
+ * @param  string|null  $city
+ *
+ * @return string
+ */
+if (! function_exists('format_location')) {
+    function format_location(?string $country = null, ?string $state = null, ?string $city = null): string
+    {
+        $parts = [];
+        
+        if ($city) {
+            $parts[] = $city;
+        }
+        if ($state) {
+            $parts[] = $state;
+        }
+        if ($country) {
+            $parts[] = $country;
+        }
+        
+        return implode(', ', $parts) ?: 'Unknown Location';
+    }
+}

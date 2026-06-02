@@ -1,9 +1,9 @@
 {
     "openapi": "3.1.0",
     "info": {
-        "title": "Admin Dashboardd API Documentation",
+        "title": "Admin Dashboard API Documentation",
         "version": "1.0.0",
-        "description": "Admin Dashboardd API - A comprehensive Laravel CMS API with User Management, Content Management, Role & Permission system, and more."
+        "description": "Admin Dashboard API - A comprehensive Laravel CMS API with User Management, Content Management, Role & Permission system, and more."
     },
     "servers": [
         {

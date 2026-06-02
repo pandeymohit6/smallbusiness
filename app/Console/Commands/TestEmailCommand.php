@@ -22,10 +22,10 @@ class TestEmailCommand extends Command
             $this->info('MAIL_PORT: ' . config('mail.mailers.smtp.port'));
             $this->info('MAIL_FROM_ADDRESS: ' . config('mail.from.address'));
 
-            Mail::raw('This is a test email from Admin Dashboardd.', function ($message) use ($email) {
+            Mail::raw('This is a test email from Admin Dashboard.', function ($message) use ($email) {
                 $message->to($email)
                     ->from(config('mail.from.address'), config('mail.from.name'))
-                    ->subject('Test Email from Admin Dashboardd');
+                    ->subject('Test Email from Admin Dashboard');
             });
 
             $this->info('Test email sent successfully to: ' . $email);

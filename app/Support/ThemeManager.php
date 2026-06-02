@@ -19,7 +19,13 @@ class ThemeManager
      */
     public function setting(string $key, mixed $default = null): mixed
     {
-        return config('settings.' . $key, $default);
+        $value = config('settings.' . $key);
+
+        if ($value !== null && $value !== '') {
+            return $value;
+        }
+
+        return get_setting($key, $default);
     }
 
     /**

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
 
-class EmailSubscription extends Model
+class EmailSubscription extends CountryAwareModel
 {
     use HasFactory;
 
@@ -17,6 +17,7 @@ class EmailSubscription extends Model
         'subscribed',
         'unsubscribed_at',
         'unsubscribe_token',
+        'country_code',
     ];
 
     protected $casts = [

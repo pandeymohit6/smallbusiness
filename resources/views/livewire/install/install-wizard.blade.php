@@ -2,7 +2,7 @@
     {{-- Header --}}
     <div class="text-center mb-8">
         <img src="{{ asset('images/logo/icon.png') }}" alt="Installation" class="w-10 h-10 mx-auto" />
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white mt-3">{{ __('Admin Dashboardd Installation') }}</h1>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white mt-3">{{ __('Admin Dashboard Installation') }}</h1>
         <p class="text-gray-500 dark:text-gray-400 mt-2">{{ __('Follow the steps below to set up your application') }}</p>
     </div>
 
@@ -161,6 +161,6 @@
 
     {{-- Footer --}}
     <div class="text-center mt-6 text-sm text-gray-500 dark:text-gray-400">
-        <p>&copy; {{ date('Y') }} Admin Dashboardd. {{ __('All rights reserved.') }}</p>
+        <p>&copy; {{ date('Y') }} Admin Dashboard. {{ __('All rights reserved.') }}</p>
     </div>
 </div>

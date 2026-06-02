@@ -21,6 +21,9 @@ class BusinessForm extends Component
     public string $businessType = '';
     public string $industry = '';
     public string $location = '';
+    public string $country = '';
+    public string $state = '';
+    public string $city = '';
     public string $askingPrice = '';
     public string $annualRevenue = '';
     public string $annualProfit = '';
@@ -40,6 +43,9 @@ class BusinessForm extends Component
             $this->businessType = $business->business_type;
             $this->industry = $business->industry;
             $this->location = $business->location;
+            $this->country = $business->country_code ?? '';
+            $this->state = $business->state ?? '';
+            $this->city = $business->city ?? '';
             $this->askingPrice = (string)$business->asking_price;
             $this->annualRevenue = (string)($business->annual_revenue ?? '');
             $this->annualProfit = (string)($business->annual_profit ?? '');
@@ -60,6 +66,9 @@ class BusinessForm extends Component
             'businessType' => ['required', 'string'],
             'industry' => ['required', 'string'],
             'location' => ['required', 'string'],
+            'country' => ['required', 'string'],
+            'state' => ['required', 'string'],
+            'city' => ['required', 'string'],
             'askingPrice' => ['required', 'numeric', 'min:0'],
             'annualRevenue' => ['nullable', 'numeric', 'min:0'],
             'annualProfit' => ['nullable', 'numeric', 'min:0'],
@@ -77,6 +86,9 @@ class BusinessForm extends Component
             'business_type' => $validated['businessType'],
             'industry' => $validated['industry'],
             'location' => $validated['location'],
+            'country_code' => $validated['country'],
+            'state' => $validated['state'],
+            'city' => $validated['city'],
             'asking_price' => $validated['askingPrice'],
             'annual_revenue' => $validated['annualRevenue'],
             'annual_profit' => $validated['annualProfit'],
@@ -101,9 +113,22 @@ class BusinessForm extends Component
     {
         $this->reset([
             'title', 'description', 'overview', 'businessType', 'industry',
-            'location', 'askingPrice', 'annualRevenue', 'annualProfit',
-            'yearsInOperation', 'employees', 'features', 'highlights', 'isFeatured'
+            'location', 'country', 'state', 'city', 'askingPrice', 'annualRevenue', 
+            'annualProfit', 'yearsInOperation', 'employees', 'features', 'highlights', 'isFeatured'
         ]);
+    }
+
+    public function updatedCountry(): void
+    {
+        // Reset state and city when country changes
+        $this->state = '';
+        $this->city = '';
+    }
+
+    public function updatedState(): void
+    {
+        // Reset city when state changes
+        $this->city = '';
     }
 
     public function render()
@@ -111,6 +136,9 @@ class BusinessForm extends Component
         return view('livewire.backend.business-form', [
             'businessTypes' => Business::getBusinessTypes(),
             'industries' => Business::getIndustries(),
+            'countries' => Business::getCountries(),
+            'states' => $this->country ? Business::getStatesByCountry($this->country) : [],
+            'cities' => ($this->country && $this->state) ? Business::getCitiesByCountryAndState($this->country, $this->state) : [],
         ]);
     }
 }

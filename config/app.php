@@ -65,7 +65,19 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'salmon-locust-878779.hostingersite.com/'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application Base Domain
+    |--------------------------------------------------------------------------
+    |
+    | This is the base domain used for country-specific subdomains.
+    | For example: salmon-locust-878779.hostingersite.com
+    |
+    */
+
+    'base_domain' => env('APP_BASE_DOMAIN', 'salmon-locust-878779.hostingersite.com'),
 
     /*
     |--------------------------------------------------------------------------

@@ -28,7 +28,7 @@ use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 #[ObservedBy([PostObserver::class])]
-class Post extends Model implements SpatieHasMedia
+class Post extends CountryAwareModel implements SpatieHasMedia
 {
     use HasFactory;
     use QueryBuilderTrait;
@@ -46,6 +46,7 @@ class Post extends Model implements SpatieHasMedia
         'meta',
         'parent_id',
         'published_at',
+        'country_code',
     ];
 
     protected $casts = [

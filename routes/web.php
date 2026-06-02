@@ -29,6 +29,7 @@ use App\Http\Controllers\Backend\TranslationController;
 use App\Http\Controllers\Backend\UserLoginAsController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\BusinessController;
+use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\PublicBusinessController;
 use App\Http\Controllers\UnsubscribeController;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 
 /**
  * Admin routes.
@@ -276,3 +278,10 @@ Route::prefix('businesses')->name('businesses.')->group(function () {
     Route::get('/{business:slug}', [PublicBusinessController::class, 'show'])->name('show');
     Route::post('/{business}/inquiry', [PublicBusinessController::class, 'storeInquiry'])->name('inquiry');
 });
+
+
+/**
+ * Frontend public routes.
+ */
+Route::get('/', [HomeController::class, 'index'])->name('home');
+

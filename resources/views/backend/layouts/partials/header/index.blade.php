@@ -44,13 +44,13 @@
                     :icon="sidebarToggle ? 'feather:menu' : 'feather:menu'"
                     width="26" height="26" class="md:hidden"></iconify-icon>
             </button>
-            @include('backend.layouts.partials.header.quick-links-dropdown')
+          
 
             @include('backend.layouts.partials.header.quick-add-dropdown')
 
-            @can('ai_content.generate')
+            {{--  @can('ai_content.generate')
                 @include('backend.layouts.partials.header.ai-command-button')
-            @endcan
+            @endcan  --}}
         </div>
 
         <div class="flex gap-2 justify-center items-center">
@@ -58,6 +58,7 @@
         </div>
 
         <div class="flex gap-2 lg:justify-end items-center">
+            <x-country-switcher />
             @include('backend.layouts.partials.header.right-menu')
         </div>
     </div>

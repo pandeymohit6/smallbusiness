@@ -29,4 +29,14 @@
             'url' => route('admin.business.all-inquiries', ['status' => 'pending']),
         ])
     </div>
+
+    @can('post.view')
+    <div class="mt-6">
+        <div class="grid grid-cols-12 gap-4 md:gap-6">
+            <div class="col-span-12">
+                @include('backend.pages.dashboard.partials.post-chart')
+            </div>
+        </div>
+    </div>
+    @endcan
 </x-layouts.backend-layout>
