@@ -98,6 +98,9 @@ class Menu extends Model
             'footer-1' => __('Footer Column 1'),
             'footer-2' => __('Footer Column 2'),
             'footer-3' => __('Footer Column 3'),
+            'footer-4' => __('Footer Column 4'),
+            'footer-5' => __('Footer Column 5'),
+            'footer-6' => __('Footer Column 6'),
             'mobile' => __('Mobile Navigation'),
         ];
     }

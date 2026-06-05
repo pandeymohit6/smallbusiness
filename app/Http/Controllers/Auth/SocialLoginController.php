@@ -8,6 +8,7 @@ use App\Enums\Hooks\AuthActionHook;
 use App\Enums\Hooks\AuthFilterHook;
 use App\Http\Controllers\Controller;
 use App\Services\SocialAuthService;
+use Illuminate\Http\Request;
 use App\Support\Facades\Hook;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -25,8 +26,11 @@ class SocialLoginController extends Controller
     /**
      * Redirect the user to the social provider's authentication page.
      */
-    public function redirect(string $provider): RedirectResponse|SymfonyRedirectResponse
+    public function redirect(string $provider, Request $request): RedirectResponse|SymfonyRedirectResponse
     {
+        if ($request->filled('role')) {
+          session(['social_account_type' => $request->role]);
+        }
         // Validate provider
         if (! $this->socialAuthService->isProviderEnabled($provider)) {
             return redirect()->route('login')
@@ -58,9 +62,10 @@ class SocialLoginController extends Controller
         }
 
         try {
-            $user = $this->socialAuthService->handleCallback($provider);
-
+            $accountType = session('social_account_type', 'buyer');
+            $user = $this->socialAuthService->handleCallback($provider, $accountType);
             // Log the user in
+            session()->forget('social_account_type');
             Auth::login($user, true);
 
             Hook::doAction(AuthActionHook::AFTER_LOGIN_SUCCESS, $user, request());

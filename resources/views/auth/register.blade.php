@@ -4,17 +4,26 @@
     {{ $pageTitle ?? __('Create Account') }} | {{ config('app.name') }}
 @endsection
 
-@section('auth_card_width', 'max-w-xl')
+@section('auth_card_width', 'max-w-3xl')
 
 @section('content')
 <div>
+
     {{-- Header --}}
-    <div class="mb-4 text-center">
-        <h1 class="text-lg font-semibold text-gray-900 dark:text-white">
+    <div class="mb-6 text-center">
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
             {{ $pageTitle ?? __('Create Account') }}
         </h1>
-        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-            {{ $pageDescription ?? __('Fill in the details below') }}
+
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+            {{ __('Already have an account?') }}
+
+            <a
+                href="{{ route('login') }}"
+                class="font-medium text-brand-600 hover:text-brand-700 dark:text-brand-400"
+            >
+                {{ __('Log in') }}
+            </a>
         </p>
     </div>
 
@@ -23,140 +32,341 @@
     <form
         action="{{ route('register') }}"
         method="POST"
-        x-data="{ loading: false, accountType: '{{ old('account_type', $accountType ?? 'buyer') }}' }"
-        @submit="loading = true"
+
+        x-data="{
+            loading:false,
+            accountType:'{{ old('account_type', '') }}',
+            errors:{}
+        }"
+
+        @submit="
+            errors = {};
+
+            if (!accountType) {
+                errors.account_type = 'Choose Buyer, Seller or Broker';
+            }
+
+            if (!$refs.first_name.value.trim()) {
+                errors.first_name = 'First name is required';
+            }
+
+            if (!$refs.last_name.value.trim()) {
+                errors.last_name = 'Last name is required';
+            }
+
+            if (!$refs.email.value.trim()) {
+                errors.email = 'Email is required';
+            }
+
+            if (!$refs.password.value.trim()) {
+                errors.password = 'Password is required';
+            }
+
+            if (!$refs.password_confirmation.value.trim()) {
+                errors.password_confirmation = 'Confirm password is required';
+            }
+
+            if (
+                $refs.password.value &&
+                $refs.password_confirmation.value &&
+                $refs.password.value !== $refs.password_confirmation.value
+            ) {
+                errors.password_confirmation = 'Passwords do not match';
+            }
+
+            if (Object.keys(errors).length) {
+                $event.preventDefault();
+                return;
+            }
+
+            loading = true;
+        "
+
         data-prevent-unsaved-changes
     >
         @csrf
-        <div class="space-y-4">
+
+        <div class="space-y-5">
+
             <x-messages />
 
             {!! Hook::applyFilters(AuthFilterHook::REGISTER_FORM_FIELDS_BEFORE, '') !!}
 
+            {{-- Account Type --}}
             <div>
-                <label class="form-label" for="account_type">{{ __('Account Type') }}</label>
-                <select
-                    id="account_type"
-                    name="account_type"
-                    x-model="accountType"
-                    class="form-control @error('account_type') border-red-500 ring-red-500 @enderror"
-                    required
-                >
-                    <option value="buyer">{{ __('Buyer') }}</option>
-                    <option value="seller">{{ __('Seller') }}</option>
-                    <option value="broker">{{ __('Broker') }}</option>
-                </select>
-                @error('account_type')
-                    <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
-                @enderror
+
+                <label class="block text-center text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                    {{ __('Choose Your Account Type') }}
+                </label>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+                    {{-- Buyer --}}
+                    <label
+                        class="relative cursor-pointer rounded-2xl border p-5 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                        :class="accountType === 'buyer'
+                            ? 'border-brand-500 bg-brand-50 shadow-lg dark:bg-brand-900/20'
+                            : 'border-gray-200 dark:border-gray-700'"
+                    >
+                        <input
+                            type="radio"
+                            name="account_type"
+                            value="buyer"
+                            x-model="accountType"
+                            @change="delete errors.account_type"
+                            class="hidden"
+                        >
+
+                        <div class="flex justify-center mb-3">
+                            <div
+                                class="w-14 h-14 rounded-full flex items-center justify-center text-2xl"
+                                :class="accountType === 'buyer'
+                                    ? 'bg-brand-500 text-white'
+                                    : 'bg-gray-100 dark:bg-gray-800'"
+                            >
+                                🛒
+                            </div>
+                        </div>
+
+                        <h3 class="font-semibold text-gray-900 dark:text-white">
+                            {{ __('Buyer') }}
+                        </h3>
+
+                        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                            {{ __("I'm interested in buying a business") }}
+                        </p>
+
+                        <div
+                            x-show="accountType === 'buyer'"
+                            class="absolute top-3 right-3 text-brand-600 text-lg"
+                        >
+                            ✓
+                        </div>
+                    </label>
+
+                    {{-- Seller --}}
+                    <label
+                        class="relative cursor-pointer rounded-2xl border p-5 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                        :class="accountType === 'seller'
+                            ? 'border-brand-500 bg-brand-50 shadow-lg dark:bg-brand-900/20'
+                            : 'border-gray-200 dark:border-gray-700'"
+                    >
+                        <input
+                            type="radio"
+                            name="account_type"
+                            value="seller"
+                            x-model="accountType"
+                            @change="delete errors.account_type"
+                            class="hidden"
+                        >
+
+                        <div class="flex justify-center mb-3">
+                            <div
+                                class="w-14 h-14 rounded-full flex items-center justify-center text-2xl"
+                                :class="accountType === 'seller'
+                                    ? 'bg-brand-500 text-white'
+                                    : 'bg-gray-100 dark:bg-gray-800'"
+                            >
+                                💼
+                            </div>
+                        </div>
+
+                        <h3 class="font-semibold text-gray-900 dark:text-white">
+                            {{ __('Seller') }}
+                        </h3>
+
+                        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                            {{ __('I want to sell my business') }}
+                        </p>
+
+                        <div
+                            x-show="accountType === 'seller'"
+                            class="absolute top-3 right-3 text-brand-600 text-lg"
+                        >
+                            ✓
+                        </div>
+                    </label>
+
+                    {{-- Broker --}}
+                    <label
+                        class="relative cursor-pointer rounded-2xl border p-5 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                        :class="accountType === 'broker'
+                            ? 'border-brand-500 bg-brand-50 shadow-lg dark:bg-brand-900/20'
+                            : 'border-gray-200 dark:border-gray-700'"
+                    >
+                        <input
+                            type="radio"
+                            name="account_type"
+                            value="broker"
+                            x-model="accountType"
+                            @change="delete errors.account_type"
+                            class="hidden"
+                        >
+
+                        <div class="flex justify-center mb-3">
+                            <div
+                                class="w-14 h-14 rounded-full flex items-center justify-center text-2xl"
+                                :class="accountType === 'broker'
+                                    ? 'bg-brand-500 text-white'
+                                    : 'bg-gray-100 dark:bg-gray-800'"
+                            >
+                                🤝
+                            </div>
+                        </div>
+
+                        <h3 class="font-semibold text-gray-900 dark:text-white">
+                            {{ __('Broker') }}
+                        </h3>
+
+                        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                            {{ __('I am an intermediary / business broker') }}
+                        </p>
+
+                        <div
+                            x-show="accountType === 'broker'"
+                            class="absolute top-3 right-3 text-brand-600 text-lg"
+                        >
+                            ✓
+                        </div>
+                    </label>
+                </div>
+
+                <p
+                    x-show="errors.account_type"
+                    x-text="errors.account_type"
+                    class="mt-3 text-center text-sm text-red-500"
+                ></p>
             </div>
 
-            {{-- Name Fields --}}
+            {{-- First + Last Name --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
                 <div>
-                    <label class="form-label" for="first_name">{{ __('First Name') }}</label>
+                    <label class="form-label">{{ __('First Name') }}</label>
+
                     <input
-                        autofocus
+                        x-ref="first_name"
                         type="text"
-                        id="first_name"
                         name="first_name"
-                        autocomplete="given-name"
-                        placeholder="{{ __('First name') }}"
-                        class="form-control @error('first_name') border-red-500 ring-red-500 @enderror"
                         value="{{ old('first_name') }}"
-                        required
-                    />
-                    @error('first_name')
-                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
-                    @enderror
+                        class="form-control"
+                        placeholder="{{ __('First name') }}"
+                        @input="delete errors.first_name"
+                    >
+
+                    <p
+                        x-show="errors.first_name"
+                        x-text="errors.first_name"
+                        class="text-red-500 text-sm mt-1"
+                    ></p>
                 </div>
 
                 <div>
-                    <label class="form-label" for="last_name">{{ __('Last Name') }}</label>
+                    <label class="form-label">{{ __('Last Name') }}</label>
+
                     <input
+                        x-ref="last_name"
                         type="text"
-                        id="last_name"
                         name="last_name"
-                        autocomplete="family-name"
-                        placeholder="{{ __('Last name') }}"
-                        class="form-control @error('last_name') border-red-500 ring-red-500 @enderror"
                         value="{{ old('last_name') }}"
-                        required
-                    />
-                    @error('last_name')
-                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
-                    @enderror
+                        class="form-control"
+                        placeholder="{{ __('Last name') }}"
+                        @input="delete errors.last_name"
+                    >
+
+                    <p
+                        x-show="errors.last_name"
+                        x-text="errors.last_name"
+                        class="text-red-500 text-sm mt-1"
+                    ></p>
                 </div>
             </div>
 
-            {{-- Email Field --}}
+            {{-- Email --}}
             <div>
-                <label class="form-label" for="email">{{ __('Email') }}</label>
+                <label class="form-label">{{ __('Email') }}</label>
+
                 <input
+                    x-ref="email"
                     type="email"
-                    id="email"
                     name="email"
-                    autocomplete="email"
-                    placeholder="{{ __('Enter your email') }}"
-                    class="form-control @error('email') border-red-500 ring-red-500 @enderror"
                     value="{{ old('email') }}"
-                    required
-                />
-                @error('email')
-                    <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
-                @enderror
+                    class="form-control"
+                    placeholder="{{ __('Enter your email') }}"
+                    @input="delete errors.email"
+                >
+
+                <p
+                    x-show="errors.email"
+                    x-text="errors.email"
+                    class="text-red-500 text-sm mt-1"
+                ></p>
             </div>
 
-            {{-- Password Field --}}
-            <x-inputs.password
-                name="password"
-                label="{{ __('Password') }}"
-                placeholder="{{ __('Enter your password') }}"
-                autocomplete="new-password"
-                required
-            />
+            {{-- Password --}}
+            <div>
+                <label class="form-label">{{ __('Password') }}</label>
 
-            {{-- Confirm Password Field --}}
-            <x-inputs.password
-                name="password_confirmation"
-                label="{{ __('Confirm Password') }}"
-                placeholder="{{ __('Confirm your password') }}"
-                autocomplete="new-password"
-                required
-            />
+                <input
+                    x-ref="password"
+                    type="password"
+                    name="password"
+                    class="form-control"
+                    placeholder="{{ __('Enter your password') }}"
+                    @input="delete errors.password"
+                >
 
-            {!! Hook::applyFilters(AuthFilterHook::REGISTER_FORM_FIELDS_AFTER, '') !!}
+                <p
+                    x-show="errors.password"
+                    x-text="errors.password"
+                    class="text-red-500 text-sm mt-1"
+                ></p>
+            </div>
+
+            {{-- Confirm Password --}}
+            <div>
+                <label class="form-label">{{ __('Confirm Password') }}</label>
+
+                <input
+                    x-ref="password_confirmation"
+                    type="password"
+                    name="password_confirmation"
+                    class="form-control"
+                    placeholder="{{ __('Confirm your password') }}"
+                    @input="delete errors.password_confirmation"
+                >
+
+                <p
+                    x-show="errors.password_confirmation"
+                    x-text="errors.password_confirmation"
+                    class="text-red-500 text-sm mt-1"
+                ></p>
+            </div>
 
             <x-recaptcha page="registration" />
 
-            {!! Hook::applyFilters(AuthFilterHook::REGISTER_FORM_FIELDS_BEFORE_SUBMIT, '') !!}
+            {{-- Submit --}}
+            <button
+                type="submit"
+                class="btn-primary w-full py-3"
+                :disabled="loading"
+            >
+                <span x-show="!loading">
+                    {{ __('Create Account') }}
+                </span>
 
-            {{-- Submit Button --}}
-            <div>
-                <button type="submit" class="btn-primary w-full" :disabled="loading">
-                    <span x-show="!loading">{{ __('Create Account') }}</span>
-                    <iconify-icon x-show="loading" icon="lucide:loader-circle" class="animate-spin"></iconify-icon>
-                    <iconify-icon x-show="!loading" icon="lucide:user-plus" class="ml-2"></iconify-icon>
-                </button>
-            </div>
+                <iconify-icon
+                    x-show="loading"
+                    icon="lucide:loader-circle"
+                    class="animate-spin"
+                ></iconify-icon>
+            </button>
 
-            {!! Hook::applyFilters(AuthFilterHook::REGISTER_FORM_FIELDS_AFTER_SUBMIT, '') !!}
+            {{-- Social Login --}}
+            <x-auth.social-login-buttons />
 
-            {{-- Login Link --}}
-            @if($showLoginLink ?? true)
-            <div class="text-center pt-3 mt-1 border-t border-gray-200 dark:border-gray-700">
-                <p class="text-sm text-gray-500 dark:text-gray-400">
-                    {{ __('Already have an account?') }}
-                    <a href="{{ route('login') }}" class="text-brand-600 hover:text-brand-700 dark:text-brand-400 font-medium">
-                        {{ __('Sign in') }}
-                    </a>
-                </p>
-            </div>
-            @endif
         </div>
     </form>
-
-    <x-auth.social-login-buttons :divider-text="__('Or sign up with')" />
 
     {!! Hook::applyFilters(AuthFilterHook::REGISTER_FORM_AFTER, '') !!}
 </div>

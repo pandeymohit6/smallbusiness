@@ -70,19 +70,24 @@ class LoginController extends Controller
             FILTER_VALIDATE_BOOLEAN
         );
 
-        // Demo mode credentials
-        $email = config('app.demo_mode', false) ? 'superadmin@example.com' : old('email', '');
-        $password = config('app.demo_mode', false) ? '12345678' : '';
 
-        $viewName = Hook::applyFilters(AuthFilterHook::LOGIN_VIEW, 'backend.auth.login');
+        $isAdminLogin = request()->is('adminlogin') || request()->routeIs('adminlogin');
+
+        $defaultView = $isAdminLogin
+            ? 'backend.auth.login'
+            : 'auth.login';
+
+        $viewName = Hook::applyFilters(
+            AuthFilterHook::LOGIN_VIEW,
+            $defaultView
+        );
+        $viewName = Hook::applyFilters(AuthFilterHook::LOGIN_VIEW, $viewName);
 
         return view($viewName, compact(
             'pageTitle',
             'pageDescription',
             'showRegistrationLink',
-            'showForgotPassword',
-            'email',
-            'password'
+            'showForgotPassword'
         ));
     }
 

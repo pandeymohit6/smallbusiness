@@ -29,6 +29,7 @@ use App\Http\Controllers\Auth\VerificationController;
 Route::group(['middleware' => 'guest'], function () {
     // Login Routes - Always available
     Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::get('adminlogin', [LoginController::class, 'showLoginForm'])->name('adminlogin');
     Route::post('login', [LoginController::class, 'login'])
         ->middleware(['recaptcha:login', 'throttle:20,1']);
 

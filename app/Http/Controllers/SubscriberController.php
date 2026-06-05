@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\EmailSubscription;
 use App\Services\EmailSubscriptionService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Crypt;
 
-class UnsubscribeController extends Controller
+class SubscriberController extends Controller
 {
     public function __construct(
         private EmailSubscriptionService $subscriptionService
@@ -52,5 +53,20 @@ class UnsubscribeController extends Controller
 
         return redirect()->route('unsubscribe.result', $encryptedEmail)
             ->with('result', $result);
+    }
+
+     public function subscribe(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|email|unique:email_subscriptions,email',
+            'country' => 'required'
+        ]);
+
+        $this->subscriptionService->subscribe($request->email);
+        return response()->json([
+            'success' => true,
+            'message' =>
+            "Thanks for signing up! We've sent you an email to confirm your address. <a href='https://www.gmail.com' target='_blank'>Check your inbox.</a>"
+        ]);
     }
 }

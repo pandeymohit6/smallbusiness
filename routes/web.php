@@ -13,7 +13,6 @@ use App\Http\Controllers\Backend\EmailTemplateController;
 use App\Http\Controllers\Backend\InboundEmailConnectionController;
 use App\Http\Controllers\Backend\LocaleController;
 use App\Http\Controllers\Backend\MediaController;
-use App\Http\Controllers\Backend\ModuleController;
 use App\Http\Controllers\Backend\NotificationController;
 use App\Http\Controllers\Backend\NewsletterController;
 use App\Http\Controllers\Backend\SendTestEmailController;
@@ -31,7 +30,7 @@ use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\BusinessController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\PublicBusinessController;
-use App\Http\Controllers\UnsubscribeController;
+use App\Http\Controllers\SubscriberController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -265,10 +264,12 @@ Route::get('/demo-preview', fn () => view('demo.preview'))->name('demo.preview')
 
 // Email Unsubscribe Routes
 Route::prefix('unsubscribe')->name('unsubscribe.')->group(function () {
-    Route::get('/{encryptedEmail}', [UnsubscribeController::class, 'unsubscribe'])->name('process');
-    Route::get('/confirm/{encryptedEmail}', [UnsubscribeController::class, 'confirm'])->name('confirm');
-    Route::post('/process/{encryptedEmail}', [UnsubscribeController::class, 'processConfirmed'])->name('confirmed');
+    Route::get('/{encryptedEmail}', [SubscriberController::class, 'unsubscribe'])->name('process');
+    Route::get('/confirm/{encryptedEmail}', [SubscriberController::class, 'confirm'])->name('confirm');
+    Route::post('/process/{encryptedEmail}', [SubscriberController::class, 'processConfirmed'])->name('confirmed');
 });
+
+Route::post('/newsletter-subscribe',[SubscriberController::class, 'subscribe'])->name('newsletter.subscribe');
 
 /**
  * Public Business Routes - Businesses for Sale
@@ -284,4 +285,5 @@ Route::prefix('businesses')->name('businesses.')->group(function () {
  * Frontend public routes.
  */
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/{slug}', [HomeController::class, 'getPages'])->name('pages');
 

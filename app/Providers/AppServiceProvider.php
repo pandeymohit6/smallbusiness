@@ -27,6 +27,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use App\View\Components\FrontendComposer;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -111,6 +113,11 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('viewPulse', function (User $user) {
             return $user->can('pulse.view');
         });
+
+        View::composer(
+        'frontend.*',
+        FrontendComposer::class
+        );
 
         // Register email observer for automatic unsubscribe links
         Event::listen(MessageSending::class, [EmailObserver::class, 'sending']);

@@ -31,8 +31,8 @@
                                     <ul class="dropdown-menu">
                                         @foreach ($menuItem->children as $child)
                                             <li>
-                                                <a href="{{ $child->url ?? '#' }}"
-                                                    @if ($child->target) target="{{ $child->target }}" @endif>
+                                                <a href="{{ $child->target ?? '#' }}"
+                                                    @if ($child->target_blank) target="{{ $child->target_blank }}" @endif>
                                                     {{ $child->label }}
                                                 </a>
                                             </li>
@@ -42,7 +42,7 @@
                             @else
                                 <li class="nav-item">
                                     <a href="{{ $menuItem->url ?? '#' }}" class="nav-link"
-                                        @if ($menuItem->target) target="{{ $menuItem->target }}" @endif>
+                                        @if ($menuItem->target_blank) target="{{ $menuItem->target_blank }}" @endif>
                                         {{ $menuItem->label }}
                                     </a>
                                 </li>
@@ -114,7 +114,7 @@
                         </div>
                     </div>
                     
-                    <a href="#" class="login-link">Login</a>
+                    <a href="{{ route('login') }}" class="login-link">Login</a>
                 </div>
             </div>
 
@@ -185,47 +185,19 @@
                                 <span class="nav-link">{{ $menuItem->label }} <span class="arrow-down"></span></span>
                                 <ul class="dropdown-menu">
                                     @foreach ($menuItem->children as $child)
-                                        <li><a href="{{ $child->url ?? '#' }}"
-                                                {{ $child->target ? "target=\"{$child->target}\"" : '' }}>{{ $child->label }}</a>
+                                        <li><a href="{{ $child->target ?? '#' }}"
+                                                {{ $child->target_blank ? "target=\"{$child->target_blank}\"" : '' }}>{{ $child->label }}</a>
                                         </li>
                                     @endforeach
                                 </ul>
                             </li>
                         @else
-                            <li class="nav-item"><a href="{{ $menuItem->url ?? '#' }}" class="nav-link"
-                                    {{ $menuItem->target ? "target=\"{$menuItem->target}\"" : '' }}>{{ $menuItem->label }}</a>
+                            <li class="nav-item"><a href="{{ $menuItem->target ?? '#' }}" class="nav-link"
+                                    {{ $menuItem->target_blank ? "target=\"{$menuItem->target_blank}\"" : '' }}>{{ $menuItem->label }}</a>
                             </li>
                         @endif
                     @endforeach
-                @else
-                    <!-- Fallback static menu -->
-                    <li class="nav-item active"><a href="#" class="nav-link">Home</a></li>
-                    <li class="nav-item">
-                        <span class="nav-link">Businesses <span class="arrow-down"></span></span>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Search Businesses</a></li>
-                            <li><a href="#">Buy a Business</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <span class="nav-link">Franchises <span class="arrow-down"></span></span>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Search Franchises</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <span class="nav-link">Selling <span class="arrow-down"></span></span>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Sell Your Business</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item"><a href="#" class="nav-link">Valuation</a></li>
-                    <li class="nav-item">
-                        <span class="nav-link">Resources <span class="arrow-down"></span></span>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Latest Guides</a></li>
-                        </ul>
-                    </li>
+               
                 @endif
             </ul>
             <a href="#" class="mobile-login-btn">🔒 Login / Sign In</a>

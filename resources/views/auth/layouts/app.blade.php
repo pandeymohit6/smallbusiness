@@ -41,8 +41,6 @@
             opacity: 1;
         }
     </style>
-
-    @include('backend.layouts.partials.integration-scripts')
     @stack('styles')
 </head>
 

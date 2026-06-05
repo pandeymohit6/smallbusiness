@@ -188,22 +188,22 @@ class SocialAuthService
     /**
      * Handle callback from social provider.
      */
-    public function handleCallback(string $provider): User
+    public function handleCallback(string $provider, string $accountType): User
     {
         $this->configureProvider($provider);
 
         $socialUser = Socialite::driver($provider)->user();
 
-        return $this->findOrCreateUser($provider, $socialUser);
+        return $this->findOrCreateUser($provider, $socialUser, $accountType);
     }
 
     /**
      * Find or create user from social provider data.
      */
-    public function findOrCreateUser(string $provider, SocialiteUser $socialUser): User
+    public function findOrCreateUser(string $provider, SocialiteUser $socialUser, string $accountType): User
     {
         /** @var User $user */
-        $user = DB::transaction(function () use ($provider, $socialUser): User {
+        $user = DB::transaction(function () use ($provider, $socialUser, $accountType): User {
             // First, check if social account already exists
             $socialAccount = SocialAccount::query()
                 ->where('provider', $provider)
@@ -226,7 +226,7 @@ class SocialAuthService
 
             if (! $user) {
                 // Create new user
-                $user = $this->createUser($socialUser);
+                $user = $this->createUser($socialUser, $accountType);
             }
 
             // Create social account link
@@ -241,7 +241,7 @@ class SocialAuthService
     /**
      * Create a new user from social provider data.
      */
-    protected function createUser(SocialiteUser $socialUser): User
+    protected function createUser(SocialiteUser $socialUser, string $accountType): User
     {
         $name = $socialUser->getName() ?? $socialUser->getNickname() ?? 'User';
         $nameParts = explode(' ', $name, 2);
@@ -277,7 +277,7 @@ class SocialAuthService
 
         if ($defaultRole) {
             try {
-                $user->assignRole($defaultRole);
+                $user->assignRole($accountType ?? $defaultRole);
             } catch (\Exception $e) {
                 Log::warning("Could not assign role '{$defaultRole}' to social user: ".$e->getMessage());
             }

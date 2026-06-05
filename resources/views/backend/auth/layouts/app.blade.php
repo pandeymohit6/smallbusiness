@@ -38,8 +38,6 @@
         [x-cloak] { display: none !important; }
     </style>
 
-    @include('backend.layouts.partials.integration-scripts')
-
     @yield('styles')
 </head>
 
