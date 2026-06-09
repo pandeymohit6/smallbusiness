@@ -20,7 +20,7 @@
 
             @if (config('app.demo_mode', false))
             <div id="tooltip-google-analytics" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-md shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                {{ __('Editing this script is disabled in demo mode.') }}
+                {{ __('Editing this script is disabled in .') }}
                 <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
             @endif

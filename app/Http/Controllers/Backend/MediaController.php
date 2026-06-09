@@ -82,7 +82,7 @@ class MediaController extends Controller
         if (config('app.demo_mode', false) && Media::count() > 10) {
             return response()->json([
                 'success' => false,
-                'message' => __('More than 10 media items are not allowed in demo mode. To test, please either delete some existing items and try again or test on your local/live environment.'),
+                'message' => __('More than 10 media items are not allowed in . To test, please either delete some existing items and try again or test on your local/live environment.'),
             ], 403);
         }
 
@@ -216,11 +216,11 @@ class MediaController extends Controller
 
         $limits = MediaHelper::getUploadLimits();
 
-        // Add demo mode restrictions info
+        // Add  restrictions info
         if (config('app.demo_mode', false)) {
             $limits['demo_mode'] = true;
             $limits['allowed_mime_types'] = MediaHelper::getAllowedMimeTypesForDemo();
-            $limits['demo_restriction_message'] = __('In demo mode, only images, videos, PDFs, and documents (Word, Excel, PowerPoint, text files) are allowed.');
+            $limits['demo_restriction_message'] = __('In , only images, videos, PDFs, and documents (Word, Excel, PowerPoint, text files) are allowed.');
         } else {
             $limits['demo_mode'] = false;
         }

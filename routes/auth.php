@@ -26,7 +26,7 @@ use App\Http\Controllers\Auth\VerificationController;
 */
 
 // Guest routes (not logged in)
-Route::group(['middleware' => 'guest'], function () {
+Route::group(['middleware' => 'web'], function () {
     // Login Routes - Always available
     Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::get('adminlogin', [LoginController::class, 'showLoginForm'])->name('adminlogin');

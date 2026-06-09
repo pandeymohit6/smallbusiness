@@ -1,225 +1,195 @@
-@extends('auth.layouts.app')
+@extends('frontend.layouts.app')
 
 @section('title')
     {{ $pageTitle ?? __('Sign In') }} | {{ config('app.name') }}
 @endsection
 
 @section('content')
-<div>
 
-    {{-- Header --}}
-    <div class="mb-4 text-center">
-        <h1 class="text-lg font-semibold text-gray-900 dark:text-white">
-            {{ $pageTitle ?? __('Sign In') }}
-        </h1>
+<!-- Alpine JS (add if not already included in layout) -->
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-            {{ $pageDescription ?? __('Enter your credentials to continue') }}
-        </p>
-    </div>
+<div x-data="{ isLogin: true }">
 
-    {!! Hook::applyFilters(AuthFilterHook::LOGIN_FORM_BEFORE, '') !!}
+    <!-- ================= LOGIN SECTION ================= -->
+    <section class="regiter-bg" x-show="isLogin" x-transition>
 
-    <form
-        action="{{ request()->url() }}"
-        method="POST"
+        <div class="login-card-lgo"
+            x-data="{
+                loading: false,
+                showPassword: false,
+                errors: {},
 
-        x-data="{
-            loading:false,
-            errors:{},
+                validateAndSubmit() {
+                    this.errors = {};
 
-            validateAndSubmit() {
+                    if (!this.$refs.email.value.trim()) {
+                        this.errors.email = 'Email is required';
+                    }
 
-                this.errors = {};
+                    if (!this.$refs.password.value.trim()) {
+                        this.errors.password = 'Password is required';
+                    }
 
-                if (!this.$refs.email.value.trim()) {
-                    this.errors.email = 'Email is required';
+                    if (Object.keys(this.errors).length) return;
+
+                    this.loading = true;
+                    this.$el.submit();
                 }
+            }">
 
-                if (!this.$refs.password.value.trim()) {
-                    this.errors.password = 'Password is required';
-                }
+            <h1 class="card-title-lgo">
+                {{ $pageTitle ?? __('Sign In') }}
+            </h1>
 
-                if (Object.keys(this.errors).length) {
-                    return;
-                }
-
-                this.loading = true;
-                this.$el.submit();
-            }
-        }"
-
-        @submit.prevent="validateAndSubmit()"
-    >
-        @csrf
-
-        <div class="space-y-4">
+            <p class="text-center mb-4 text-sm text-gray-500">
+                {{ $pageDescription ?? __('Enter your credentials to continue') }}
+            </p>
 
             <x-messages />
 
-            {!! Hook::applyFilters(AuthFilterHook::LOGIN_FORM_FIELDS_BEFORE_EMAIL, '') !!}
+            <form action="{{ request()->url() }}" method="POST" @submit.prevent="validateAndSubmit()">
+                @csrf
 
-            {{-- Email --}}
-            <div>
-                <label class="form-label" for="email">
-                    {{ __('Email') }}
-                </label>
+                <!-- EMAIL -->
+                <div class="input-group-lgo">
+                    <label>Email</label>
 
-                <input
-                    x-ref="email"
-                    autofocus
-                    type="email"
-                    id="email"
-                    name="email"
-                    autocomplete="username"
-                    placeholder="{{ __('Enter your email') }}"
-                    value="{{ old('email') }}"
-                    @input="delete errors.email"
-                    class="form-control
-                        @error('email') border-red-500 ring-red-500 @enderror"
-                />
+                    <div class="input-wrapper-lgo">
+                        <input x-ref="email"
+                               type="email"
+                               name="email"
+                               value="{{ old('email') }}"
+                               placeholder="Enter your email"
+                               @input="delete errors.email"
+                               class="input-field-lgo">
+                    </div>
 
-                {{-- Alpine Error --}}
-                <p
-                    x-show="errors.email"
-                    x-text="errors.email"
-                    class="mt-1 text-sm text-red-500"
-                ></p>
-
-                {{-- Laravel Error --}}
-                @error('email')
-                    <span class="mt-1 block text-sm text-red-500">
-                        {{ $message }}
-                    </span>
-                @enderror
-            </div>
-
-            {!! Hook::applyFilters(AuthFilterHook::LOGIN_FORM_FIELDS_AFTER_EMAIL, '') !!}
-            {!! Hook::applyFilters(AuthFilterHook::LOGIN_FORM_FIELDS_BEFORE_PASSWORD, '') !!}
-
-            {{-- Password --}}
-            <div>
-
-                <label class="form-label" for="password">
-                    {{ __('Password') }}
-                </label>
-
-                <input
-                    x-ref="password"
-                    type="password"
-                    id="password"
-                    name="password"
-                    autocomplete="current-password"
-                    placeholder="{{ __('Enter your password') }}"
-                    @input="delete errors.password"
-                    class="form-control
-                        @error('password') border-red-500 ring-red-500 @enderror"
-                />
-
-                {{-- Alpine Error --}}
-                <p
-                    x-show="errors.password"
-                    x-text="errors.password"
-                    class="mt-1 text-sm text-red-500"
-                ></p>
-
-                {{-- Laravel Error --}}
-                @error('password')
-                    <span class="mt-1 block text-sm text-red-500">
-                        {{ $message }}
-                    </span>
-                @enderror
-            </div>
-
-            {!! Hook::applyFilters(AuthFilterHook::LOGIN_FORM_FIELDS_AFTER_PASSWORD, '') !!}
-
-            {{-- Remember + Forgot --}}
-            <div class="flex items-center justify-between">
-
-                <label
-                    for="remember"
-                    class="flex items-center gap-2 cursor-pointer"
-                >
-                    <input
-                        id="remember"
-                        name="remember"
-                        type="checkbox"
-                        class="form-checkbox"
-                        {{ old('remember') ? 'checked' : '' }}
-                    >
-
-                    <span class="text-sm text-gray-600 dark:text-gray-400">
-                        {{ __('Remember me') }}
-                    </span>
-                </label>
-
-                @if($showForgotPassword ?? true)
-                    <a
-                        href="{{ route('password.request') }}"
-                        class="text-sm text-brand-600 hover:text-brand-700 dark:text-brand-400"
-                    >
-                        {{ __('Forgot password?') }}
-                    </a>
-                @endif
-            </div>
-
-            <x-recaptcha page="login" />
-
-            {!! Hook::applyFilters(AuthFilterHook::LOGIN_FORM_FIELDS_BEFORE_SUBMIT, '') !!}
-
-            {{-- Submit --}}
-            <div>
-                <button
-                    type="submit"
-                    class="btn-primary w-full"
-                    :disabled="loading"
-                >
-                    <span x-show="!loading">
-                        {{ __('Sign In') }}
-                    </span>
-
-                    <iconify-icon
-                        x-show="loading"
-                        icon="lucide:loader-circle"
-                        class="animate-spin"
-                    ></iconify-icon>
-
-                    <iconify-icon
-                        x-show="!loading"
-                        icon="lucide:log-in"
-                        class="ml-2"
-                    ></iconify-icon>
-                </button>
-            </div>
-
-            {!! Hook::applyFilters(AuthFilterHook::LOGIN_FORM_FIELDS_AFTER_SUBMIT, '') !!}
-
-            {{-- Register --}}
-            @if($showRegistrationLink ?? false)
-                <div class="text-center pt-3 border-t border-gray-200 dark:border-gray-700">
-                    <p class="text-sm text-gray-500 dark:text-gray-400">
-                        {{ __("Don't have an account?") }}
-
-                        <a
-                            href="{{ route('register') }}"
-                            class="text-brand-600 hover:text-brand-700 dark:text-brand-400 font-medium"
-                        >
-                            {{ __('Create one') }}
-                        </a>
-                    </p>
+                    <p x-show="errors.email" x-text="errors.email" class="text-red-500 text-sm"></p>
+                    @error('email')
+                        <p class="text-red-500 text-sm">{{ $message }}</p>
+                    @enderror
                 </div>
-            @endif
+
+                <!-- PASSWORD -->
+                <div class="input-group-lgo">
+                    <label>Password</label>
+
+                    <div class="input-wrapper-lgo">
+                        <input x-ref="password"
+                               :type="showPassword ? 'text' : 'password'"
+                               name="password"
+                               placeholder="Enter your password"
+                               @input="delete errors.password"
+                               class="input-field-lgo input-field-pass-lgo">
+
+                        <div class="eye-icon-lgo cursor-pointer"
+                             @click="showPassword = !showPassword">
+                            👁
+                        </div>
+                    </div>
+
+                    <p x-show="errors.password" x-text="errors.password" class="text-red-500 text-sm"></p>
+                    @error('password')
+                        <p class="text-red-500 text-sm">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- OPTIONS -->
+                <div class="options-row-lgo">
+                    <label>
+                        <input type="checkbox" name="remember">
+                        Keep me logged in
+                    </label>
+
+                    <a href="{{ route('password.request') }}">
+                        Forgot password?
+                    </a>
+                </div>
+
+                <x-recaptcha page="login" />
+
+                <!-- SUBMIT -->
+                <button type="submit" class="btn-login-lgo" :disabled="loading">
+                    <span x-show="!loading">Login</span>
+                    <span x-show="loading">Please wait...</span>
+                </button>
+            </form>
+
+            <x-auth.social-login-buttons-front />
+
+            <!-- SWITCH TO REGISTER -->
+            <div class="card-footer-lgo">
+                {{ __("Don't have an account?") }}
+                <a href="javascript:void(0)"
+                   class="signup-link-lgo"
+                   @click="isLogin = false">
+                    Sign Up ➔
+                </a>
+            </div>
 
         </div>
-    </form>
+    </section>
 
-    {{-- Social Login --}}
-    <div class="mt-5">
-        <x-auth.social-login-buttons />
-    </div>
+    <!-- ================= REGISTER SECTION ================= -->
+    <section class="regiter-bg" x-show="!isLogin" x-transition>
 
-    {!! Hook::applyFilters(AuthFilterHook::LOGIN_FORM_AFTER, '') !!}
+        <div class="account-wrapper-sab">
+
+            <div class="account-header-sab">
+                <h1>Create account</h1>
+
+                <div class="login-prompt-sab">
+                    Already have an account?
+                    <a href="javascript:void(0)"
+                       class="login-link-sab"
+                       @click="isLogin = true">
+                        Log in ➔
+                    </a>
+                </div>
+            </div>
+
+            <div class="role-grid-sab">
+
+                <a href="{{ $hasCountrySubdomain ? route('buyer.registration.country', ['code' => $countryCode]) : route('buyer.registration') }}" class="role-card-sab">
+                    <div class="icon-box-sab">
+                        <!-- Buyer icon -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </div>
+                    <h3>Buyer</h3>
+                    <p>I’m interested in buying a business</p>
+                </a>
+
+                <a href="{{ $hasCountrySubdomain ? route('sell.business.country', ['code' => $countryCode]) : route('sell.business') }}" class="role-card-sab">
+                    <div class="icon-box-sab">
+                        <!-- Seller icon -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        </svg>
+                    </div>
+                    <h3>Seller</h3>
+                    <p>I want to sell my business</p>
+                </a>
+
+                <a href="{{ $hasCountrySubdomain ? route('broker.advertise.country', ['code' => $countryCode]) : route('broker.advertise') }}" class="role-card-sab">
+                    <div class="icon-box-sab">
+                        <!-- Broker icon -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <rect x="2" y="7" width="20" height="14"></rect>
+                        </svg>
+                    </div>
+                    <h3>Broker</h3>
+                    <p>I am a business intermediary</p>
+                </a>
+
+            </div>
+        </div>
+
+    </section>
+
 </div>
 
-{!! Hook::doAction(AuthActionHook::AFTER_LOGIN_FORM_RENDER) !!}
 @endsection

@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Backend;
 
+use App\Enums\Country;
 use App\Http\Controllers\Controller;
-
+use App\Support\CountryUtility;
 use App\Models\Business;
 use App\Models\BusinessInquiry;
 use App\Models\Role;
@@ -39,7 +40,10 @@ class BusinessController extends Controller
         }
 
         if ($request->filled('country')) {
-            $query->where('country_code', $request->input('country'));
+            $countryValue = CountryUtility::normalize($request->input('country'));
+            if ($countryValue) {
+                $query->where('country_code', $countryValue);
+            }
         }
 
         if ($request->filled('state')) {
@@ -94,7 +98,7 @@ class BusinessController extends Controller
             'business_type' => ['required', 'string'],
             'industry' => ['required', 'string'],
             'location' => ['required', 'string'],
-            'country_code' => ['required', 'string', 'in:United States,Canada,Australia'],
+            'country_code' => ['required', 'string', CountryUtility::validationRule()],
             'state' => ['required', 'string'],
             'city' => ['required', 'string'],
             'asking_price' => ['required', 'numeric', 'min:0'],
@@ -158,7 +162,7 @@ class BusinessController extends Controller
             'business_type' => ['required', 'string'],
             'industry' => ['required', 'string'],
             'location' => ['required', 'string'],
-            'country_code' => ['required', 'string', 'in:United States,Canada,Australia'],
+            'country_code' => ['required', 'string', CountryUtility::validationRule()],
             'state' => ['required', 'string'],
             'city' => ['required', 'string'],
             'asking_price' => ['required', 'numeric', 'min:0'],

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Concerns\QueryBuilderTrait;
+use App\Support\CountryUtility;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -172,13 +173,20 @@ class MenuItem extends Model
      */
     protected function getRouteUrl(): string
     {
-        if (! $this->target) {
+        if (!$this->target) {
             return '#';
         }
-
         try {
+            $countryCode = CountryUtility::fromSubdomain()?->value;
+            if (isset($countryCode)) {
+                return route(
+                    $this->target . ($countryCode ? '.country' : ''),
+                    $countryCode ? ['code' => $countryCode] : []
+                );
+            }
+
             return route($this->target);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return '#';
         }
     }
@@ -191,7 +199,6 @@ class MenuItem extends Model
         // Check if children relation is loaded and has items
         if ($this->relationLoaded('children')) {
             $children = $this->getRelation('children');
-
             return $children !== null && $children->isNotEmpty();
         }
 

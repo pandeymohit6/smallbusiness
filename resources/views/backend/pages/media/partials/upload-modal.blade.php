@@ -55,7 +55,7 @@
                         @if(config('app.demo_mode', false))
                         <p class="text-orange-600 dark:text-orange-400 font-medium">
                             <iconify-icon icon="lucide:info" class="inline w-3 h-3 mr-1"></iconify-icon>
-                            {{ __('Demo Mode: Only images, audios, videos, PDFs, and documents are allowed.') }}
+                            {{ __(': Only images, audios, videos, PDFs, and documents are allowed.') }}
                         </p>
                         @endif
                     </div>
@@ -89,7 +89,7 @@ const uploadLimits = @json($uploadLimits);
 const isDemoMode = {{ config('app.demo_mode', false) ? 'true' : 'false' }};
 const allowedDemoMimeTypes = @json(config('app.demo_mode', false) ? \App\Support\Helper\MediaHelper::getAllowedMimeTypesForDemo() : []);
 
-// Function to check if file type is allowed in demo mode
+// Function to check if file type is allowed in 
 function isFileAllowedInDemo(fileType) {
     if (!isDemoMode) return true;
     return allowedDemoMimeTypes.includes(fileType);
@@ -112,9 +112,9 @@ document.getElementById('file-input').addEventListener('change', function(e) {
     files.forEach((file, index) => {
         totalSize += file.size;
         
-        // Check demo mode restrictions
+        // Check  restrictions
         if (isDemoMode && !isFileAllowedInDemo(file.type)) {
-            errors.push(`{{ __('File ":name" is not allowed in demo mode. Only images, videos, PDFs, and documents are permitted.', ['name' => '']) }}${file.name}"`);
+            errors.push(`{{ __('File ":name" is not allowed in . Only images, videos, PDFs, and documents are permitted.', ['name' => '']) }}${file.name}"`);
             return;
         }
         

@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Business;
 use App\Models\BusinessInquiry;
+use App\Support\CountryUtility;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -31,7 +32,10 @@ class PublicBusinessController extends Controller
         }
 
         if ($request->filled('country')) {
-            $query->where('country_code', $request->input('country'));
+            $countryValue = CountryUtility::normalize($request->input('country'));
+            if ($countryValue) {
+                $query->where('country_code', $countryValue);
+            }
         }
 
         if ($request->filled('location')) {

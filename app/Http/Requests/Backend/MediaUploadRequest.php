@@ -29,7 +29,7 @@ class MediaUploadRequest extends FormRequest
             ],
         ];
 
-        // Add MIME type restrictions for demo mode
+        // Add MIME type restrictions for 
         if (config('app.demo_mode', false)) {
             $allowedMimeTypes = implode(',', MediaHelper::getAllowedMimeTypesForDemo());
             $rules['files.*'][] = 'mimetypes:' . $allowedMimeTypes;
@@ -53,9 +53,9 @@ class MediaUploadRequest extends FormRequest
             ]),
         ];
 
-        // Add demo mode specific message
+        // Add  specific message
         if (config('app.demo_mode', false)) {
-            $messages['files.*.mimetypes'] = __('In demo mode, only images, videos, PDFs, and documents (Word, Excel, PowerPoint, text files) are allowed.');
+            $messages['files.*.mimetypes'] = __('In , only images, videos, PDFs, and documents (Word, Excel, PowerPoint, text files) are allowed.');
         }
 
         return $messages;

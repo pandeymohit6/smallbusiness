@@ -248,7 +248,7 @@ class MediaHelper
     }
 
     /**
-     * Get allowed MIME types for demo mode
+     * Get allowed MIME types for 
      * Only allows images, videos, PDFs, and documents
      */
     public static function getAllowedMimeTypesForDemo(): array
@@ -298,12 +298,12 @@ class MediaHelper
     }
 
     /**
-     * Check if a file type is allowed in demo mode
+     * Check if a file type is allowed in 
      */
     public static function isAllowedInDemoMode(string $mimeType): bool
     {
         if (! config('app.demo_mode', false)) {
-            return true; // No restrictions when not in demo mode
+            return true; // No restrictions when not in 
         }
 
         return in_array($mimeType, self::getAllowedMimeTypesForDemo());

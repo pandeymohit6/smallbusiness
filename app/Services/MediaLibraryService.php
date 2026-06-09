@@ -111,11 +111,11 @@ class MediaLibraryService
                 continue;
             }
 
-            // Check demo mode restrictions.
+            // Check  restrictions.
             if (config('app.demo_mode', false)) {
                 $mimeType = $file->getMimeType();
                 if (! MediaHelper::isAllowedInDemoMode($mimeType)) {
-                    throw new \InvalidArgumentException(__('In demo mode, only images, videos, PDFs, and documents are allowed. File type :type is not permitted.', ['type' => $mimeType]));
+                    throw new \InvalidArgumentException(__('In , only images, videos, PDFs, and documents are allowed. File type :type is not permitted.', ['type' => $mimeType]));
                 }
             }
 
@@ -196,11 +196,11 @@ class MediaLibraryService
 
             // Security checks
             if ($file && $this->isSecureFile($file)) {
-                // Check demo mode restrictions
+                // Check  restrictions
                 if (config('app.demo_mode', false)) {
                     $mimeType = $file->getMimeType();
                     if (! MediaHelper::isAllowedInDemoMode($mimeType)) {
-                        throw new \InvalidArgumentException(__('In demo mode, only images, videos, PDFs, and documents are allowed. File type :type is not permitted.', ['type' => $mimeType]));
+                        throw new \InvalidArgumentException(__('In , only images, videos, PDFs, and documents are allowed. File type :type is not permitted.', ['type' => $mimeType]));
                     }
                 }
 
@@ -225,11 +225,11 @@ class MediaLibraryService
             foreach ($request->file($requestKey) as $file) {
                 // Security checks
                 if ($this->isSecureFile($file)) {
-                    // Check demo mode restrictions
+                    // Check  restrictions
                     if (config('app.demo_mode', false)) {
                         $mimeType = $file->getMimeType();
                         if (! MediaHelper::isAllowedInDemoMode($mimeType)) {
-                            throw new \InvalidArgumentException(__('In demo mode, only images, videos, PDFs, and documents are allowed. File type :type is not permitted.', ['type' => $mimeType]));
+                            throw new \InvalidArgumentException(__('In , only images, videos, PDFs, and documents are allowed. File type :type is not permitted.', ['type' => $mimeType]));
                         }
                     }
 

@@ -45,7 +45,7 @@ class SettingController extends Controller
     {
         $this->authorize('manage', Setting::class);
 
-        // Restrict specific fields in demo mode.
+        // Restrict specific fields in .
         if (config('app.demo_mode', false)) {
             $restrictedFields = Hook::applyFilters(SettingFilterHook::SETTINGS_RESTRICTED_FIELDS, [
                 'app_name',
@@ -79,7 +79,7 @@ class SettingController extends Controller
         // Handle checkbox fields that might not be present when unchecked
         $checkboxFields = ['hide_admin_url', 'hide_default_login_url'];
         foreach ($checkboxFields as $checkboxField) {
-            // Skip restricted fields in demo mode
+            // Skip restricted fields in 
             if (config('app.demo_mode', false) && in_array($checkboxField, $restrictedFields ?? [])) {
                 continue;
             }

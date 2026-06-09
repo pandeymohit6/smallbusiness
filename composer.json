@@ -79,7 +79,8 @@
         "files": [
             "app/Support/Helper/common.php",
             "app/Support/Helper/hooks.php",
-            "app/Support/Helper/content.php"
+            "app/Support/Helper/content.php",
+            "app/Helpers/CountryHelper.php"
         ]
     },
     "autoload-dev": {

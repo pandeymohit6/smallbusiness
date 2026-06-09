@@ -115,7 +115,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         View::composer(
-        'frontend.*',
+        '*',
         FrontendComposer::class
         );
 

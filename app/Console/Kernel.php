@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // Schedule the demo database refresh command every 15 minutes in demo mode.
+        // Schedule the demo database refresh command every 15 minutes in .
         $schedule->command('demo:refresh-database')->everyFifteenMinutes();
 
         // Check for module updates hourly (with silent output).

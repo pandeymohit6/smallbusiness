@@ -186,7 +186,7 @@
                         @if(config('app.demo_mode', false))
                             <p class="mt-3 text-xs text-amber-600 dark:text-amber-400 flex items-start gap-1.5">
                                 <iconify-icon icon="lucide:info" class="mt-0.5 shrink-0" width="14" height="14" aria-hidden="true"></iconify-icon>
-                                <span>{{ __('Demo mode: upgrades run without creating a backup archive.') }}</span>
+                                <span>{{ __(': upgrades run without creating a backup archive.') }}</span>
                             </p>
                         @endif
                     </div>
@@ -459,7 +459,7 @@
         function startUpgrade(version) {
             const isDemoMode = {{ config('app.demo_mode', false) ? 'true' : 'false' }};
             const confirmMessage = isDemoMode
-                ? '{{ __("Demo mode: this will upgrade your system to the latest version without creating a backup. Continue?") }}'
+                ? '{{ __(": this will upgrade your system to the latest version without creating a backup. Continue?") }}'
                 : '{{ __("This will upgrade your system to the latest version. A backup will be created automatically. Continue?") }}';
 
             if (!confirm(confirmMessage)) {

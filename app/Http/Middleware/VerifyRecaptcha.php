@@ -31,7 +31,7 @@ class VerifyRecaptcha
             return $next($request);
         }
 
-        // Skip verification in demo mode if configured
+        // Skip verification in  if configured
         if (config('app.demo_mode', false) && config('app.skip_recaptcha_in_demo', true)) {
             return $next($request);
         }

@@ -162,10 +162,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Demo Mode
+    | 
     |--------------------------------------------------------------------------
     |
-    | This value determines if the application is in demo mode. If enabled,
+    | This value determines if the application is in . If enabled,
     | the application will restrict certain actions and features to prevent
     | any changes to the data. This is useful for demo or testing environments.
     |
@@ -179,7 +179,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | This value determines if the application should skip the recaptcha
-    | verification in demo mode. If enabled, the recaptcha will be bypassed.
+    | verification in . If enabled, the recaptcha will be bypassed.
     |
     */
 
@@ -191,7 +191,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | This value determines if the application should show the demo component
-    | preview in demo mode. If enabled, the demo component button will be displayed at top navbar.
+    | preview in . If enabled, the demo component button will be displayed at top navbar.
     |
     */
 

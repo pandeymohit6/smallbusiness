@@ -15,7 +15,7 @@
                     class="form-control" data-tooltip-target="tooltip-app-name">
                 <div id="tooltip-app-name" role="tooltip"
                     class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-md shadow-xs opacity-0 tooltip dark:bg-gray-700">
-                    {{ __('Editing site name is disabled in demo mode.') }}
+                    {{ __('Editing site name is disabled in .') }}
                     <div class="tooltip-arrow" data-popper-arrow></div>
                 </div>
             </div>

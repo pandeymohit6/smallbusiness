@@ -128,7 +128,7 @@
             </p>
             @if(config('app.demo_mode', false))
             <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                {{ __('This field is disabled in demo mode.') }}
+                {{ __('This field is disabled in .') }}
             </p>
             @endif
             @if(config('settings.custom_login_route'))
@@ -169,7 +169,7 @@
             @endif
             @if(config('app.demo_mode', false))
             <p class="mt-1 ml-9 text-xs text-gray-500 dark:text-gray-400">
-                {{ __('This option is disabled in demo mode.') }}
+                {{ __('This option is disabled in .') }}
             </p>
             @endif
         </div>
@@ -194,7 +194,7 @@
             </label>
             @if(config('app.demo_mode', false))
             <p class="mt-1 ml-9 text-xs text-gray-500 dark:text-gray-400">
-                {{ __('This option is disabled in demo mode.') }}
+                {{ __('This option is disabled in .') }}
             </p>
             @endif
         </div>
@@ -282,7 +282,7 @@
             </p>
             @if(config('app.demo_mode', false))
             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                {{ __('This field is disabled in demo mode.') }}
+                {{ __('This field is disabled in .') }}
             </p>
             @endif
         </div>
@@ -306,7 +306,7 @@
             </p>
             @if(config('app.demo_mode', false))
             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                {{ __('This field is disabled in demo mode.') }}
+                {{ __('This field is disabled in .') }}
             </p>
             @endif
         </div>

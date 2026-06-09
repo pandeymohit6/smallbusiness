@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+foreach (glob(__DIR__.'/countries/*.php') as $routeFile) {
+    require $routeFile;
+}
+
 use App\Http\Controllers\Backend\ActionLogController;
 use App\Http\Controllers\Backend\Auth\ScreenshotGeneratorLoginController;
 use App\Http\Controllers\Backend\DashboardController;
@@ -29,6 +33,7 @@ use App\Http\Controllers\Backend\UserLoginAsController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\BusinessController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\BuyerRegistrationController;
 use App\Http\Controllers\PublicBusinessController;
 use App\Http\Controllers\SubscriberController;
 use Illuminate\Support\Facades\Route;
@@ -285,5 +290,26 @@ Route::prefix('businesses')->name('businesses.')->group(function () {
  * Frontend public routes.
  */
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+//seller routes
+Route::get('/sell-your-business', [HomeController::class, 'sellYourBusiness'])->name('sell.business');
+Route::get('/{code}/sell-your-business', [HomeController::class, 'sellYourBusinessForm'])->name('sell.business.country');
+Route::get('/{code}/seller-registration-select-login', [HomeController::class, 'sellerRegistrationSelectLogin'])->name('seller.registration.select.login');
+
+//buyer routes
+Route::get('/buyer-registration', [HomeController::class, 'buyerRegistration'])->name('buyer.registration');
+Route::get('/{code}/buyer-registration', [HomeController::class, 'buyerRegistrationForm'])->name('buyer.registration.country');
+Route::get('/{code}/buyer-registration-details', [HomeController::class, 'buyerRegistrationDetails'])->name('buyer.registration.details');
+Route::get('/buyer-registration-form', [BuyerRegistrationController::class, 'create'])->name('buyer.registration.create');
+Route::get('/buyer-registration-options', [BuyerRegistrationController::class, 'getOptions'])->name('buyer.registration.options');
+Route::post('/business-buyer/register',[BuyerRegistrationController::class, 'store'])->name('buyer.registration.store');
+Route::get('/buyer-registration-confirmation/{buyerRegistration}', [BuyerRegistrationController::class, 'confirmation'])->name('buyer.registration.confirmation');
+// broker routes
+Route::get('/advertise', [HomeController::class, 'advertise'])->name('broker.advertise');
+Route::get('/{code}/advertise', [HomeController::class, 'countryAadvertise'])->name('broker.advertise.country');
+Route::get('/{code}/broker-registration-select-login-type', [HomeController::class, 'brokerRegistrationType'])->name('broker.registration.type');
+Route::get('/buyer-registration-select-login-type', [HomeController::class, 'buyerRegistrationSelectLogin'])->name('buyer.registration.select.login');
+Route::get('/broker-registration-details', [HomeController::class, 'brokerRegistrationDetails'])->name('broker.registration.details');
+
 Route::get('/{slug}', [HomeController::class, 'getPages'])->name('pages');
 

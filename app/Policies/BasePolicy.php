@@ -41,7 +41,7 @@ abstract class BasePolicy
     }
 
     /**
-     * Check if the resource can be modified (demo mode check).
+     * Check if the resource can be modified ( check).
      */
     protected function canBeModifiedInDemoMode($resource): bool
     {
@@ -49,7 +49,7 @@ abstract class BasePolicy
             return true;
         }
 
-        // Check if it's a protected resource in demo mode
+        // Check if it's a protected resource in 
         if (method_exists($resource, 'isProtectedInDemoMode')) {
             return ! $resource->isProtectedInDemoMode();
         }

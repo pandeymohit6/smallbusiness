@@ -52,7 +52,7 @@ class ProfileController extends Controller
 
     public function update(UpdateProfileRequest $request): RedirectResponse
     {
-        // Prevent modification of super admin in demo mode.
+        // Prevent modification of super admin in .
         $this->preventSuperAdminModification(Auth::user(), ['profile.edit']);
 
         /**
@@ -74,7 +74,7 @@ class ProfileController extends Controller
 
     public function updateAdditional(UpdateProfileAdditionalRequest $request): RedirectResponse
     {
-        // Prevent modification of super admin in demo mode.
+        // Prevent modification of super admin in .
         $this->preventSuperAdminModification(Auth::user(), ['profile.edit']);
 
         /**

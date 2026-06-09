@@ -28,7 +28,7 @@
 
             @if (config('app.demo_mode', false))
             <div class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                {{ __('Editing this field is disabled in demo mode.') }}
+                {{ __('Editing this field is disabled in .') }}
             </div>
             @endif
         </div>
@@ -48,7 +48,7 @@
             />
             @if (config('app.demo_mode', false))
             <div class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                {{ __('Editing this field is disabled in demo mode.') }}
+                {{ __('Editing this field is disabled in .') }}
             </div>
             @endif
         </div>
@@ -74,7 +74,7 @@
 
                 @if (config('app.demo_mode', false))
                 <div class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                    {{ __('Editing this field is disabled in demo mode.') }}
+                    {{ __('Editing this field is disabled in .') }}
                 </div>
                 @endif
             </div>
@@ -99,7 +99,7 @@
                 </p>
                 @if (config('app.demo_mode', false))
                 <div class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                    {{ __('Editing this field is disabled in demo mode.') }}
+                    {{ __('Editing this field is disabled in .') }}
                 </div>
                 @endif
             </div>
@@ -128,7 +128,7 @@
 
             @if (config('app.demo_mode', false))
             <div class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                {{ __('Editing these options are disabled in demo mode.') }}
+                {{ __('Editing these options are disabled in .') }}
             </div>
             @endif
 

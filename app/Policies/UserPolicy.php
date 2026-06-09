@@ -42,7 +42,7 @@ class UserPolicy extends BasePolicy
      */
     public function update(User $user, User $model): bool
     {
-        // Prevent modification of super admin in demo mode
+        // Prevent modification of super admin in 
         if (! $this->canModifySuperAdmin($model)) {
             return false;
         }
@@ -60,7 +60,7 @@ class UserPolicy extends BasePolicy
             return false;
         }
 
-        // Prevent deletion of super admin in demo mode
+        // Prevent deletion of super admin in 
         if (! $this->canModifySuperAdmin($model)) {
             return false;
         }
@@ -109,7 +109,7 @@ class UserPolicy extends BasePolicy
     }
 
     /**
-     * Check if super admin can be modified based on demo mode.
+     * Check if super admin can be modified based on .
      */
     private function canModifySuperAdmin(User $model): bool
     {

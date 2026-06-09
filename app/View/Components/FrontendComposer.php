@@ -2,8 +2,10 @@
 
 namespace App\View\Components;
 
+use App\Enums\Country;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
+use App\Support\CountryUtility;
 use App\Models\Menu;
 use App\Models\Business;
 
@@ -17,30 +19,26 @@ class FrontendComposer
             ->first();
 
         // Footer Menu
-        $footerMenu = Menu::where('location','!=', 'primary')
+        $footerMenu = Menu::where('location', '!=', 'primary')
             ->with('items.children')
             ->get();
 
-        // Current country
-        $currentCountry = $this->getCurrentCountry();
+        // Current country using unified CountryUtility
+        $currentCountry = CountryUtility::currentCode();
 
-        // Available countries
-        $availableCountries = Business::active()
-            ->select('country_code')
-            ->distinct()
-            ->whereNotNull('country_code')
-            ->pluck('country_code');
+        // // Available countries from database
+        // $availableCountries = Business::active()
+        //     ->select('country_code')
+        //     ->distinct()
+        //     ->whereNotNull('country_code')
+        //     ->pluck('country_code');
 
-        // Country names
-        $countryNames = $this->getCountryNames();
-        $formattedCountries = collect();
-
-        foreach ($availableCountries as $code) {
-            $formattedCountries->put(
-                $code,
-                $countryNames[$code] ?? $code
-            );
-        }
+        // // Format countries with labels
+        // $formattedCountries = collect();
+        // foreach ($availableCountries as $code) {
+        //     $countryLabel = CountryUtility::getLabel($code) ?? $code;
+        //     $formattedCountries->put($code, $countryLabel);
+        // }
 
         // Featured businesses
         $featuredBusinesses = Business::featured()
@@ -73,6 +71,18 @@ class FrontendComposer
         // Total
         $totalBusinesses = Business::active()->count();
 
+        $countries = collect(CountryUtility::all())->map(function (Country $country) {
+            return (object) [
+                'slug' => $country->value,
+                'name' => $country->label(),
+                'code' => $country->code(),
+            ];
+        });
+
+
+        $hasCountrySubdomain = CountryUtility::hasSubdomain();
+        $countryCode = CountryUtility::fromSubdomain()?->value;
+
         $view->with([
             'headerMenu' => $headerMenu,
             'footerMenu' => $footerMenu,
@@ -81,39 +91,10 @@ class FrontendComposer
             'businessIndustries' => $businessIndustries,
             'totalBusinesses' => $totalBusinesses,
             'currentCountry' => $currentCountry,
-            'availableCountries' => $formattedCountries,
+            'availableCountries' => $countries,
+            'countries' => $countries,
+            'hasCountrySubdomain' => $hasCountrySubdomain,
+            'countryCode' => $countryCode,
         ]);
-    }
-
-      /**
-     * Get country name from country code mapping
-     */
-    private function getCountryNames(): array
-    {
-        return [
-            'US' => 'United States',
-            'CA' => 'Canada',
-            'AU' => 'Australia',
-        ];
-    }
-
-    /**
-     * Get current country from subdomain or return default
-     */
-    private function getCurrentCountry(): ?string
-    {
-        // Get current host
-        $host = request()->getHost();
-        
-        // Extract subdomain (country code)
-        $parts = explode('.', $host);
-        
-        if (count($parts) > 2 && $parts[0] !== 'www') {
-            // Return country code from subdomain (e.g., 'in' from 'in.localhost.com')
-            return strtoupper($parts[0]);
-        }
-        
-        // Return from session or default to null
-        return session('country_code');
     }
 }
