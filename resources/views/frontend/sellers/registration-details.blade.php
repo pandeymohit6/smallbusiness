@@ -3,7 +3,7 @@
 @section('content')
     <div class="registration-container-reg-buy">
         <div class="page-header-reg-buy">
-            <h1>Register as a Business Buyer</h1>
+            <h1>Register as a Seller</h1>
             <div class="accent-line-reg-buy"></div>
         </div>
         <div class="utility-bar-reg-buy">
@@ -16,9 +16,9 @@
             <div class="required-indicator-reg-buy">* Required field</div>
         </div>
 
-        <form x-data="buyerRegistration()" @submit.prevent="submitForm" class="form-card-reg-buy">
+        <form x-data="sellerRegistration()" @submit.prevent="submitForm" class="form-card-reg-buy">
             <!-- Pass dynamic data as JSON to Alpine -->
-            <script type="application/json" id="registration-data">
+            <script type="application/json" id="seller-registration-data">
                 {
                     "countriesData": {!! json_encode($countriesData ?? []) !!},
                     "buyerTypes": {!! json_encode($buyerTypes ?? []) !!},
@@ -103,91 +103,18 @@
 
                     <div class="field-group-reg-buy full-width-reg-buy">
                         <label for="country">Country*</label>
-                        <select id="country" x-model="formData.country" @blur="validateField('country')"
-                            class="select-control-reg-buy" :disabled="countryLocked">
+                        <select id="country" x-model="formData.country" @blur="validateField('country')" :disabled="selectedCountryCode !== ''"
+                            class="select-control-reg-buy">
                             <option value="">Select Country</option>
-                             <template x-for="type in dynamicData.countriesData" :key="type.id">
-                            <option :value="type.id" x-text="type.name"></option>
-                        </template>
+                            <template x-for="type in dynamicData.countriesData" :key="type.id">
+                                <option :value="type.id" x-text="type.name"></option>
+                            </template>
                         </select>
                         <span x-show="errors.country" class="error-message"
                             style="color: #dc2626; font-size: 14px; margin-top: 5px; display: block;"
                             x-text="errors.country"></span>
                     </div>
                 </div>
-            </div>
-
-            <div class="form-section-reg-buy">
-                <h2 class="section-title-reg-buy">Buyer Type Details</h2>
-
-                <div class="field-group-reg-buy">
-                    <label for="buyer-type">Select your buyer type*</label>
-                    <select id="buyer-type" x-model="formData.buyerType" @blur="validateField('buyerType')"
-                        class="select-control-reg-buy">
-                        <option value="">Select...</option>
-                        <template x-for="type in dynamicData.buyerTypes" :key="type.id">
-                            <option :value="type.id" x-text="type.name"></option>
-                        </template>
-                    </select>
-                    <span x-show="errors.buyerType" class="error-message"
-                        style="color: #dc2626; font-size: 14px; margin-top: 5px; display: block;"
-                        x-text="errors.buyerType"></span>
-                </div>
-
-                <div class="field-group-reg-buy">
-                    <label for="buyer-exp">Select your buyer experience*</label>
-                    <select id="buyer-exp" x-model="formData.buyerExp" @blur="validateField('buyerExp')"
-                        class="select-control-reg-buy">
-                        <option value="">Select...</option>
-                        <template x-for="experience in dynamicData.buyerExperiences" :key="experience.id">
-                            <option :value="experience.id" x-text="experience.name"></option>
-                        </template>
-                    </select>
-                    <span x-show="errors.buyerExp" class="error-message"
-                        style="color: #dc2626; font-size: 14px; margin-top: 5px; display: block;"
-                        x-text="errors.buyerExp"></span>
-                </div>
-            </div>
-
-            <div class="form-section-reg-buy">
-                <div class="notification-container-reg-buy">
-                    <div class="notification-header-row-reg-buy">
-                        <span class="notification-title-reg-buy">Receive newsletters, offers and updates</span>
-                        <span class="info-bubble-reg-buy">
-                            <svg fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                        </span>
-                    </div>
-                    <div class="checkbox-options-group-reg-buy">
-                        <label class="custom-checkbox-label-reg-buy">
-                            <input type="checkbox" name="newsletter" value="email" x-model="formData.newsletter"> By Email
-                        </label>
-                    </div>
-                </div>
-
-                <div class="notification-container-reg-buy" style="margin-top: 25px;">
-                    <div class="notification-header-row-reg-buy">
-                        <span class="notification-title-reg-buy">Receive emails from carefully selected third
-                            parties.</span>
-                        <span class="info-bubble-reg-buy">
-                            <svg fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                        </span>
-                    </div>
-                    <div class="checkbox-options-group-reg-buy">
-                        <label class="custom-checkbox-label-reg-buy">
-                            <input type="checkbox" name="third-party" value="yes" x-model="formData.thirdParty"> Yes,
-                            Please
-                        </label>
-                    </div>
-                </div>
-
             </div>
 
             <!-- Success/Error Messages -->
@@ -210,9 +137,9 @@
         </form>
     </div>
 
-      <script>
+    <script>
         document.addEventListener('alpine:init', () => {
-            Alpine.data('buyerRegistration', () => ({
+            Alpine.data('sellerRegistration', () => ({
                 showPassword: false,
                 isLoading: false,
                 successMessage: '',
@@ -225,6 +152,9 @@
                     buyerExperiences: []
                 },
 
+                selectedCountryCode: '{{ $countryCode }}',
+
+
                 formData: {
                     email: '',
                     password: '',
@@ -233,10 +163,7 @@
                     phone: '',
                     phoneCode: '+1',
                     country: '',
-                    buyerType: '',
-                    buyerExp: '',
-                    newsletter: false,
-                    thirdParty: false
+                    termsCase: '',
                 },
 
                 errors: {
@@ -246,19 +173,16 @@
                     lastname: '',
                     phone: '',
                     country: '',
-                    buyerType: '',
-                    buyerExp: ''
+                    termsCase: ''
                 },
 
                 // Initialize dynamic data
                 init() {
-                    const dataElement = document.getElementById('registration-data');
+                    const dataElement = document.getElementById('seller-registration-data');
                     if (dataElement) {
                         try {
                             const jsonData = JSON.parse(dataElement.textContent);
                             this.dynamicData.countriesData = jsonData.countriesData || [];
-                            this.dynamicData.buyerTypes = jsonData.buyerTypes || [];
-                            this.dynamicData.buyerExperiences = jsonData.buyerExperiences || [];
                             this.$nextTick(() => {
                                 const country = this.dynamicData.countriesData.find(
                                     c => c.code === '{{ $countryCode }}'
@@ -267,8 +191,8 @@
                                 if (country) {
                                     this.formData.country = String(country.id);
                                 }
-                                 this.countryLocked = true;
                             });
+
                         } catch (e) {
                             console.error('Failed to parse registration data:', e);
                         }
@@ -334,18 +258,6 @@
                                 this.errors.country = 'Country is required';
                             }
                             break;
-
-                        case 'buyerType':
-                            if (!this.formData.buyerType) {
-                                this.errors.buyerType = 'Please select a buyer type';
-                            }
-                            break;
-
-                        case 'buyerExp':
-                            if (!this.formData.buyerExp) {
-                                this.errors.buyerExp = 'Please select your buyer experience';
-                            }
-                            break;
                     }
 
                     return !this.errors[field];
@@ -355,7 +267,7 @@
                 validateAll() {
                     let isValid = true;
                     const fieldsToValidate = ['email', 'password', 'firstname', 'lastname', 'phone',
-                        'country', 'buyerType', 'buyerExp'
+                        'country'
                     ];
 
                     fieldsToValidate.forEach(field => {
@@ -380,9 +292,7 @@
                         firstname: 'firstname',
                         lastname: 'lastname',
                         phone: 'phone',
-                        country: 'country',
-                        buyerType: 'buyer-type',
-                        buyerExp: 'buyer-exp'
+                        country: 'country'
                     };
 
                     // Find first field with error
@@ -390,7 +300,10 @@
                         if (this.errors[errorKey]) {
                             const element = document.getElementById(elementId);
                             if (element) {
-                                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                element.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'center'
+                                });
                                 element.focus();
                                 break;
                             }
@@ -412,7 +325,7 @@
                     this.isLoading = true;
 
                     try {
-                        const response = await fetch('{{ route('buyer.registration.store') }}', {
+                        const response = await fetch('{{ route('seller.registration.store') }}', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -425,12 +338,10 @@
                                 password: this.formData.password,
                                 firstname: this.formData.firstname,
                                 lastname: this.formData.lastname,
-                                phone: this.formData.phoneCode + this.formData.phone,
+                                phone: this.formData.phoneCode + this.formData
+                                    .phone,
                                 country: this.formData.country,
-                                buyer_type: this.formData.buyerType,
-                                buyer_experience: this.formData.buyerExp,
                                 newsletter: this.formData.newsletter,
-                                third_party_emails: this.formData.thirdParty
                             })
                         });
 
@@ -475,6 +386,3 @@
         });
     </script>
 @endsection
-
-  
-

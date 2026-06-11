@@ -15,7 +15,7 @@
                      <div class="price-subtext" style="margin-bottom: 35px;">No strings attached</div>
                      <a href="#standard-features" class="benefits-link">Benefits & Features</a>
                  </div>
-                 <a href="{{route('buyer.registration.select.login')}}" class="btn-register">Register</a>
+                 <a href="{{route('buyer.registration.select.login', ['code' => $countryCode])}}" class="btn-register">Register</a>
              </div>
 
              <!-- Premium Card -->
@@ -39,7 +39,7 @@
 
                      <a href="#premium-features" class="benefits-link">Benefits & Features</a>
                  </div>
-                 <a href="{{route('buyer.registration.select.login')}}" class="btn-register">Register</a>
+                 <a href="{{route('buyer.registration.select.login', ['code' => $countryCode])}}" class="btn-register">Register</a>
              </div>
 
          </div>
@@ -131,7 +131,7 @@
              <div class="middle-cta-block">
                  <h2>Register for FREE today!</h2>
                  <div class="inline-btn-container">
-                     <a href="{{route('buyer.registration.select.login')}}" class="btn-register">Register</a>
+                     <a href="{{route('buyer.registration.select.login', ['code' => $countryCode])}}" class="btn-register">Register</a>
                  </div>
              </div>
          </div>
@@ -217,7 +217,7 @@
                          class="highlight-price">$89.95 <span
                              style="font-size:14px; font-weight:600; color:#475569;">USD</span></span> per year!</h2>
                  <div class="inline-btn-container">
-                     <a href="{{route('buyer.registration.select.login')}}" class="btn-register" style="padding: 0 40px; width: auto;">Register</a>
+                     <a href="{{route('buyer.registration.select.login', ['code' => $countryCode])}}" class="btn-register" style="padding: 0 40px; width: auto;">Register</a>
                  </div>
              </div>
          </div>

@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             ContentSeeder::class,
             EmailTemplateSeeder::class,
             NotificationSeeder::class,
+            BuyerRegistrationSeeder::class,
         ]);
     }
 }

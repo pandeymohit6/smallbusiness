@@ -70,7 +70,7 @@
                                 @endphp
 
                                 <span class="current-country">
-                                    {{ $country->name ?? 'Global' }}
+                                    {{ $country->name ?? 'INT' }}
                                 </span>
                             <span style="font-size:12px;">▼</span>
                         </button>
@@ -280,8 +280,9 @@
 
         <div class="mobile-drawer" id="mob-drawer-container">
             <ul class="nav-menu">
-                @if ($headerMenu && $headerMenu->items->count() > 0)
-                    @foreach ($headerMenu->items as $menuItem)
+                @if ($headerMenu && $headerMenu->items->count())
+
+                        @foreach ($headerMenu->items->whereNull('parent_id') as $menuItem)
                         @if ($menuItem->children->count() > 0)
                             <li class="nav-item">
                                 <span class="nav-link">{{ $menuItem->label }} <span class="arrow-down"></span></span>

@@ -15,11 +15,12 @@ class BusinessBuyer extends Model
         'last_name',
         'phone_code',
         'phone',
-        'country',
-        'buyer_type',
-        'buyer_experience',
+        'country_id',
+        'buyer_type_id',
+        'buyer_experience_id',
         'newsletter',
-        'third_party_email'
+        'third_party_email',    
+        'status'
     ];
 
     public function user()
