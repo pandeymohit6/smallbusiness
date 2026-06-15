@@ -21,6 +21,13 @@ class BuyerController extends Controller
 
     public function __construct(private RegistrationService $registrationService)
     {
+         $this->middleware(function ($request, $next) {
+            if (auth()->check()) {
+                return redirect('/buyer/dashboard');
+            }
+
+            return $next($request);
+        })->except(['confirmation']);
     }
 
     /**

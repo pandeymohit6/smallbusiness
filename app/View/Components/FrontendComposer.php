@@ -19,26 +19,25 @@ class FrontendComposer
             ->first();
 
         // Footer Menu
-        $footerMenu = Menu::where('location', '!=', 'primary')
-            ->with('items.children')
-            ->get();
+        $footerMenu = Menu::where('location', 'like', 'footer%')
+        ->with('items.children')
+        ->get();
+
+        $sellersMenu = Menu::where('location', 'sellers')
+        ->with('items.children')
+        ->first();
+
+
+        $buyersMenu = Menu::where('location', 'buyers')
+        ->with('items.children')
+        ->first();
+
+        $brokersMenu = Menu::where('location', 'broker')
+        ->with('items.children')
+        ->first();
 
         // Current country using unified CountryUtility
         $currentCountry = CountryUtility::currentCode();
-
-        // // Available countries from database
-        // $availableCountries = Business::active()
-        //     ->select('country_code')
-        //     ->distinct()
-        //     ->whereNotNull('country_code')
-        //     ->pluck('country_code');
-
-        // // Format countries with labels
-        // $formattedCountries = collect();
-        // foreach ($availableCountries as $code) {
-        //     $countryLabel = CountryUtility::getLabel($code) ?? $code;
-        //     $formattedCountries->put($code, $countryLabel);
-        // }
 
         // Featured businesses
         $featuredBusinesses = Business::featured()
@@ -86,6 +85,9 @@ class FrontendComposer
         $view->with([
             'headerMenu' => $headerMenu,
             'footerMenu' => $footerMenu,
+            'sellersMenu' => $sellersMenu,
+            'buyersMenu' => $buyersMenu,
+            'brokersMenu' => $brokersMenu,
             'featuredBusinesses' => $featuredBusinesses,
             'businessCategories' => $businessCategories,
             'businessIndustries' => $businessIndustries,

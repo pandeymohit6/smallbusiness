@@ -20,34 +20,7 @@
 	    <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <style>
-        .user-menu-btn {
-            transition: all 0.3s ease;
-        }
-
-        .user-menu-btn:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
-        }
-
-        .user-menu-wrapper {
-            position: relative;
-        }
-
-        .user-menu-wrapper button span:first-child {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        @media (max-width: 768px) {
-            .user-menu-wrapper {
-                margin-left: 0 !important;
-            }
-        }
-    </style>
+        <link rel="stylesheet" href="{{ asset('assets/css/seller.css') }}">
 </head>
 <body>
     @include('frontend.components.header')

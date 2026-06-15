@@ -101,6 +101,9 @@ class Menu extends Model
             'footer-4' => __('Footer Column 4'),
             'footer-5' => __('Footer Column 5'),
             'footer-6' => __('Footer Column 6'),
+            'sellers' => __('Sellers Navigation'),
+            'buyers' => __('Buyers Navigation'),
+            'broker' => __('Broker Navigation'),
             'mobile' => __('Mobile Navigation'),
         ];
     }

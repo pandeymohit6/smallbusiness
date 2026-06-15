@@ -31,6 +31,20 @@ class RouteServiceProvider extends ServiceProvider
     public const ADMIN_DASHBOARD = '/admin';
 
     /**
+     * The path to the "buyer dashboard" route for your application.
+     *
+     * @var string
+     */
+    public const BUYER_DASHBOARD = '/buyer/dashboard';
+
+    /**
+     * The path to the "seller dashboard" route for your application.
+     *
+     * @var string
+     */
+    public const SELLER_DASHBOARD = '/seller/dashboard';
+
+    /**
      * Define your route model bindings, pattern filters, etc.
      */
     public function boot(): void

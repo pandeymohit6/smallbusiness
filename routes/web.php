@@ -34,7 +34,9 @@ use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\BusinessController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\BuyerController;
+use App\Http\Controllers\Frontend\BuyerDashboardController;
 use App\Http\Controllers\Frontend\SellerController;
+use App\Http\Controllers\Frontend\SellerDashboardController;
 use App\Http\Controllers\Frontend\BrokerController;
 use App\Http\Controllers\Frontend\FranchiseController;
 use App\Http\Controllers\PublicBusinessController;
@@ -298,6 +300,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/sell-your-business', [SellerController::class, 'index'])->name('sell.business');
 Route::get('/{code}/sell-your-business', [SellerController::class, 'create'])->name('sell.business.country');
 Route::get('/{code}/seller-registration-select-login', [SellerController::class, 'registrationSelectLogin'])->name('seller.registration.select.login');
+Route::get('/{code}/createadvert', [SellerController::class, 'createadvert'])->name('seller.createadvert');
 Route::get('/{code}/seller-registration-details', [SellerController::class, 'registrationDetails'])->name('seller.registration.details');
 Route::post('/business-seller/register', [SellerController::class, 'store'])->name('seller.registration.store');
 Route::get('/seller-registration-confirmation', [SellerController::class, 'confirmation'])->name('seller.registration.confirmation');
@@ -320,5 +323,30 @@ Route::get('/registration-details', [BrokerController::class, 'registrationDetai
 
 // franchise routes
  Route::get('/search/resales-for-sale', [FranchiseController::class, 'index'])->name('index');
+
+/**
+ * Buyer Dashboard Routes
+ */
+Route::prefix('buyer')->name('buyer.')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', [BuyerDashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('/sent-inquiries', [BuyerDashboardController::class, 'sentInquiries'])->name('sent-inquiries');
+    Route::get('/saved-searches', [BuyerDashboardController::class, 'savedSearches'])->name('saved-searches');
+    Route::get('/shortlist', [BuyerDashboardController::class, 'shortlist'])->name('shortlist');
+    Route::get('/profile', [BuyerDashboardController::class, 'profile'])->name('profile');
+    Route::get('/settings', [BuyerDashboardController::class, 'settings'])->name('settings');
+});
+
+/**
+ * Seller Dashboard Routes
+ */
+Route::prefix('seller')->name('seller.')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', [SellerDashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('/resources', [SellerDashboardController::class, 'resources'])->name('resources');
+    Route::get('/value-business', [SellerDashboardController::class, 'valueBusiness'])->name('value-business');
+    Route::get('/profile', [SellerDashboardController::class, 'profile'])->name('profile');
+    Route::get('/settings', [SellerDashboardController::class, 'settings'])->name('settings');
+});
+
 // Other routes
 Route::get('/{slug}', [HomeController::class, 'getPages'])->name('pages');
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');

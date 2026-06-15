@@ -106,6 +106,18 @@ class LoginController extends Controller
             if ($user->roles()->whereIn('name', ['superadmin', 'admin'])->exists()) {
                 return RouteServiceProvider::ADMIN_DASHBOARD; // Redirect to /admin
             }
+
+            // Redirect seller users to seller dashboard
+            /** @noinspection PhpUndefinedMethodInspection */
+            if ($user->hasRole('Seller')) {
+                return RouteServiceProvider::SELLER_DASHBOARD;
+            }
+
+            // Redirect buyer users to buyer dashboard
+            /** @noinspection PhpUndefinedMethodInspection */
+            if ($user->hasRole('Buyer')) {
+                return RouteServiceProvider::BUYER_DASHBOARD;
+            }
         }
         
         // Default: redirect to home for non-admin users

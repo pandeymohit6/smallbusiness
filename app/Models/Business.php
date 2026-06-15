@@ -24,6 +24,7 @@ class Business extends CountryAwareModel implements SpatieHasMedia
     use SoftDeletes;
 
     protected $fillable = [
+        "uuid",
         'user_id',
         'title',
         'slug',
@@ -41,6 +42,56 @@ class Business extends CountryAwareModel implements SpatieHasMedia
         'years_in_operation',
         'employees',
         'status',
+        'current_step',
+        'listing_headline',
+        'general_summary',
+        'business_status',
+        'category',
+        'region',
+        'property_status',
+        'asking_price_range',
+        'specific_asking_price',
+        'asking_price_on_request',
+        'quick_sale_negotiable',
+        'revenue_range',
+        'specific_revenue',
+        'revenue_on_request',
+        'cash_flow_range',
+        'specific_cash_flow',
+        'cash_flow_on_request',
+        'photographs',
+        'documents',
+        'website_address',
+        'embed_video',
+        'location_details',
+        'premises_details',
+        'competition',
+        'expansion_potential',
+        'accommodation_included',
+        'accommodation_description',
+        'property_size_sqft',
+        'planning_consent',
+        'years_established',
+        'management_type',
+        'employees_details',
+        'trading_hours',
+        'support_training',
+        'e2_visa_eligible',
+        'relocatable',
+        'can_run_from_home',
+        'is_franchise',
+        'franchise_terms',
+        'not_operating',
+        'turnaround_opportunity',
+        'willing_to_finance',
+        'financing_available',
+        'reason_for_selling',
+        'furniture_included',
+        'furniture_value',
+        'inventory_included',
+        'inventory_value',
+        'selected_package',
+        'draft_saved_at',
         'meta',
         'features',
         'highlights',
@@ -50,11 +101,30 @@ class Business extends CountryAwareModel implements SpatieHasMedia
 
     protected $casts = [
         'meta' => 'array',
+        'photographs' => 'array',
+        'documents' => 'array',
         'asking_price' => 'decimal:2',
         'annual_revenue' => 'decimal:2',
         'annual_profit' => 'decimal:2',
+        'furniture_value' => 'decimal:2',
+        'inventory_value' => 'decimal:2',
+        'asking_price_on_request' => 'boolean',
+        'quick_sale_negotiable' => 'boolean',
+        'revenue_on_request' => 'boolean',
+        'cash_flow_on_request' => 'boolean',
+        'accommodation_included' => 'boolean',
+        'e2_visa_eligible' => 'boolean',
+        'relocatable' => 'boolean',
+        'can_run_from_home' => 'boolean',
+        'is_franchise' => 'boolean',
+        'not_operating' => 'boolean',
+        'turnaround_opportunity' => 'boolean',
+        'willing_to_finance' => 'boolean',
+        'furniture_included' => 'boolean',
+        'inventory_included' => 'boolean',
         'is_featured' => 'boolean',
         'published_at' => 'datetime',
+        'draft_saved_at' => 'datetime',
     ];
 
     /**
@@ -344,5 +414,10 @@ class Business extends CountryAwareModel implements SpatieHasMedia
         ];
 
         return $cities[$country][$state] ?? [];
+    }
+
+    function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class, 'country_code', 'code');
     }
 }

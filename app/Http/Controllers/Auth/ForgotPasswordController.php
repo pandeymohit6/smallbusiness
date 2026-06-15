@@ -34,7 +34,7 @@ class ForgotPasswordController extends Controller
     {
         $viewName = Hook::applyFilters(
             AuthFilterHook::PASSWORD_RESET_REQUEST_VIEW,
-            'backend.auth.passwords.email'
+            'auth.passwords.email'
         );
 
         return view($viewName);
