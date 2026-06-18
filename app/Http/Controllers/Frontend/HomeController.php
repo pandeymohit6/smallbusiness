@@ -61,4 +61,29 @@ class HomeController extends Controller
     {
         return view('frontend.brokers.advertise');
     }
+
+    public function comingsoon(): View
+    {
+        return view('frontend.comingsoon');
+    }
+
+    public function emailAlertsInfo(): View
+    {
+        return view('frontend.email-alerts-info');
+    }
+
+    public function sellerBeware(): View
+    {
+        return view('frontend.sellerbeware');
+    }
+
+    public function buyerBeware(): View
+    {
+        return view('frontend.buyerbeware');
+    }
+
+    public function contact(): View
+    {
+        return view('frontend.contact');
+    }
 }

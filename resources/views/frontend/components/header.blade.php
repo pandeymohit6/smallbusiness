@@ -9,7 +9,7 @@
                 <a href="{{ route('home') }}" class="logo-desktop">
                     SmallBusinessesForSale.com<span class="stars">★</span>
                 </a>
-                <a href="{{ $hasCountrySubdomain ? route('sell.business.country', ['code' => $countryCode]) : route('sell.business') }}"
+                <a href="{{ $hasCountrySubdomain ? route('sell.business', ['code' => $countryCode]) : route('sell.business') }}"
                     class="orange-cta">
                     Sell Your Business
                 </a>

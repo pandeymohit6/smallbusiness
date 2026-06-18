@@ -1693,7 +1693,13 @@ Responsiveness Start
   .fs-small {
     font-size: 0.9rem !important;
   }
-}/*# sourceMappingURL=style.css.map */
+}
+.text-red-500 {
+  color: #f56565 !important;
+}
+.bg-red-500 {
+  background-color: #f56565 !important;
+}
 
 
 

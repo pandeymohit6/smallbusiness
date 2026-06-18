@@ -7,6 +7,8 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Business;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class SellerDashboardController extends Controller
@@ -143,5 +145,39 @@ class SellerDashboardController extends Controller
         return view('frontend.dashboards.seller.settings', [
             'user' => $user,
         ]);
+    }
+
+    public function edit(string $uuid): View
+    {
+        $user = auth()->user();
+
+        if (!$user->hasRole('Seller')) {
+            throw new AuthorizationException('Unauthorized access.');
+        }
+
+        $business = Business::where('user_id', $user->id)
+            ->where('uuid', $uuid)
+            ->firstOrFail();
+
+        return view('frontend.dashboards.seller.edit-business', [
+            'user' => $user,
+            'business' => $business,
+        ]);
+    }
+
+    public function show(Request $request, string $uuid): JsonResponse
+    {
+        $user = auth()->user();
+        if (!$user->hasRole('Seller')) {
+            throw new AuthorizationException('Unauthorized access.');
+        }
+        $country = $request->route('country');
+        $business = Business::where('user_id', $user->id)
+            ->where('uuid', $uuid)
+            ->firstOrFail();
+        return response()->json([
+            'success' => true,
+            'data' => $business
+        ], 200);
     }
 }

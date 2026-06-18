@@ -8,96 +8,56 @@
                     <h1>Sell your business.<br>Reach 1.2 million buyers.</h1>
                     <p>Create your listing and sell with confidence. We help over 1,500 owners find the right buyer each
                         month.</p>
-                    <div class="broker-link-login">Are you a broker? <a href="{{ $hasCountrySubdomain ? route('broker.advertise.country', ['code' => $countryCode]) : route('broker.advertise') }}">Click here</a></div>
+                    <div class="broker-link-login">Are you a broker? <a
+                            href="{{ $hasCountrySubdomain ? route('broker.advertise', ['code' => $countryCode]) : route('broker.advertise') }}">Click
+                            here</a></div>
                 </div>
 
                 <div class="pricing-grid-login">
 
-                    <!-- 6 Months -->
-                    <div class="price-card-login featured-login" x-data="sellerRedirect('ADS_6M')">
+                    @foreach ($plans as $plan)
+                        <div class="price-card-login {{ $plan['featured'] ? 'featured-login' : '' }}" x-data="{ loading: false }">
 
-                        <div class="badge">Best Value</div>
-                        <div class="plan-duration-login">6 Months</div>
+                            @if ($plan['badge'])
+                                <div class="badge">{{ $plan['badge'] }}</div>
+                            @endif
 
-                        <div class="plan-price-login">
-                            <span class="price-amount-login">$399</span>
-                            <span class="price-currency-login">USD</span>
-                        </div>
-
-                        <button class="action-btn-login"
-                            @click="redirect()"
-                            :disabled="loading">
-
-                        <span x-show="!loading">Buy Now</span>
-                        <span x-show="loading">Redirecting...</span>
-
-                    </button>
-                    </div>
-
-                    <!-- 3 Months -->
-                    <div class="price-card-login" x-data="sellerRedirect('ADS_3M')">
-
-                        <div class="plan-duration-login">3 Months</div>
-
-                        <div class="plan-price-login">
-                            <span class="price-amount-login">$299</span>
-                            <span class="price-currency-login">USD</span>
-                        </div>
-
-                         <button class="action-btn-login"
-                            @click="redirect()"
-                            :disabled="loading">
-
-                        <span x-show="!loading">Buy Now</span>
-                        <span x-show="loading">Redirecting...</span>
-
-                    </button>
-                    </div>
-
-                    <!-- 1 Month -->
-                    <div class="price-card-login" x-data="sellerRedirect('ADS_1M')">
-
-                        <div class="plan-duration-login">1 Month</div>
-
-                        <div class="plan-price-login">
-                            <span class="price-amount-login">$199</span>
-                            <span class="price-currency-login">USD</span>
-                        </div>
-
-                         <button class="action-btn-login"
-                            @click="redirect()"
-                            :disabled="loading">
-
-                        <span x-show="!loading">Buy Now</span>
-                        <span x-show="loading">Redirecting...</span>
-
-                    </button>
-                    </div>
-
-                    <!-- Test Market -->
-                    <div class="price-card-login" x-data="sellerRedirect('ADS_TRIAL')">
-
-                        <div class="plan-duration-login">Test The Market</div>
-
-                       <div class="plan-features-login">
-                                <div class="features-title-login">Advertise your business for 20 days</div>
-                                <ul class="features-list-login">
-                                    <li><strong>No</strong> credit card details required</li>
-                                    <li>See buyer interest <strong>before</strong> you pay*</li>
-                                </ul>
-                                <div class="features-note-login">*Buyer contact details <strong>will not</strong> be provided until you pay to advertise.</div>
+                            <div class="plan-duration-login">
+                                {{ $plan['duration'] }}
                             </div>
 
-                        <button class="action-btn-login"
-                            style="background:#1e293b"
-                            @click="redirect()"
-                            :disabled="loading">
+                            <div class="plan-price-login">
+                                <span class="price-amount-login">${{ $plan['price'] }}</span>
+                                <span class="price-currency-login">USD</span>
+                            </div>
 
-                        <span x-show="!loading">Start Now</span>
-                        <span x-show="loading">Redirecting...</span>
+                            <div class="plan-features-login">
 
-                    </button>
-                    </div>
+                                <div class="features-title-login">
+                                    {{ $plan['features_title'] }}
+                                </div>
+
+                                <ul class="features-list-login">
+                                    @foreach ($plan['features'] as $feature)
+                                        <li>{!! $feature !!}</li>
+                                    @endforeach
+                                </ul>
+
+                                <div class="features-note-login">
+                                    {!! $plan['note'] !!}
+                                </div>
+
+                            </div>
+
+                            <button type="button" class="action-btn-login"
+                                @click="loading = true; window.location.href='{{ route('seller.registration.select.login', ['productCode' => $plan['code']]) }}'"
+                                :disabled="loading">
+                                <span x-show="!loading">{{ $plan['button'] }}</span>
+                                <span x-show="loading">Redirecting...</span>
+                            </button>
+
+                        </div>
+                    @endforeach
 
                 </div>
             </div>
@@ -184,8 +144,8 @@
 
                     <div class="feature-card-why">
                         <div class="icon-container-why">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="#1e3a8a" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#1e3a8a" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="10"></circle>
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg>
@@ -228,7 +188,7 @@
 
                         <p class="about-text font-bold">
                             We're always looking to improve the site and our service so if you have any feedback or you are
-                            looking to sell your business, we'd love to hear from you. <a href="#"
+                            looking to sell your business, we'd love to hear from you. <a href="{{ route('contact') }}"
                                 class="contact-link">Contact Us.</a>
                         </p>
                     </div>
@@ -244,56 +204,15 @@
             </div>
         </div>
     </section>
-   <script>
-document.addEventListener('alpine:init', () => {
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('redirectButton', () => ({
+                loading: false,
 
-    Alpine.data('sellerRedirect', (productCode) => ({
-        loading: false,
-        error: '',
-        productCode: productCode,
-
-        countryMap: {
-            canada: 'ca',
-            india: 'in',
-            uk: 'uk',
-            us: 'us',
-            default: 'in'
-        },
-
-        // 🔥 Detect country from subdomain
-        getCountryCode() {
-            const host = window.location.hostname;
-            const subdomain = host.split('.')[0];
-
-            return this.countryMap[subdomain] || this.countryMap.default;
-        },
-
-        // 🔥 Detect path prefix (/ca/advertise → ca)
-        getPathPrefix() {
-            const parts = window.location.pathname.split('/').filter(Boolean);
-            return parts[0] || this.getCountryCode();
-        },
-
-        // 🔥 Build final redirect URL
-        buildUrl() {
-            const countryCode = this.getCountryCode();
-            const prefix = this.getPathPrefix();
-
-            const params = new URLSearchParams({
-                productCode: this.productCode,
-                countryCode: countryCode
-            });
-
-            return `/${prefix}/seller-registration-select-login?${params.toString()}`;
-        },
-
-        // 🔥 Redirect handler
-        redirect() {
-            this.loading = true;
-            window.location.href = this.buildUrl();
-        }
-    }));
-
-});
-</script>
+                redirect(event) {
+                    this.loading = true;
+                }
+            }));
+        });
+    </script>
 @endsection

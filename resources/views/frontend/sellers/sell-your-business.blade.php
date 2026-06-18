@@ -26,76 +26,45 @@
                     </h2>
                 </div>
 
-                <div class="package-body-sell" x-data="countryRedirect()">
+                <div class="package-body-sell">
 
                     <p class="package-text-sell">
                         Find out more. Please select your country:
                     </p>
 
-                    <div class="selector-group-sell">
+                    <form method="POST" action="{{ route('country.redirect') }}">
+                        @csrf
+                        <input type="hidden" name="user_type" value="seller">
+                        <div class="selector-group-sell">
 
-                        <select x-model="selectedCountry" disabled:!selectedCountry class="country-select-sell">
-                            <option value="">
-                                Select country...
-                            </option>
-                            @foreach ($countries as $country)
-                                <option value="{{ $country->slug }}">
-                                    {{ $country->name }}
+                            <select name="country" class="country-select-sell" required>
+                                <option value="">
+                                    Select country...
                                 </option>
-                            @endforeach
-                        </select>
 
-                        <button type="button" class="go-btn" @click="redirect()" :disabled="loading">
-                            <span x-show="!loading">
+                                @foreach ($countries as $country)
+                                    <option value="{{ $country->slug }}">
+                                        {{ $country->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            <button type="submit" class="go-btn">
                                 GO
-                            </span>
+                            </button>
 
-                            <span x-show="loading">
-                                Redirecting...
-                            </span>
-                        </button>
+                        </div>
 
-                    </div>
-
-                    <p x-show="error" x-text="error" class="mt-2 text-red-500"></p>
+                        @error('country')
+                            <p class="mt-2 text-danger">
+                                {{ $message }}
+                            </p>
+                        @enderror
+                    </form>
 
                 </div>
 
             </div>
         </div>
     </section>
-
-   <script>
-document.addEventListener('alpine:init', () => {
-    Alpine.data('countryRedirect', () => ({
-        selectedCountry: '',
-        loading: false,
-        error: '',
-        init() {
-            this.selectedCountry = this.getSubdomain();
-        },
-        getSubdomain() {
-            return window.location.hostname.split('.')[0];
-        },
-
-        redirect() {
-            this.loading = true;
-            const countryCode = this.selectedCountry;
-            const subdomain = this.getSubdomain();
-            let url;
-            if (window.location.hostname.includes('localhost')) {
-                url = `http://${countryCode}.localhost:8000/${countryCode}/sell-your-business`;
-            }
-            else {
-                const parts = window.location.hostname.split('.');
-                const rootDomain = parts.slice(-2).join('.');
-                url = `https://${countryCode}.${rootDomain}/${countryCode}/sell-your-business`;
-            }
-
-            window.location.href = url;
-        }
-
-    }));
-});
-</script>
 @endsection

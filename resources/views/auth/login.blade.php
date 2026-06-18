@@ -136,7 +136,7 @@
 
                 <div class="role-grid-sab">
 
-                    <a href="{{ $hasCountrySubdomain ? route('buyer.registration.country', ['code' => $countryCode]) : route('buyer.registration') }}"
+                    <a href="{{ $hasCountrySubdomain ? route('country.buyer.registration', ['country' => $countryCode]) : route('buyer.registration') }}"
                         class="role-card-sab">
                         <div class="icon-box-sab"> <svg viewBox="0 0 24 24" fill="none" stroke="#1e3a8a" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round">
@@ -147,7 +147,7 @@
                         <p>I’m interested in buying a business</p>
                     </a>
 
-                    <a href="{{ $hasCountrySubdomain ? route('sell.business.country', ['code' => $countryCode]) : route('sell.business') }}"
+                    <a href="{{ $hasCountrySubdomain ? route('country.sell.business', ['country' => $countryCode]) : route('sell.business') }}"
                         class="role-card-sab">
                         <div class="icon-box-sab">
                             <!-- Seller icon -->
@@ -160,7 +160,7 @@
                         <p>I want to sell my business</p>
                     </a>
 
-                    <a href="{{ $hasCountrySubdomain ? route('broker.advertise.country', ['code' => $countryCode]) : route('broker.advertise') }}"
+                    <a href="{{ $hasCountrySubdomain ? route('country.broker.advertise', ['country' => $countryCode]) : route('broker.advertise') }}"
                         class="role-card-sab">
                         <div class="icon-box-sab">
                             <!-- Broker icon -->

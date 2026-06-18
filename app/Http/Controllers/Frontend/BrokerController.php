@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class BrokerController extends Controller
@@ -12,8 +13,13 @@ class BrokerController extends Controller
     /**
      * Show the main advertise page
      */
-    public function index(): View
+    public function index(Request $request): View
     {
+         $country = $request->route('country'); // null for default route
+
+        if ($country) {
+            return view('frontend.brokers.advertisecountry');
+        }
         return view('frontend.brokers.advertise');
     }
 

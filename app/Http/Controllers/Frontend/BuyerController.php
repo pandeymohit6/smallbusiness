@@ -12,6 +12,7 @@ use App\Models\BuyerType;
 use App\Models\Country;
 use App\Services\RegistrationService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -21,20 +22,77 @@ class BuyerController extends Controller
 
     public function __construct(private RegistrationService $registrationService)
     {
-         $this->middleware(function ($request, $next) {
-            if (auth()->check()) {
-                return redirect('/buyer/dashboard');
-            }
-
-            return $next($request);
-        })->except(['confirmation']);
+        $this->middleware('web');
     }
 
     /**
      * Show the main sell your business page
      */
-    public function index(): View
+    public function index(Request $request): View|RedirectResponse
     {
+        $country = $request->route('country');
+        if ($country) {
+            $plans = [
+                [
+                    'code' => 'ADS_6M',
+                    'duration' => '6 Months',
+                    'price' => 399,
+                    'badge' => 'Best Value',
+                    'featured' => true,
+                    'features_title' => 'Advertise your business for 180 days',
+                    'features' => [
+                        '<strong>No</strong> credit card details required',
+                        'See buyer interest <strong>before</strong> you pay*',
+                    ],
+                    'note' => '*Buyer contact details <strong>will not</strong> be provided until you pay to advertise.',
+                    'button' => 'Buy Now',
+                ],
+                [
+                    'code' => 'ADS_3M',
+                    'duration' => '3 Months',
+                    'price' => 299,
+                    'badge' => null,
+                    'featured' => false,
+                    'features_title' => 'Advertise your business for 90 days',
+                    'features' => [
+                        '<strong>No</strong> credit card details required',
+                        'See buyer interest <strong>before</strong> you pay*',
+                    ],
+                    'note' => '*Buyer contact details will not be provided until you pay to advertise.',
+                    'button' => 'Buy Now',
+                ],
+                [
+                    'code' => 'ADS_1M',
+                    'duration' => '1 Month',
+                    'price' => 199,
+                    'badge' => null,
+                    'featured' => false,
+                    'features_title' => 'Advertise your business for 30 days',
+                    'features' => [
+                        '<strong>No</strong> credit card details required',
+                        'See buyer interest <strong>before</strong> you pay*',
+                    ],
+                    'note' => '*Buyer contact details will not be provided until you pay to advertise.',
+                    'button' => 'Buy Now',
+                ],
+                [
+                    'code' => 'ADS_TRIAL',
+                    'duration' => 'Test The Market',
+                    'price' => 0,
+                    'badge' => null,
+                    'featured' => false,
+                    'features_title' => 'Advertise your business for 20 days',
+                    'features' => [
+                        '<strong>No</strong> credit card details required',
+                        'See buyer interest <strong>before</strong> you pay*',
+                    ],
+                    'note' => '*Buyer contact details <strong>will not</strong> be provided until you pay to advertise.',
+                    'button' => 'Start Now',
+                ],
+            ];
+            return view('frontend.buyers.registrationform', compact('plans'));
+        }
+
         return view('frontend.buyers.registration');
     }
 
@@ -132,5 +190,10 @@ class BuyerController extends Controller
     public function buyABusiness(): View
     {
         return view('frontend.buyers.buy_business');
+    }
+
+    public function maVault(): View
+    {
+        return view('frontend.buyers.ma_vault');
     }
 }

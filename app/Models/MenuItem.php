@@ -177,14 +177,6 @@ class MenuItem extends Model
             return '#';
         }
         try {
-            $countryCode = CountryUtility::fromSubdomain()?->value;
-            if (isset($countryCode)) {
-                return route(
-                    $this->target . ($countryCode ? '.country' : ''),
-                    $countryCode ? ['code' => $countryCode] : []
-                );
-            }
-
             return route($this->target);
         } catch (\Throwable $e) {
             return '#';

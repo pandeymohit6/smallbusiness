@@ -1,11 +1,14 @@
- @extends('frontend.layouts.app')
+@extends('frontend.layouts.app')
 
 @section('content')
     <section class="sell-buin">
         <div class="container">
             <div class="small-busine">
-                <h4>Register as a business buyer</h4>
-                <p>Sign up and join business buyers already using us to find businesses.</p>
+                <h4>Register as a Business Buyer</h4>
+                <p>
+                    Sign up and join thousands of business buyers already using our platform
+                    to find businesses for sale.
+                </p>
             </div>
         </div>
     </section>
@@ -22,82 +25,49 @@
                     </div>
 
                     <h2 class="package-title-sell">
-                        Flexible packages and tailored advice available
+                        Flexible Packages & Tailored Advice Available
                     </h2>
                 </div>
 
-                <div class="package-body-sell" x-data="countryRedirect()">
+                <div class="package-body-sell">
 
                     <p class="package-text-sell">
-                       Find out more
+                        Find out more. Please select your country:
                     </p>
 
-                    <div class="selector-group-sell">
+                    <form method="POST" action="{{ route('country.redirect') }}">
+                        <input type="hidden" name="user_type" value="buyer">
+                        @csrf
 
-                        <select x-model="selectedCountry" disabled:!selectedCountry class="country-select-sell">
-                            <option value="">
-                                Select country...
-                            </option>
-                            @foreach ($countries as $country)
-                                <option value="{{ $country->slug }}">
-                                    {{ $country->name }}
+                        <div class="selector-group-sell">
+                            <select name="country" class="country-select-sell" required>
+                                <option value="">
+                                    Select country...
                                 </option>
-                            @endforeach
-                        </select>
 
-                        <button type="button" class="go-btn" @click="redirect()" :disabled="loading">
-                            <span x-show="!loading">
+                                @foreach ($countries as $country)
+                                    <option value="{{ $country->slug }}">
+                                        {{ $country->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            <button type="submit" class="go-btn">
                                 GO
-                            </span>
+                            </button>
 
-                            <span x-show="loading">
-                                Redirecting...
-                            </span>
-                        </button>
+                        </div>
 
-                    </div>
-
-                    <p x-show="error" x-text="error" class="mt-2 text-red-500"></p>
+                        @error('country')
+                            <p class="mt-2 text-danger">
+                                {{ $message }}
+                            </p>
+                        @enderror
+                    </form>
 
                 </div>
 
             </div>
         </div>
     </section>
-
-   <script>
-document.addEventListener('alpine:init', () => {
-    Alpine.data('countryRedirect', () => ({
-        selectedCountry: '',
-        loading: false,
-        error: '',
-        init() {
-            this.selectedCountry = this.getSubdomain();
-        },
-        getSubdomain() {
-            return window.location.hostname.split('.')[0];
-        },
-
-        redirect() {
-            this.loading = true;
-            const countryCode = this.selectedCountry;
-            const subdomain = this.getSubdomain();
-            let url;
-            if (window.location.hostname.includes('localhost')) {
-                url = `http://${countryCode}.localhost:8000/${countryCode}/buyer-registration`;
-            }
-            else {
-                const parts = window.location.hostname.split('.');
-                const rootDomain = parts.slice(-2).join('.');
-                url = `https://${countryCode}.${rootDomain}/${countryCode}/buyer-registration`;
-            }
-
-            window.location.href = url;
-        }
-
-    }));
-});
-</script>
 @endsection
-
-

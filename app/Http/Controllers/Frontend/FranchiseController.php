@@ -24,4 +24,14 @@ class FranchiseController extends Controller
     {
         return view('frontend.franchise.show', ['slug' => $slug]);
     }
+
+    public function franchiseList(): View
+    {
+        return view('frontend.franchise.list');
+    }
+
+    public function advertise(): View
+    {
+        return view('frontend.franchise.advertise');
+    }
 }

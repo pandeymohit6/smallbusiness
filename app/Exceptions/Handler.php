@@ -39,6 +39,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        if (
+            $exception instanceof \InvalidArgumentException &&
+            str_contains($exception->getMessage(), 'View [')
+        ) {
+            return response()->view('frontend.comingsoon');
+        }
+
         // Handle MissingAppKeyException - redirect to installation wizard
         if ($exception instanceof MissingAppKeyException) {
             // Skip if already on install route

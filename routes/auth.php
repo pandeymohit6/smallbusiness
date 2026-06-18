@@ -24,7 +24,6 @@ use App\Http\Controllers\Auth\VerificationController;
 | can be controlled via settings.
 |
 */
-
 // Guest routes (not logged in)
 Route::group(['middleware' => 'web'], function () {
     // Login Routes - Always available

@@ -82,6 +82,7 @@ class LoginController extends Controller
             $defaultView
         );
         $viewName = Hook::applyFilters(AuthFilterHook::LOGIN_VIEW, $viewName);
+        
 
         return view($viewName, compact(
             'pageTitle',

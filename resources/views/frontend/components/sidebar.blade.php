@@ -35,9 +35,9 @@
         <div x-show="activeMenu === 'buyer'" x-transition class="menu-content">
             @if ($buyersMenu && $buyersMenu->items->count())
                 @foreach ($buyersMenu->items->whereNull('parent_id') as $menuItem)
-                        <a href="{{ $menuItem->getUrl() }}" @if ($menuItem->target_blank) target="_blank" @endif
-                            class="sidebar-link {{ request()->routeIs($menuItem->target) ? 'active' : '' }}">{{ $menuItem->label }}
-                        </a>
+                    <a href="{{ $menuItem->getUrl() }}" @if ($menuItem->target_blank) target="_blank" @endif
+                        class="sidebar-link {{ request()->routeIs($menuItem->target) ? 'active' : '' }}">{{ $menuItem->label }}
+                    </a>
                 @endforeach
             @endif
         </div>
@@ -52,19 +52,7 @@
 
         <div x-show="activeMenu === 'settings'" x-transition class="menu-content">
             <a href="{{ route('seller.settings') }}" class="sidebar-link">
-                General Settings
-            </a>
-
-            <a href="{{ route('seller.profile') }}" class="sidebar-link">
-                Profile Settings
-            </a>
-
-            <a href="#" class="sidebar-link">
-                Notification Settings
-            </a>
-
-            <a href="#" class="sidebar-link">
-                Change Password
+                Settings
             </a>
         </div>
     </div>

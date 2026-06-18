@@ -11,12 +11,7 @@
                  </div>
 
                  <div class="flr-content-area">
-                     <!-- Breadcrumb -->
-                     <nav class="dashboard-breadcrumb">
-                         <a href="{{ route('home') }}">Home</a>
-                         <span>/</span>
-                         <span>Private Seller Dashboard</span>
-                     </nav>
+                     @include('components.breadcrumbs', ['title' => 'Private Seller Dashboard'])
 
                      <!-- Header -->
                      <div class="seller-dashboard-header glass-effect">
@@ -108,41 +103,57 @@
 
                      </div>
 
-                     <!-- Incomplete Listing -->
                      <div class="incomplete-card">
 
                          <div class="warning-icon">
-                             <i class="fas fa-exclamation-triangle"></i>
+                             <i class="fas fa-exclamation-circle"></i>
                          </div>
 
-                         <div class="flex-grow-1">
+                         <div class="listing-content">
 
-                             <h5>You have an incomplete listing</h5>
+                             <div class="listing-badge">
+                                 Incomplete Listing
+                             </div>
 
-                             <h3>{{ $incompleteListing->title ?? 'Untitled Business' }}</h3>
+                             <h3 class="listing-title">
+                                 {{ $incompleteListing->title ?? 'Untitled Business' }}
+                             </h3>
 
-                             <p>
-                                 On On {{ optional($incompleteListing)->created_at?->format('d/m/Y H:i:s') }}, you started
-                                 listing the above business for sale.
+                             <p class="listing-description">
+                                 You started creating this business listing on
+                                 <strong>{{ optional($incompleteListing)->created_at?->format('d M Y \a\t h:i A') }}</strong>
+                                 but haven't completed it yet.
                              </p>
 
-                             <small>
-                                 Please choose one of the following options.
-                             </small>
+                             <div class="listing-note">
+                                 <i class="fas fa-info-circle"></i>
+                                 Complete your listing to start receiving enquiries from buyers.
+                             </div>
 
                          </div>
 
-                         <div>
-                             @if ($incompleteListing)
+                         @if ($incompleteListing)
+                             <div class="listing-actions">
+
                                  <a href="{{ route('seller.createadvert', [
                                      'code' => $countryCode,
                                      'business' => $incompleteListing->uuid,
                                  ]) }}"
-                                     class="btn btn-warning">
-                                     Complete Your Listing
+                                     class="btn-complete">
+
+                                     <i class="fas fa-pen-to-square"></i>
+                                     Complete Listing
                                  </a>
-                             @endif
-                         </div>
+
+                                 <a href="#" class="btn-delete"
+                                     onclick="return confirm('Are you sure you want to delete this listing?')">
+
+                                     <i class="fas fa-trash-alt"></i>
+                                     Delete
+                                 </a>
+
+                             </div>
+                         @endif
 
                      </div>
 

@@ -2,10 +2,6 @@
 
 declare(strict_types=1);
 
-foreach (glob(__DIR__ . '/countries/*.php') as $routeFile) {
-    require $routeFile;
-}
-
 use App\Http\Controllers\Backend\ActionLogController;
 use App\Http\Controllers\Backend\Auth\ScreenshotGeneratorLoginController;
 use App\Http\Controllers\Backend\DashboardController;
@@ -32,14 +28,6 @@ use App\Http\Controllers\Backend\TranslationController;
 use App\Http\Controllers\Backend\UserLoginAsController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\BusinessController;
-use App\Http\Controllers\Frontend\HomeController;
-use App\Http\Controllers\Frontend\BuyerController;
-use App\Http\Controllers\Frontend\BuyerDashboardController;
-use App\Http\Controllers\Frontend\SellerController;
-use App\Http\Controllers\Frontend\SellerDashboardController;
-use App\Http\Controllers\Frontend\BrokerController;
-use App\Http\Controllers\Frontend\FranchiseController;
-use App\Http\Controllers\PublicBusinessController;
 use App\Http\Controllers\SubscriberController;
 use Illuminate\Support\Facades\Route;
 
@@ -280,73 +268,11 @@ Route::prefix('unsubscribe')->name('unsubscribe.')->group(function () {
 });
 
 Route::post('/newsletter-subscribe', [SubscriberController::class, 'subscribe'])->name('newsletter.subscribe');
+require base_path('routes/frontend.php');
+Route::name('country.')
+    ->domain('{country}.' . config('app.base_domain'))
+    ->where(['country' => 'usa|aus|can'])
+    ->group(function () {
+        require base_path('routes/frontend.php');
+    });
 
-/**
- * Public Business Routes - Businesses for Sale
- */
-Route::prefix('businesses')->name('businesses.')->group(function () {
-    Route::get('/', [PublicBusinessController::class, 'index'])->name('index');
-    Route::get('/{business:slug}', [PublicBusinessController::class, 'show'])->name('show');
-    Route::post('/{business}/inquiry', [PublicBusinessController::class, 'storeInquiry'])->name('inquiry');
-});
-
-
-/**
- * Frontend public routes.
- */
-Route::get('/', [HomeController::class, 'index'])->name('home');
-
-//seller routes
-Route::get('/sell-your-business', [SellerController::class, 'index'])->name('sell.business');
-Route::get('/{code}/sell-your-business', [SellerController::class, 'create'])->name('sell.business.country');
-Route::get('/{code}/seller-registration-select-login', [SellerController::class, 'registrationSelectLogin'])->name('seller.registration.select.login');
-Route::get('/{code}/createadvert', [SellerController::class, 'createadvert'])->name('seller.createadvert');
-Route::get('/{code}/seller-registration-details', [SellerController::class, 'registrationDetails'])->name('seller.registration.details');
-Route::post('/business-seller/register', [SellerController::class, 'store'])->name('seller.registration.store');
-Route::get('/seller-registration-confirmation', [SellerController::class, 'confirmation'])->name('seller.registration.confirmation');
-//buyer routes
-Route::get('/buyer-registration', [BuyerController::class, 'index'])->name('buyer.registration');
-Route::get('/{code}/buyer-registration', [BuyerController::class, 'create'])->name('buyer.registration.country');
-Route::get('/{code}/details', [BuyerController::class, 'details'])->name('buyer.registration.details');
-Route::get('/{code}/select-login-type', [BuyerController::class, 'registrationSelectLogin'])->name('buyer.registration.select.login');
-Route::get('/form', [BuyerController::class, 'form'])->name('buyer.registration.form');
-Route::get('/confirmation/{buyerRegistration}', [BuyerController::class, 'confirmation'])->name('buyer.registration.confirmation');
-Route::get('/buyer-registration-options', [BuyerController::class, 'getOptions'])->name('buyer.registration.options');
-Route::post('/business-buyer/register', [BuyerController::class, 'store'])->name('buyer.registration.store');
-Route::get('/search/buy-a-business', [BuyerController::class, 'buyABusiness'])->name('buy.business');
-// broker routes
-Route::get('/advertise', [BrokerController::class, 'index'])->name('broker.advertise');
-Route::get('/{code}/advertise', [BrokerController::class, 'create'])->name('broker.advertise.country');
-Route::get('/{code}/broker-registration-select-login-type', [BrokerController::class, 'registrationSelectLogin'])->name('broker.registration.type');
-Route::get('/registration-details', [BrokerController::class, 'registrationDetails'])->name('broker.registration.details');
-
-
-// franchise routes
- Route::get('/search/resales-for-sale', [FranchiseController::class, 'index'])->name('index');
-
-/**
- * Buyer Dashboard Routes
- */
-Route::prefix('buyer')->name('buyer.')->middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', [BuyerDashboardController::class, 'dashboard'])->name('dashboard');
-    Route::get('/sent-inquiries', [BuyerDashboardController::class, 'sentInquiries'])->name('sent-inquiries');
-    Route::get('/saved-searches', [BuyerDashboardController::class, 'savedSearches'])->name('saved-searches');
-    Route::get('/shortlist', [BuyerDashboardController::class, 'shortlist'])->name('shortlist');
-    Route::get('/profile', [BuyerDashboardController::class, 'profile'])->name('profile');
-    Route::get('/settings', [BuyerDashboardController::class, 'settings'])->name('settings');
-});
-
-/**
- * Seller Dashboard Routes
- */
-Route::prefix('seller')->name('seller.')->middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', [SellerDashboardController::class, 'dashboard'])->name('dashboard');
-    Route::get('/resources', [SellerDashboardController::class, 'resources'])->name('resources');
-    Route::get('/value-business', [SellerDashboardController::class, 'valueBusiness'])->name('value-business');
-    Route::get('/profile', [SellerDashboardController::class, 'profile'])->name('profile');
-    Route::get('/settings', [SellerDashboardController::class, 'settings'])->name('settings');
-});
-
-// Other routes
-Route::get('/{slug}', [HomeController::class, 'getPages'])->name('pages');
-Route::get('/contact', [HomeController::class, 'contact'])->name('contact');

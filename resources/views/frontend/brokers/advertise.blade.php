@@ -23,73 +23,46 @@
                     </div>
 
                     <h2 class="package-title-sell">
+
                         Find out more
                     </h2>
                 </div>
 
-                <div class="package-body-sell" x-data="{
-                    country: '',
-                    error: '',
-                    loading: false,
-                
-                    redirect() {
-                        this.error = '';
-                
-                        if (!this.country) {
-                            this.error = 'Please select a country';
-                            return;
-                        }
-                
-                        this.loading = true;
-                
-                        const protocol = window.location.protocol;
-                        const port = window.location.port ? ':' + window.location.port : '';
-                        const host = window.location.hostname;
-                        const code = this.country;
-                        let url;
-                
-                        if (host.includes('localhost')) {
-                            url = `${protocol}//${this.country}.localhost${port}/${code}/advertise`;
-                        } else {
-                            const parts = host.split('.');
-                            const rootDomain = parts.slice(-2).join('.');
-                            url = `${protocol}//${this.country}.${rootDomain}/${code}/advertise`;
-                        }
-                
-                        window.location.href = url;
-                    }
-                }">
+                <div class="package-body-sell">
 
                     <p class="package-text-sell">
                         Find out more. Please select your country:
                     </p>
 
-                    <div class="selector-group-sell">
+                    <form method="POST" action="{{ route('country.redirect') }}">
+                        <input type="hidden" name="user_type" value="broker">
+                        @csrf
 
-                        <select x-model="country" class="country-select-sell">
-                            <option value="">
-                                Select country...
-                            </option>
-                            @foreach ($countries as $country)
-                                <option value="{{ $country->slug }}">
-                                    {{ $country->name }}
+                        <div class="selector-group-sell">
+                            <select name="country" class="country-select-sell" required>
+                                <option value="">
+                                    Select country...
                                 </option>
-                            @endforeach
-                        </select>
 
-                        <button type="button" class="go-btn" @click="redirect()" :disabled="loading">
-                            <span x-show="!loading">
+                                @foreach ($countries as $country)
+                                    <option value="{{ $country->slug }}">
+                                        {{ $country->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            <button type="submit" class="go-btn">
                                 GO
-                            </span>
+                            </button>
 
-                            <span x-show="loading">
-                                Redirecting...
-                            </span>
-                        </button>
+                        </div>
 
-                    </div>
-
-                    <p x-show="error" x-text="error" class="mt-2 text-red-500"></p>
+                        @error('country')
+                            <p class="mt-2 text-danger">
+                                {{ $message }}
+                            </p>
+                        @enderror
+                    </form>
 
                 </div>
 

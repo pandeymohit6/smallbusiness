@@ -59,11 +59,11 @@
         @endif
 
         @if($title)
-            <h2 class="text-xl font-semibold text-gray-700 dark:text-white/90 flex items-center gap-2 min-w-0">
+            <h5 class="text-xl font-semibold text-gray-700 dark:text-white/90 flex items-center gap-2 min-w-0">
                 {!! $title_before ?? '' !!}
                 <span class="truncate" title="{{ __($title) }}">{!! __($title) !!}</span>
                 {!! $title_after ?? '' !!}
-            </h2>
+            </h5>
         @endif
     </div>
 
